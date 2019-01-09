@@ -26,8 +26,15 @@ knitr::opts_chunk$set(cache=TRUE)
 
 # **mrgsolve Blog** <img src="images/mrgsolve_hex.png" align="right" width="150px"></img>
 
-mrgsolve is an R package for simulation from hierarchical, ordinary differential 
-equation (ODE) based models typically employed in drug development.
+
+mrgsolve is free, open-source software
+mrgsolve is distributed as a package for R and utilizes an ODE-solver from 
+ODEPACK which is freely-available in the public domain.  We develop mrgsolve 
+on [github](http://www.github.com/metrumresearchgroup/mrgsolve), with input and 
+contributions from the pharmacometrics modeling and simulation community.  We 
+welcome feature requests and bug reports on the GitHub site [issue tracker](http://www.github.com/metrumresearchgroup/mrgsolve/issues). 
+
+<hr></hr>
 
 # Posts
 
@@ -50,18 +57,6 @@ equation (ODE) based models typically employed in drug development.
   - [Set initial conditions](init.html)
   - [MAP Bayes estimation](map_bayes.html)
   - [Event objects](events.html)
-  - 
-
-
-# **Other Resources**
-
-See also:
-
-- The main mrgsolve help page: https://mrgsolve.github.io
-- The user guide: https://mrgsolve.github.io/user_guide
-- Issue tracker for asking questions or reporting bugs: 
-  https://github.com/metrumresearchgroup/mrgsolve/issues
-
-
 
 </div>
+
