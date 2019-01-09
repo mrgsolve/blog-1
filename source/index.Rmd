@@ -47,7 +47,7 @@ welcome feature requests and bug reports on the GitHub site [issue tracker](http
 
   - [Reproducible simulation results](2017-reproducible.html)
   - [`simeta` and `simeps`](2017-simeta.html)
-  - [Input data sets](2017-input-data_set.html)
+  - [Input data sets](2017-input_data_set.html)
   - [Building complex dosing events](2017-complex-events.html)
   - [Mixture model example](2017-mixture-model.html)
   - [Heterogeneous designs](2017-as_deslist.html)
