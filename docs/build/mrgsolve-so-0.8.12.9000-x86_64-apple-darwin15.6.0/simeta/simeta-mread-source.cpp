@@ -1,4 +1,4 @@
-// Source MD5: 748fb44a1eb718193326efa8874d5102
+// Source MD5: b734122a42ecd8007785ba13f73b33b6
 
 
 // FIXED:
@@ -59,7 +59,7 @@ if(NEWIND <=1) {
         mrg::report("There was a problem simulating BASE.");
         break;
       }
-      
+      simeta();
       BASE = TVBASE*exp(EBASE);
     }
   }

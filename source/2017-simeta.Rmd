@@ -52,7 +52,7 @@ if(NEWIND <=1) {
         mrg::report("There was a problem simulating BASE.");
         break;
       }
-      //simeta();
+      simeta();
       BASE = TVBASE*exp(EBASE);
     }
   }
