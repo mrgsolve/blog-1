@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Work with event objects</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><div class = mrgg>mrgsolve::blog</div></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html#posts">Posts</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/user_guide">UserGuide</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/vignettes">Vignettes</a>
+</li>
+<li>
+  <a href="https://github.com/mrgsolve/gallery">Gallery</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://mrgsolve.github.io">mrgsolve.github.io</a>
+</li>
+<li>
+  <a href="https://github.com/metrumresearchgroup/mrgsolve">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Work with event objects</h1>
+
+</div>
+
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mrgsolve)
+<span class="kw">library</span>(dplyr)
+<span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</code></pre></div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Event objects are simple ways to implement PK dosing events into your model simulation.</p>
+</div>
+<div id="setup" class="section level1">
+<h1><span class="header-section-number">2</span> Setup</h1>
+<p>Let’s illustrate event objects with a one-compartment, PK model. We read this model from the <code>mrgsolve</code> internal model library.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;pk1cmt&quot;</span>, <span class="kw">modlib</span>(), <span class="dt">end=</span><span class="dv">216</span>, <span class="dt">delta=</span><span class="fl">0.1</span>)</code></pre></div>
+</div>
+<div id="events" class="section level1">
+<h1><span class="header-section-number">3</span> Events</h1>
+<p>Events are constructed with the <code>ev</code> function</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">6</span>)</code></pre></div>
+<p>This will implement 100 unit doses every 24 hours for a total of 7 doses. <code>e</code> has class <code>ev</code>, but really it is just a data frame</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e</code></pre></div>
+<pre><code>. Events:
+.   time cmt amt evid ii addl
+. 1    0   1 100    1 24    6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.data.frame</span>(e)</code></pre></div>
+<pre><code>.   time cmt amt evid ii addl
+. 1    0   1 100    1 24    6</code></pre>
+<p>We can implement this series of doses by passing <code>e</code> in as the <code>events</code> argument to <code>mrgsim</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">events=</span>e) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(EV1<span class="op">+</span>CP<span class="op">~</span>time)</code></pre></div>
+<p><img src="events_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The events can also be implemented with the <code>ev</code> constructor along the simulation pipeline</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">6</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>mrgsim <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">plot</span>(CP<span class="op">~</span>time)</code></pre></div>
+<p><img src="events_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="event-expectations" class="section level1">
+<h1><span class="header-section-number">4</span> Event expectations</h1>
+<ol style="list-style-type: decimal">
+<li><code>amt</code> is required</li>
+<li><code>evid=0</code> is forbidden</li>
+<li>Default <code>time</code> is 0</li>
+<li>Default <code>evid</code> is 1</li>
+<li>Default <code>cmt</code> is 1</li>
+</ol>
+<p>Also by default, <code>rate</code>, <code>ss</code> and <code>ii</code> are 0.</p>
+</div>
+<div id="combine-events" class="section level1">
+<h1><span class="header-section-number">5</span> Combine events</h1>
+<p><code>mrgsolve</code> has operators defined that allow you to combine events. Let’s first define some event objects.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">500</span>)
+e2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">250</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">4</span>)
+e3 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">500</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">0</span>)
+e4 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">250</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">4</span>, <span class="dt">time=</span><span class="dv">24</span>)</code></pre></div>
+<p>We can combine <code>e1</code> and <code>e3</code> with a collection operator</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(e1,e4)</code></pre></div>
+<pre><code>. Events:
+.   time cmt amt evid ii addl
+. 1    0   1 500    1  0    0
+. 2   24   1 250    1 24    4</code></pre>
+<p><code>mrgsolve</code> also defines a <code>%then$</code> operator that lets you execute one event and <code>%then%</code> a second event</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e3 <span class="op">%then%</span><span class="st"> </span>e2</code></pre></div>
+<pre><code>. Events:
+.   time cmt amt evid ii addl
+. 1    0   1 500    1 24    0
+. 2   24   1 250    1 24    4</code></pre>
+<p>Notice that <code>e3</code> has both <code>ii</code> and <code>addl</code> defined. This is required for <code>mrgsolve</code> to know when to start <code>e2</code>.</p>
+</div>
+<div id="combine-event-objects-to-create-a-data-set" class="section level1">
+<h1><span class="header-section-number">6</span> Combine event objects to create a data set</h1>
+<p>We can take several event objects and combine them into a single simulation data frame with the <code>as_data_set</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">e1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">6</span>, <span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)
+e2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">50</span>,  <span class="dt">ii=</span><span class="dv">12</span>, <span class="dt">addl=</span><span class="dv">13</span>, <span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)
+e3 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">200</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">2</span>, <span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</code></pre></div>
+<p>When combined into a data set, we get * N=5 IDs receiving 100 mg Q24h x7 * N=3 IDs receiving 50 mg Q12h x 14 * N=2 IDs receiving 200 mg Q48h x 3</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">as_data_set</span>(e1,e2,e3)
+
+data</code></pre></div>
+<pre><code>.    ID time cmt evid amt ii addl
+. 1   1    0   1    1 100 24    6
+. 2   2    0   1    1 100 24    6
+. 3   3    0   1    1 100 24    6
+. 4   4    0   1    1 100 24    6
+. 5   5    0   1    1 100 24    6
+. 6   6    0   1    1  50 12   13
+. 7   7    0   1    1  50 12   13
+. 8   8    0   1    1  50 12   13
+. 9   9    0   1    1 200 24    2
+. 10 10    0   1    1 200 24    2</code></pre>
+<p>To simulate from this data set, we use the <code>data_set</code> function. First, let’s load a population PK model</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;popex&quot;</span>, <span class="kw">modlib</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">data_set</span>(data) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">end=</span><span class="dv">336</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(GUT<span class="op">+</span>DV <span class="op">~</span><span class="st">  </span>.)</code></pre></div>
+<p><img src="events_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

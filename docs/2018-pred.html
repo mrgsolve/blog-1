@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Models without compartments ($PRED)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><div class = mrgg>mrgsolve::blog</div></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html#posts">Posts</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/user_guide">UserGuide</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/vignettes">Vignettes</a>
+</li>
+<li>
+  <a href="https://github.com/mrgsolve/gallery">Gallery</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://mrgsolve.github.io">mrgsolve.github.io</a>
+</li>
+<li>
+  <a href="https://github.com/metrumresearchgroup/mrgsolve">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Models without compartments ($PRED)</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>This post introduces a new formal code block for writing models where there are no compartments. The block is named after the analgous NONMEM block called <code>$PRED</code>. This functionality has always been possible with mrgsolve, but only now is there a code block dedicated to these models. Also, a relaxed set of data set constraints have been put in place when these types of models are invoked.</p>
+</div>
+<div id="status" class="section level1">
+<h1><span class="header-section-number">2</span> Status</h1>
+<p>The functionality in this vignette can only be access from the GitHub version. We will update this vignette once these features are rolled into a release on CRAN.</p>
+</div>
+<div id="example-model" class="section level1">
+<h1><span class="header-section-number">3</span> Example model</h1>
+<p>As a most-basic model, we look at the <code>pred1</code> model in <code>modlib()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mrgsolve)
+<span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)
+mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;pred1&quot;</span>, <span class="kw">modlib</span>())</code></pre></div>
+<p>The model code is</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">$PROB
+An example model expressed in closed form
+$PARAM B = -<span class="dv">1</span>, beta0 = <span class="dv">100</span>, beta1 = <span class="fl">0.1</span>
+$OMEGA <span class="dv">2</span> <span class="fl">0.3</span>
+$PRED
+<span class="dt">double</span> beta0i = beta0 + ETA(<span class="dv">1</span>);
+<span class="dt">double</span> beta1i = beta1*exp(ETA(<span class="dv">2</span>));
+capture Y = beta0i + beta1i*B;</code></pre></div>
+<p>This is a random-intercept, random slope linear model. Like other models in mrgsolve, you can write parameters (<code>$PARAM</code>), and random effects (<code>$OMEGA</code>). But the model is actually written in <code>$PRED</code>.</p>
+<p>When mrgsolve finds <code>$PRED</code>, it will generate an error if it also finds <code>$MAIN</code>, <code>$TABLE</code>, or <code>$ODE</code>. However, the code that gets entered into <code>$PRED</code> would function exactly as if you put it in <code>$TABLE</code>.</p>
+<p>In the example model, the response is a function of the parameter <code>B</code>, so we’ll generate an input data set with some values of <code>B</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID =</span> <span class="dv">1</span>, <span class="dt">B =</span> <span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>,<span class="dv">2</span>)))
+
+<span class="kw">head</span>(data)</code></pre></div>
+<pre><code>. # A tibble: 6 x 2
+.      ID     B
+.   &lt;dbl&gt; &lt;dbl&gt;
+. 1     1 1.23 
+. 2     1 0.104
+. 3     1 0.787
+. 4     1 1.08 
+. 5     1 0.470
+. 6     1 3.65</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out &lt;-<span class="st"> </span><span class="kw">mrgsim_d</span>(mod,data,<span class="dt">carry.out=</span><span class="st">&quot;B&quot;</span>)
+
+<span class="kw">plot</span>(out, Y<span class="op">~</span>B)</code></pre></div>
+<p><img src="2018-pred_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Like other models, we can simulate from a population</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
+<span class="kw">set.seed</span>(<span class="dv">223</span>)
+df &lt;-<span class="st"> </span><span class="kw">map_df</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>, <span class="cf">function</span>(i) <span class="kw">data_frame</span>(<span class="dt">ID =</span> i, <span class="dt">B =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">30</span>,<span class="dv">1</span>)))</code></pre></div>
+<pre><code>. Warning: `data_frame()` is deprecated, use `tibble()`.
+. This warning is displayed once per session.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(df)</code></pre></div>
+<pre><code>. # A tibble: 6 x 2
+.      ID     B
+.   &lt;int&gt; &lt;dbl&gt;
+. 1     1     0
+. 2     1     1
+. 3     1     2
+. 4     1     3
+. 5     1     4
+. 6     1     5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">data_set</span>(df) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">carry.out=</span><span class="st">&quot;B&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">plot</span>(Y <span class="op">~</span><span class="st"> </span>B)</code></pre></div>
+<p><img src="2018-pred_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="pkpd-model" class="section level1">
+<h1><span class="header-section-number">4</span> PK/PD Model</h1>
+<p>Here is an implementation of a PK/PD model using <code>$PRED</code></p>
+<p>In this modeL</p>
+<ul>
+<li>Calculate <code>CL</code> as a function of <code>WT</code> and a random effect</li>
+<li>Derive <code>AUC</code> from <code>CL</code> and <code>DOSE</code></li>
+<li>The response (<code>Y</code>) is a calculated from <code>AUC</code> and the Emax model parameters</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code &lt;-<span class="st"> &#39;</span>
+<span class="st">$PARAM TVCL = 1, WT = 70, AUC50 = 20, DOSE = 100, E0 = 35, EMAX = 2.4</span>
+
+<span class="st">$OMEGA 1</span>
+
+<span class="st">$SIGMA 100</span>
+
+<span class="st">$PRED</span>
+<span class="st">double CL = TVCL*pow(WT/70,0.75)*exp(ETA(1));</span>
+<span class="st">capture AUC = DOSE/CL;</span>
+<span class="st">capture Y = E0*(1+EMAX*AUC/(AUC50+AUC))+EPS(1);</span>
+<span class="st">&#39;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;pkpd&quot;</span>, code)</code></pre></div>
+<p>To simulate, look at 50 subjects at each of 5 doses</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw">expand.idata</span>(<span class="dt">DOSE =</span> <span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">50</span>,<span class="dv">80</span>,<span class="dv">110</span>,<span class="dv">200</span>),<span class="dt">ID =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">WT =</span> <span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="kw">n</span>(),<span class="kw">log</span>(<span class="dv">80</span>),<span class="dv">1</span>)))
+
+<span class="kw">head</span>(data)</code></pre></div>
+<pre><code>.   ID DOSE        WT
+. 1  1   30  59.13254
+. 2  2   50 317.32739
+. 3  3   80 242.15746
+. 4  4  110 170.78136
+. 5  5  200 248.18054
+. 6  6   30  51.22012</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out &lt;-<span class="st"> </span><span class="kw">mrgsim_d</span>(mod,data,<span class="dt">carry.out=</span><span class="st">&quot;WT,DOSE&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame
+
+<span class="kw">head</span>(out)</code></pre></div>
+<pre><code>.   ID time        WT DOSE       AUC         Y
+. 1  1    0  59.13254   30 231.90852 110.61330
+. 2  2    0 317.32739   50  36.76051  85.27834
+. 3  3    0 242.15746   80  36.54808  98.90407
+. 4  4    0 170.78136  110  23.68354  80.29131
+. 5  5    0 248.18054  200 331.10229 108.81926
+. 6  6    0  51.22012   30 251.58373 116.09649</code></pre>
+<p>Plot the response (<code>Y</code>) versus <code>AUC</code>, colored by dose</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+<span class="kw">ggplot</span>(out, <span class="kw">aes</span>(AUC,Y,<span class="dt">col =</span><span class="kw">factor</span>(DOSE))) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">trans =</span> <span class="st">&quot;log&quot;</span>, <span class="dt">breaks =</span> <span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(AUC,Y),<span class="dt">se =</span> <span class="ot">FALSE</span>,<span class="dt">col=</span><span class="st">&quot;darkgrey&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set2&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre></div>
+<p><img src="2018-pred_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

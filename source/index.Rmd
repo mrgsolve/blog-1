@@ -1,0 +1,67 @@
+---
+pagetitle: "mrgsolve blog"
+output: 
+  html_document:
+    toc: FALSE
+---
+
+```{r, echo=FALSE, message = FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+
+<style type="text/css">
+.title {
+  display: none;
+}
+
+#getting-started img {
+  margin-right: 10px;
+}
+
+</style>
+
+<div class="row" style="padding-top: 30px; width: 90%">
+<!--div class="col-sm-6"-->
+
+# **mrgsolve Blog** <img src="images/mrgsolve_hex.png" align="right" width="150px"></img>
+
+mrgsolve is an R package for simulation from hierarchical, ordinary differential 
+equation (ODE) based models typically employed in drug development.
+
+# Posts
+
+## 2018
+
+  - [Modeled intervenations (like MTIME)](2018-modeled-interventions.html)
+  - [Models without compartments](2018-pred.html)
+
+## 2017
+
+  - [Reproducible simulation results](2017-reproducible.html)
+  - [`simeta` and `simeps`](2017-simeta.html)
+  - [Input data sets](2017-input-data_set.html)
+  - [Building complex dosing events](2017-complex-events.html)
+  - [Mixture model example](2017-mixture-model.html)
+  - [Heterogeneous designs](2017-as_deslist.html)
+  - [Work with R objects in the model](2017-appx.html)
+
+## 2016
+  - [Set initial conditions](init.html)
+  - [MAP Bayes estimation](map_bayes.html)
+  - [Event objects](events.html)
+  - 
+
+
+# **Other Resources**
+
+See also:
+
+- The main mrgsolve help page: https://mrgsolve.github.io
+- The user guide: https://mrgsolve.github.io/user_guide
+- Issue tracker for asking questions or reporting bugs: 
+  https://github.com/metrumresearchgroup/mrgsolve/issues
+
+
+
+</div>

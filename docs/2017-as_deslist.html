@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Flexible, heterogeneous simulation designs in a population</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><div class = mrgg>mrgsolve::blog</div></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html#posts">Posts</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/user_guide">UserGuide</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/vignettes">Vignettes</a>
+</li>
+<li>
+  <a href="https://github.com/mrgsolve/gallery">Gallery</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://mrgsolve.github.io">mrgsolve.github.io</a>
+</li>
+<li>
+  <a href="https://github.com/metrumresearchgroup/mrgsolve">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Flexible, heterogeneous simulation designs in a population</h1>
+
+</div>
+
+
+<p>Design lists help you assign different designs to different groups in a population or specific designs to specific individuals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mrgsolve)
+<span class="kw">library</span>(dplyr)</code></pre></div>
+<div id="assign-designs-to-individuals" class="section level1">
+<h1><span class="header-section-number">1</span> Assign designs to individuals</h1>
+<p>To illustrate, let’s make a population of 4 individuals, all with different simulation <strong>end</strong> times.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">end=</span><span class="kw">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</code></pre></div>
+<pre><code>. Warning: `data_frame()` is deprecated, use `tibble()`.
+. This warning is displayed once per session.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des</code></pre></div>
+<pre><code>. # A tibble: 4 x 2
+.      ID   end
+.   &lt;int&gt; &lt;dbl&gt;
+. 1     1    24
+. 2     2    48
+. 3     3    72
+. 4     4    96</code></pre>
+<p>For simplicity, we will only vary the simulation end time in this example. See later examples where <code>start</code>, <code>delta</code> and <code>add</code> can varied as well.</p>
+<p>We can turn this in to a list of designs with <code>as_deslist</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_deslist</span>(des, <span class="dt">descol=</span><span class="st">&quot;ID&quot;</span>)</code></pre></div>
+<pre><code>. $ID_1
+. start:  0  end:    24  delta:  1  offset: 0  min:    0   max:    24 
+. 
+. $ID_2
+. start:  0  end:    48  delta:  1  offset: 0  min:    0   max:    48 
+. 
+. $ID_3
+. start:  0  end:    72  delta:  1  offset: 0  min:    0   max:    72 
+. 
+. $ID_4
+. start:  0  end:    96  delta:  1  offset: 0  min:    0   max:    96 
+. 
+. attr(,&quot;descol&quot;)
+. [1] &quot;ID&quot;</code></pre>
+<p><code>as_deslist</code> returns one design for each individual, one for each unique level of <code>descol</code>. The deslist is a list of <code>tgrid</code> objects (see <code>?tgrid</code>). Note also that <code>descol</code> is retained as an attribute to be used later.</p>
+<p>Let’s set up a simulation that includes these 4 IDs; we load a model and, importantly, set up an <code>idata_set</code> for the simulation that includes all 4 IDs in the design list.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span>mrgsolve<span class="op">:::</span><span class="kw">house</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>)
+
+idata &lt;-<span class="st"> </span><span class="kw">select</span>(des,ID)
+idata</code></pre></div>
+<pre><code>. # A tibble: 4 x 1
+.      ID
+.   &lt;int&gt;
+. 1     1
+. 2     2
+. 3     3
+. 4     4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des1 &lt;-<span class="st"> </span><span class="kw">as_deslist</span>(des,<span class="st">&quot;ID&quot;</span>)</code></pre></div>
+<p>When we run the simulation, pass in the design list to <code>design</code> in the pipeline</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out &lt;-<span class="st"> </span>
+<span class="st">  </span>mod <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">design</span>(des1) <span class="op">%&gt;%</span>
+<span class="st">  </span>mrgsim</code></pre></div>
+<p>We see that ID 1 has a 24 hour end time, ID 2 has 48 hour simulation time, ID 3 with 72 hour simulation time, and ID 4 96 hour simulation time as reflected in the list of the designs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>ID)</code></pre></div>
+<p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><strong>Note</strong>: Check the arguments to <code>design</code> (<code>?design</code>). There is a <code>descol</code> argument that is required. <code>descol</code> in this function refers to a column in <code>idata_set</code> to be used as the grouping variable to assign the sampling design. <code>as_deslist</code> also had a <code>descol</code> argument that referred to a column in the input data frame for that function. We don’t need to pass <code>descol</code> to <code>design()</code> because we created the design list with <code>as_deslist</code>: <code>design()</code> reads <code>descol</code> from the attribute. We don’t <strong>have</strong> to use <code>as_deslist</code> to create the design list. It could be just a plan old <code>R</code> list created by you with <code>tgrid</code> objects. In that case, you must state what <code>descol</code> is when you call <code>design()</code>.<br />
+And it can’t be emphasized enough here that you <strong>MUST</strong> use an <code>idata_set</code> for this to work and <code>idata_set</code> must contain a valid <code>descol</code>.</p>
+</div>
+<div id="assign-designs-to-treatment-arms-or-groups" class="section level1">
+<h1><span class="header-section-number">2</span> Assign designs to treatment arms or groups</h1>
+<p>Now, let’s simulate a trial with 5 patients in each of 4 treatment arms. In this trial, arm 1 lasts 24 hours, arm 2 last 48 hours … etc. But every patient with the arm 1 indicator will get simulated for 24 hours, every patient with arm 2 indicator will get simulated for 48 hours and so on.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idata &lt;-<span class="st"> </span><span class="kw">expand.idata</span>(<span class="dt">ARM=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)
+
+<span class="kw">head</span>(idata)</code></pre></div>
+<pre><code>.   ID ARM
+. 1  1   1
+. 2  2   2
+. 3  3   3
+. 4  4   4
+. 5  5   1
+. 6  6   2</code></pre>
+<p>Now, let’s setup the designs based on <code>ARM</code> rather than <code>ID</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des &lt;-<span class="st"> </span><span class="kw">distinct</span>(idata,ARM) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">end=</span><span class="kw">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))
+
+des</code></pre></div>
+<pre><code>.   ARM end
+. 1   1  24
+. 2   2  48
+. 3   3  72
+. 4   4  96</code></pre>
+<p>The simulation works the same way</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">11</span>)
+
+out &lt;-<span class="st"> </span>
+<span class="st">  </span>mod <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">omat</span>(<span class="kw">dmat</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">design</span>(<span class="kw">as_deslist</span>(des,<span class="st">&quot;ARM&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">carry.out=</span><span class="st">&quot;ARM&quot;</span>)
+
+<span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ARM))</code></pre></div>
+<p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ID))</code></pre></div>
+<p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+</div>
+<div id="list-cols-and-additional-times" class="section level1">
+<h1><span class="header-section-number">3</span> <code>list-cols</code> and <code>additional</code> times</h1>
+<p>Hopefully it’s clear that columns named <code>start</code>, <code>end</code>, and <code>delta</code> in the the input data frame passed to <code>as_deslist</code> are just numeric values that form the time grid object (see <code>?tgrid</code>).</p>
+<p>What about <code>add</code>, the vector of ad-hoc times for the simulation? These, too, can be accommodated with a <code>list-col</code> column in the input data frame. Note that <code>list-cols</code> are only really supported in specialized <code>tibble</code> type data frames.</p>
+<p>These are random times for IDs 1 and 2</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">12</span>)
+t1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>,<span class="dv">12</span>))
+t2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">96</span>,<span class="dv">12</span>))
+
+t1</code></pre></div>
+<pre><code>.  [1]  0  2 19 21  6  4  1 20 11 23 16 22 17</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2</code></pre></div>
+<pre><code>.  [1]  0 37 96 25 41 43 50 60 11 20 69  9 61</code></pre>
+<p><strong>Note</strong>: When we simulate with <code>end &lt; 0</code>, <code>mrgsolve</code> knows to ignore <code>start/end/delta</code> and only use the times in <code>add</code> for observations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">add=</span><span class="kw">list</span>(t1,t2))
+des</code></pre></div>
+<pre><code>. # A tibble: 2 x 3
+.      ID   end add       
+.   &lt;int&gt; &lt;dbl&gt; &lt;list&gt;    
+. 1     1    -1 &lt;dbl [13]&gt;
+. 2     2    -1 &lt;dbl [13]&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">idata_set</span>(des, <span class="dt">select=</span>ID) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">design</span>(<span class="kw">as_deslist</span>(des)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>mrgsim <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">plot</span>(CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ID), <span class="dt">type=</span><span class="st">&#39;b&#39;</span>)</code></pre></div>
+<p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Ok … not the most lovely-looking result we’ve seen before, but maybe that’s just what you needed in this simulation.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

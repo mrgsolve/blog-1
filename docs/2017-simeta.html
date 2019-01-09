@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Resimulate random effect variates on demand</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><div class = mrgg>mrgsolve::blog</div></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html#posts">Posts</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/user_guide">UserGuide</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/vignettes">Vignettes</a>
+</li>
+<li>
+  <a href="https://github.com/mrgsolve/gallery">Gallery</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://mrgsolve.github.io">mrgsolve.github.io</a>
+</li>
+<li>
+  <a href="https://github.com/metrumresearchgroup/mrgsolve">GitHub</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Resimulate random effect variates on demand</h1>
+
+</div>
+
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mrgsolve)
+<span class="kw">library</span>(dplyr)
+<span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</code></pre></div>
+<div id="simeta-example" class="section level1">
+<h1><span class="header-section-number">1</span> <code>simeta</code> example</h1>
+<ul>
+<li>In this example, we want to simulate a patient-specific baseline response that is between 80 and 120.</li>
+<li>In the code, we start a loop that calls <code>simeta</code> with no arguments until the baseline is between the specified bounds</li>
+<li>For this example, we only calculate <code>BASE</code> when <code>NEWIND &lt;=1</code> … or whenever we are working on the first record of an individual. This ensures that we don’t re-simulate <code>BASE</code> at every simulation record.</li>
+<li>We have also implemented a counter (<code>i</code>) that ensures we only try to resimulate 100 times. If a value for <code>BASE</code> cannot be generated in 100 tries, we give up.<br />
+</li>
+<li>You probably won’t need to implement <code>FLAG</code> for your problem. I am only using <code>FLAG</code> here so we can selectively call the <code>simeta</code> code to demonstrate how it is working.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code &lt;-<span class="st"> &#39;</span>
+<span class="st">$PARAM TVBASE = 100, FLAG = 0</span>
+
+<span class="st">$CMT RESPONSE</span>
+
+<span class="st">$MAIN </span>
+
+<span class="st">if(NEWIND &lt;=1) {</span>
+
+<span class="st">  capture BASE = TVBASE*exp(EBASE);</span>
+
+<span class="st">  int i = 0;</span>
+
+<span class="st">  if(FLAG &gt; 0) {</span>
+<span class="st">    while((BASE &lt; 80) || (BASE &gt; 120)) {</span>
+<span class="st">      if(++i &gt; 100) {</span>
+<span class="st">        mrg::report(&quot;There was a problem simulating BASE.&quot;);</span>
+<span class="st">        break;</span>
+<span class="st">      }</span>
+<span class="st">      //simeta();</span>
+<span class="st">      BASE = TVBASE*exp(EBASE);</span>
+<span class="st">    }</span>
+<span class="st">  }</span>
+<span class="st">  </span>
+<span class="st">  RESPONSE_0 = BASE;</span>
+<span class="st">}</span>
+
+
+<span class="st">$OMEGA @labels EBASE</span>
+<span class="st">1</span>
+
+<span class="st">$CAPTURE EBASE</span>
+<span class="st">&#39;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;simeta&quot;</span>,  code)</code></pre></div>
+<div id="simulate-without-simeta" class="section level3">
+<h3><span class="header-section-number">1.0.1</span> Simulate without <code>simeta</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>({
+  out &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">nid=</span><span class="dv">100</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>)
+  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)
+})</code></pre></div>
+<pre><code>.    user  system elapsed 
+.   0.006   0.001   0.006</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(sum)</code></pre></div>
+<pre><code>.        ID              time      RESPONSE          EBASE         
+.  Min.   :  1.00   Min.   :0   Min.   : 13.45   Min.   :-2.00624  
+.  1st Qu.: 25.75   1st Qu.:0   1st Qu.: 56.49   1st Qu.:-0.57110  
+.  Median : 50.50   Median :0   Median :108.66   Median : 0.08301  
+.  Mean   : 50.50   Mean   :0   Mean   :158.53   Mean   : 0.09402  
+.  3rd Qu.: 75.25   3rd Qu.:0   3rd Qu.:198.08   3rd Qu.: 0.68328  
+.  Max.   :100.00   Max.   :0   Max.   :739.21   Max.   : 2.00042  
+.       BASE       
+.  Min.   : 13.45  
+.  1st Qu.: 56.49  
+.  Median :108.66  
+.  Mean   :158.53  
+.  3rd Qu.:198.08  
+.  Max.   :739.21</code></pre>
+<p>When we simulate with <code>FLAG=0</code>, the <code>simeta</code> code <strong>isn’t</strong> called and we <code>BASE</code> values all over the place.</p>
+</div>
+<div id="simulate-with-simeta" class="section level3">
+<h3><span class="header-section-number">1.0.2</span> Simulate with <code>simeta</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>({
+  out &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">nid=</span><span class="dv">100</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">param=</span><span class="kw">list</span>(<span class="dt">FLAG=</span><span class="dv">1</span>))
+  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)
+})</code></pre></div>
+<pre><code>.    user  system elapsed 
+.   0.005   0.000   0.005</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(sum)</code></pre></div>
+<pre><code>.        ID              time      RESPONSE           EBASE        
+.  Min.   :  1.00   Min.   :0   Min.   :  9.831   Min.   :-2.3197  
+.  1st Qu.: 25.75   1st Qu.:0   1st Qu.: 61.490   1st Qu.:-0.4871  
+.  Median : 50.50   Median :0   Median :128.252   Median : 0.2481  
+.  Mean   : 50.50   Mean   :0   Mean   :163.254   Mean   : 0.1304  
+.  3rd Qu.: 75.25   3rd Qu.:0   3rd Qu.:211.388   3rd Qu.: 0.7485  
+.  Max.   :100.00   Max.   :0   Max.   :730.984   Max.   : 1.9892  
+.       BASE        
+.  Min.   :  9.831  
+.  1st Qu.: 61.490  
+.  Median :128.252  
+.  Mean   :163.254  
+.  3rd Qu.:211.388  
+.  Max.   :730.984</code></pre>
+<p>When we simulate with <code>FLAG=1</code>, the <code>simeta</code> code <strong>is</strong> called and we <code>BASE</code> values within the specified bounds.</p>
+</div>
+<div id="simeps-example" class="section level2">
+<h2><span class="header-section-number">1.1</span> <code>simeps</code> example</h2>
+<ul>
+<li>In this example, we want to re-simulate the residual error variate to make sure we have a concentration that is positive.</li>
+<li>We set up a loop that looks like the <code>simeta</code> example, but we work in <code>$TABLE</code> this time because we are calculating <code>CP</code>.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code &lt;-<span class="st"> &#39;</span>
+<span class="st">$PARAM CL = 1, V = 20, FLAG=0</span>
+
+<span class="st">$SIGMA 50</span>
+
+<span class="st">$PKMODEL cmt=&quot;CENT&quot;</span>
+
+<span class="st">$TABLE</span>
+<span class="st">capture CP = CENT/V + EPS(1);</span>
+
+<span class="st">int i = 0;</span>
+<span class="st">while(CP &lt; 0 &amp;&amp; FLAG &gt; 0) {</span>
+<span class="st">  if(++i &gt; 100) {</span>
+<span class="st">    mrg::report(&quot;Problem simulating positive CP&quot;);</span>
+<span class="st">    break;</span>
+<span class="st">  }</span>
+<span class="st">  simeps();</span>
+<span class="st">  CP = CENT/V + EPS(1);</span>
+<span class="st">}</span>
+
+<span class="st">&#39;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;simeps&quot;</span>, code)</code></pre></div>
+<pre><code>. Loading model from cache.</code></pre>
+<div id="simulate-without-simeps" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Simulate without <code>simeps</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>({
+  out &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">end=</span><span class="dv">48</span>)
+  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)
+})</code></pre></div>
+<pre><code>.    user  system elapsed 
+.   0.004   0.000   0.005</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(sum)</code></pre></div>
+<pre><code>.        ID         time            CENT              CP          
+.  Min.   :1   Min.   : 0.00   Min.   :  0.00   Min.   :-16.7969  
+.  1st Qu.:1   1st Qu.:11.25   1st Qu.: 15.93   1st Qu.: -4.8978  
+.  Median :1   Median :23.50   Median : 29.38   Median :  0.2084  
+.  Mean   :1   Mean   :23.52   Mean   : 37.47   Mean   : -0.3685  
+.  3rd Qu.:1   3rd Qu.:35.75   3rd Qu.: 54.21   3rd Qu.:  5.4760  
+.  Max.   :1   Max.   :48.00   Max.   :100.00   Max.   : 15.2542</code></pre>
+<p><strong>Negative</strong> concentrations are simulated when we <strong>don’t</strong> call the <code>simeps</code> loop.</p>
+</div>
+<div id="simulate-with-simeps" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Simulate with <code>simeps</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>({
+  out &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">end=</span><span class="dv">48</span>, <span class="dt">param=</span><span class="kw">list</span>(<span class="dt">FLAG=</span><span class="dv">1</span>))
+  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)
+})</code></pre></div>
+<pre><code>.    user  system elapsed 
+.   0.006   0.001   0.006</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(sum)</code></pre></div>
+<pre><code>.        ID         time            CENT              CP          
+.  Min.   :1   Min.   : 0.00   Min.   :  0.00   Min.   : 0.09436  
+.  1st Qu.:1   1st Qu.:11.25   1st Qu.: 15.93   1st Qu.: 4.03328  
+.  Median :1   Median :23.50   Median : 29.38   Median : 6.83913  
+.  Mean   :1   Mean   :23.52   Mean   : 37.47   Mean   : 6.69816  
+.  3rd Qu.:1   3rd Qu.:35.75   3rd Qu.: 54.21   3rd Qu.: 8.65568  
+.  Max.   :1   Max.   :48.00   Max.   :100.00   Max.   :18.18232</code></pre>
+<p>Better … all concentrations are positive.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
