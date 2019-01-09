@@ -31,6 +31,7 @@ source/*_cache/
 source/*_files/
 source/book/
 source/build/
+docs/build/
 source/*.html
 /cache/
 
