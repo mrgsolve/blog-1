@@ -30,4 +30,3 @@ output:
       include:
         after_body:
           footer.html
-
