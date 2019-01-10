@@ -4,10 +4,10 @@ exclude: [mrgsolve_builds]
 navbar:
   title: "<div class = mrgg>mrgsolve::blog</div>"
   left:
-    - text: "Posts"
-      href: "index.html#posts"
-    - text: Vignettes
-      href: https://mrgsolve.github.io/vignettes
+    - text: "Vignettes"
+      href: "https://mrgsolve.github.io/vignettes"
+    - text: Blog
+      href: https://mrgsolve.github.io/blog
     - text: Gallery
       href: https://github.com/mrgsolve/gallery
     - icon: fa-github fa-lg
@@ -23,7 +23,7 @@ output:
     html_document:
       theme: default
       highlight: pygments
-      css: css/styles.css
+      css: [css/styles.css, css/colors.css]
       toc: true
       toc_float: true
       number_sections: true
