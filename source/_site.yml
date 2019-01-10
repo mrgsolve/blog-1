@@ -9,7 +9,7 @@ navbar:
     - text: Blog
       href: https://mrgsolve.github.io/blog
     - text: Learn
-      href: https://github.com/mrgsolve/learn.html
+      href: https://mrgsolve.github.io/learn.html
     - icon: fa-github fa-lg
       href: https://github.com/mrgsolve/blog
   right:
