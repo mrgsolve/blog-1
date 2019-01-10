@@ -12,8 +12,6 @@ navbar:
       href: https://github.com/mrgsolve/gallery
     - icon: fa-github fa-lg
       href: https://github.com/mrgsolve/blog
-    - icon: fa-comments fa-lg
-      href: https://github.com/mrgsolve/blog/issues
   right:
     - text: "UserGuide"
       href: https://mrgsolve.github.io/user_guide
