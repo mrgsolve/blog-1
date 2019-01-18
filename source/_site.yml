@@ -30,3 +30,5 @@ output:
       include:
         after_body:
           footer.html
+        before_body: 
+          header.html
