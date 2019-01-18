@@ -46,6 +46,9 @@ for all posts can be found [here](https://github.com/mrgsolve/blog/).
 
 # Posts
 
+## 2019
+  - [Validating Simulation Results with pmxTools](validation_pmxtools.html)
+
 ## 2018
 
   - [Modeled intervenations (like MTIME)](2018-modeled-interventions.html)

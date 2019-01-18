@@ -112,7 +112,6 @@ When combined into a data set, we get
 
 ```{r}
 data <- as_data_set(e1,e2,e3)
-
 data
 ```
 
@@ -124,18 +123,5 @@ mod <- mread_cache("popex", modlib())
 ```{r}
 mod %>% data_set(data) %>% mrgsim(end=336) %>% plot(GUT+DV ~  .)
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

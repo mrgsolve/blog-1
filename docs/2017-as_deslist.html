@@ -29,41 +29,67 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -472,15 +498,15 @@ div.tocify {
 
 
 <p>Design lists help you assign different designs to different groups in a population or specific designs to specific individuals.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mrgsolve)
-<span class="kw">library</span>(dplyr)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
 <div id="assign-designs-to-individuals" class="section level1">
 <h1><span class="header-section-number">1</span> Assign designs to individuals</h1>
 <p>To illustrate, let’s make a population of 4 individuals, all with different simulation <strong>end</strong> times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">end=</span><span class="kw">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">des &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">end=</span><span class="kw">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</a></code></pre></div>
 <pre><code>. Warning: `data_frame()` is deprecated, use `tibble()`.
 . This warning is displayed once per session.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">des</a></code></pre></div>
 <pre><code>. # A tibble: 4 x 2
 .      ID   end
 .   &lt;int&gt; &lt;dbl&gt;
@@ -490,7 +516,7 @@ div.tocify {
 . 4     4    96</code></pre>
 <p>For simplicity, we will only vary the simulation end time in this example. See later examples where <code>start</code>, <code>delta</code> and <code>add</code> can varied as well.</p>
 <p>We can turn this in to a list of designs with <code>as_deslist</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_deslist</span>(des, <span class="dt">descol=</span><span class="st">&quot;ID&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">as_deslist</span>(des, <span class="dt">descol=</span><span class="st">&quot;ID&quot;</span>)</a></code></pre></div>
 <pre><code>. $ID_1
 . start:  0  end:    24  delta:  1  offset: 0  min:    0   max:    24 
 . 
@@ -507,10 +533,10 @@ div.tocify {
 . [1] &quot;ID&quot;</code></pre>
 <p><code>as_deslist</code> returns one design for each individual, one for each unique level of <code>descol</code>. The deslist is a list of <code>tgrid</code> objects (see <code>?tgrid</code>). Note also that <code>descol</code> is retained as an attribute to be used later.</p>
 <p>Let’s set up a simulation that includes these 4 IDs; we load a model and, importantly, set up an <code>idata_set</code> for the simulation that includes all 4 IDs in the design list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod &lt;-<span class="st"> </span>mrgsolve<span class="op">:::</span><span class="kw">house</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>)
-
-idata &lt;-<span class="st"> </span><span class="kw">select</span>(des,ID)
-idata</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mod &lt;-<span class="st"> </span>mrgsolve<span class="op">:::</span><span class="kw">house</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3">idata &lt;-<span class="st"> </span><span class="kw">select</span>(des,ID)</a>
+<a class="sourceLine" id="cb8-4" title="4">idata</a></code></pre></div>
 <pre><code>. # A tibble: 4 x 1
 .      ID
 .   &lt;int&gt;
@@ -518,15 +544,15 @@ idata</code></pre></div>
 . 2     2
 . 3     3
 . 4     4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des1 &lt;-<span class="st"> </span><span class="kw">as_deslist</span>(des,<span class="st">&quot;ID&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">des1 &lt;-<span class="st"> </span><span class="kw">as_deslist</span>(des,<span class="st">&quot;ID&quot;</span>)</a></code></pre></div>
 <p>When we run the simulation, pass in the design list to <code>design</code> in the pipeline</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out &lt;-<span class="st"> </span>
-<span class="st">  </span>mod <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">design</span>(des1) <span class="op">%&gt;%</span>
-<span class="st">  </span>mrgsim</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">out &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span>mod <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">design</span>(des1) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="st">  </span>mrgsim</a></code></pre></div>
 <p>We see that ID 1 has a 24 hour end time, ID 2 has 48 hour simulation time, ID 3 with 72 hour simulation time, and ID 4 96 hour simulation time as reflected in the list of the designs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>ID)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>ID)</a></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p><strong>Note</strong>: Check the arguments to <code>design</code> (<code>?design</code>). There is a <code>descol</code> argument that is required. <code>descol</code> in this function refers to a column in <code>idata_set</code> to be used as the grouping variable to assign the sampling design. <code>as_deslist</code> also had a <code>descol</code> argument that referred to a column in the input data frame for that function. We don’t need to pass <code>descol</code> to <code>design()</code> because we created the design list with <code>as_deslist</code>: <code>design()</code> reads <code>descol</code> from the attribute. We don’t <strong>have</strong> to use <code>as_deslist</code> to create the design list. It could be just a plan old <code>R</code> list created by you with <code>tgrid</code> objects. In that case, you must state what <code>descol</code> is when you call <code>design()</code>.<br />
 And it can’t be emphasized enough here that you <strong>MUST</strong> use an <code>idata_set</code> for this to work and <code>idata_set</code> must contain a valid <code>descol</code>.</p>
@@ -534,9 +560,9 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 <div id="assign-designs-to-treatment-arms-or-groups" class="section level1">
 <h1><span class="header-section-number">2</span> Assign designs to treatment arms or groups</h1>
 <p>Now, let’s simulate a trial with 5 patients in each of 4 treatment arms. In this trial, arm 1 lasts 24 hours, arm 2 last 48 hours … etc. But every patient with the arm 1 indicator will get simulated for 24 hours, every patient with arm 2 indicator will get simulated for 48 hours and so on.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idata &lt;-<span class="st"> </span><span class="kw">expand.idata</span>(<span class="dt">ARM=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)
-
-<span class="kw">head</span>(idata)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">idata &lt;-<span class="st"> </span><span class="kw">expand.idata</span>(<span class="dt">ARM=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2"></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="kw">head</span>(idata)</a></code></pre></div>
 <pre><code>.   ID ARM
 . 1  1   1
 . 2  2   2
@@ -545,27 +571,27 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 . 5  5   1
 . 6  6   2</code></pre>
 <p>Now, let’s setup the designs based on <code>ARM</code> rather than <code>ID</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des &lt;-<span class="st"> </span><span class="kw">distinct</span>(idata,ARM) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">end=</span><span class="kw">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))
-
-des</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">des &lt;-<span class="st"> </span><span class="kw">distinct</span>(idata,ARM) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">end=</span><span class="kw">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</a>
+<a class="sourceLine" id="cb15-2" title="2"></a>
+<a class="sourceLine" id="cb15-3" title="3">des</a></code></pre></div>
 <pre><code>.   ARM end
 . 1   1  24
 . 2   2  48
 . 3   3  72
 . 4   4  96</code></pre>
 <p>The simulation works the same way</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">11</span>)
-
-out &lt;-<span class="st"> </span>
-<span class="st">  </span>mod <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">omat</span>(<span class="kw">dmat</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">design</span>(<span class="kw">as_deslist</span>(des,<span class="st">&quot;ARM&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">carry.out=</span><span class="st">&quot;ARM&quot;</span>)
-
-<span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ARM))</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">set.seed</span>(<span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb17-2" title="2"></a>
+<a class="sourceLine" id="cb17-3" title="3">out &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span>mod <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="st">  </span><span class="kw">omat</span>(<span class="kw">dmat</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-7" title="7"><span class="st">  </span><span class="kw">design</span>(<span class="kw">as_deslist</span>(des,<span class="st">&quot;ARM&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-8" title="8"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">carry.out=</span><span class="st">&quot;ARM&quot;</span>)</a>
+<a class="sourceLine" id="cb17-9" title="9"></a>
+<a class="sourceLine" id="cb17-10" title="10"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ARM))</a></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ID))</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ID))</a></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 </div>
 <div id="list-cols-and-additional-times" class="section level1">
@@ -573,27 +599,27 @@ out &lt;-<span class="st"> </span>
 <p>Hopefully it’s clear that columns named <code>start</code>, <code>end</code>, and <code>delta</code> in the the input data frame passed to <code>as_deslist</code> are just numeric values that form the time grid object (see <code>?tgrid</code>).</p>
 <p>What about <code>add</code>, the vector of ad-hoc times for the simulation? These, too, can be accommodated with a <code>list-col</code> column in the input data frame. Note that <code>list-cols</code> are only really supported in specialized <code>tibble</code> type data frames.</p>
 <p>These are random times for IDs 1 and 2</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">12</span>)
-t1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>,<span class="dv">12</span>))
-t2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">96</span>,<span class="dv">12</span>))
-
-t1</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">set.seed</span>(<span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb19-2" title="2">t1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>,<span class="dv">12</span>))</a>
+<a class="sourceLine" id="cb19-3" title="3">t2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">96</span>,<span class="dv">12</span>))</a>
+<a class="sourceLine" id="cb19-4" title="4"></a>
+<a class="sourceLine" id="cb19-5" title="5">t1</a></code></pre></div>
 <pre><code>.  [1]  0  2 19 21  6  4  1 20 11 23 16 22 17</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t2</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">t2</a></code></pre></div>
 <pre><code>.  [1]  0 37 96 25 41 43 50 60 11 20 69  9 61</code></pre>
 <p><strong>Note</strong>: When we simulate with <code>end &lt; 0</code>, <code>mrgsolve</code> knows to ignore <code>start/end/delta</code> and only use the times in <code>add</code> for observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">des &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">add=</span><span class="kw">list</span>(t1,t2))
-des</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">des &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">add=</span><span class="kw">list</span>(t1,t2))</a>
+<a class="sourceLine" id="cb23-2" title="2">des</a></code></pre></div>
 <pre><code>. # A tibble: 2 x 3
 .      ID   end add       
 .   &lt;int&gt; &lt;dbl&gt; &lt;list&gt;    
 . 1     1    -1 &lt;dbl [13]&gt;
 . 2     2    -1 &lt;dbl [13]&gt;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">idata_set</span>(des, <span class="dt">select=</span>ID) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">design</span>(<span class="kw">as_deslist</span>(des)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span>mrgsim <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">plot</span>(CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ID), <span class="dt">type=</span><span class="st">&#39;b&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">mod <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="st">  </span><span class="kw">idata_set</span>(des, <span class="dt">select=</span>ID) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="st">  </span><span class="kw">design</span>(<span class="kw">as_deslist</span>(des)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="st">  </span>mrgsim <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb25-5" title="5"><span class="st">  </span><span class="kw">plot</span>(CP<span class="op">~</span>time<span class="op">|</span><span class="kw">factor</span>(ID), <span class="dt">type=</span><span class="st">&#39;b&#39;</span>)</a></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Ok … not the most lovely-looking result we’ve seen before, but maybe that’s just what you needed in this simulation.</p>
 </div>

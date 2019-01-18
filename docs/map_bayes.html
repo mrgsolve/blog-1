@@ -29,41 +29,67 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -471,12 +497,12 @@ div.tocify {
 </div>
 
 
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(mrgsolve)
-<span class="kw">library</span>(minqa)
-<span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(magrittr)
-<span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(mrgsolve)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(minqa)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</a></code></pre></div>
 <div id="about" class="section level1">
 <h1><span class="header-section-number">1</span> About</h1>
 <p>This tutorial illustrates how to do MAP Bayes estimation with <code>mrgsolve</code>.<br />
@@ -492,31 +518,31 @@ The setup was adapted from an existing project, where only a single individual w
 <li><p>We table out <code>ETA(1)</code> and <code>ETA(2)</code> so we can know the true (simulated) values (but not both zero and not both non-zero)</p></li>
 <li><p><code>DV</code> is output as a function of <code>EPS(1)</code>; this will be zero until we add in values for <code>$SIGMA</code>. But when we’re estimating, we need to make sure that <code>EPS(1)</code> is zero; the prediction shouldn’t have any randomness in it (just the individual prediction based on known etas)</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">code &lt;-<span class="st"> &#39;</span>
-<span class="st">$SET request=&quot;&quot;</span>
-
-<span class="st">$PARAM TVCL=1.5, TVVC=23.4, ETA1=0, ETA2=0</span>
-
-<span class="st">$CMT CENT</span>
-
-<span class="st">$PKMODEL ncmt=1</span>
-
-<span class="st">$OMEGA 0 0</span>
-<span class="st">$SIGMA 0</span>
-
-<span class="st">$MAIN</span>
-<span class="st">double CL = TVCL*exp(ETA1 + ETA(1));</span>
-<span class="st">double V =  TVVC*exp(ETA2 + ETA(2));</span>
-
-<span class="st">$TABLE </span>
-<span class="st">double DV = (CENT/V)*(1+EPS(1));</span>
-<span class="st">double ET1 = ETA(1);</span>
-<span class="st">double ET2 = ETA(2);</span>
-
-<span class="st">$CAPTURE DV ET1 ET2</span>
-<span class="st">&#39;</span>
-
-mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;map&quot;</span>, code)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">code &lt;-<span class="st"> &#39;</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="st">$SET request=&quot;&quot;</span></a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">$PARAM TVCL=1.5, TVVC=23.4, ETA1=0, ETA2=0</span></a>
+<a class="sourceLine" id="cb2-5" title="5"></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="st">$CMT CENT</span></a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="st">$PKMODEL ncmt=1</span></a>
+<a class="sourceLine" id="cb2-9" title="9"></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="st">$OMEGA 0 0</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="st">$SIGMA 0</span></a>
+<a class="sourceLine" id="cb2-12" title="12"></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="st">$MAIN</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="st">double CL = TVCL*exp(ETA1 + ETA(1));</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="st">double V =  TVVC*exp(ETA2 + ETA(2));</span></a>
+<a class="sourceLine" id="cb2-16" title="16"></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="st">$TABLE </span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="st">double DV = (CENT/V)*(1+EPS(1));</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="st">double ET1 = ETA(1);</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="st">double ET2 = ETA(2);</span></a>
+<a class="sourceLine" id="cb2-21" title="21"></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="st">$CAPTURE DV ET1 ET2</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb2-24" title="24"></a>
+<a class="sourceLine" id="cb2-25" title="25">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;map&quot;</span>, code)</a></code></pre></div>
 </div>
 <div id="first-simulate-some-data" class="section level1">
 <h1><span class="header-section-number">3</span> First, simulate some data</h1>
@@ -526,29 +552,29 @@ mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span clas
 <li>These will be used to both simulate and fit the data</li>
 <li>The <code>cmat</code> call makes a <code>2x2</code> matrix where the off-diagonal is a correlation (<code>?cmat</code>).</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">omega &lt;-<span class="st"> </span><span class="kw">cmat</span>(<span class="fl">0.23</span>,<span class="op">-</span><span class="fl">0.78</span>, <span class="fl">0.62</span>)
-omega.inv &lt;-<span class="st"> </span><span class="kw">solve</span>(omega)
-sigma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="fl">0.0032</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">omega &lt;-<span class="st"> </span><span class="kw">cmat</span>(<span class="fl">0.23</span>,<span class="op">-</span><span class="fl">0.78</span>, <span class="fl">0.62</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2">omega.inv &lt;-<span class="st"> </span><span class="kw">solve</span>(omega)</a>
+<a class="sourceLine" id="cb3-3" title="3">sigma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="fl">0.0032</span>)</a></code></pre></div>
 <p>Just a single dose to <code>CENT</code> with an events object</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dose &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">750</span>,<span class="dt">cmt=</span><span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">dose &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">750</span>,<span class="dt">cmt=</span><span class="dv">1</span>)</a></code></pre></div>
 <p>Take these times for concentration observations</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sampl &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>,<span class="dv">12</span>,<span class="dv">24</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">sampl &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>,<span class="dv">12</span>,<span class="dv">24</span>)</a></code></pre></div>
 <p>Simulate</p>
 <ul>
 <li>Here, we’re populating <code>$OMEGA</code> and <code>$SIGMA</code> so that the simulated data will be random</li>
 <li>It is important to <code>carry.out</code> all of the items that we will need in the estimation data set (doses, evid, etc)</li>
 <li>Using <code>end=-1</code> with <code>add=sampl</code> makes sure that we only get observation records at the times listed in <code>sampl</code></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1012</span>) 
-sim &lt;-<span class="st"> </span>
-<span class="st">  </span>mod <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ev</span>(dose) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">omat</span>(omega) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">smat</span>(sigma) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">carry.out</span>(amt,evid,cmt) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">add=</span>sampl)
-
-sim</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1012</span>) </a>
+<a class="sourceLine" id="cb6-2" title="2">sim &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span>mod <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">ev</span>(dose) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw">omat</span>(omega) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="st">  </span><span class="kw">smat</span>(sigma) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw">carry.out</span>(amt,evid,cmt) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">add=</span>sampl)</a>
+<a class="sourceLine" id="cb6-9" title="9"></a>
+<a class="sourceLine" id="cb6-10" title="10">sim</a></code></pre></div>
 <pre><code>. Model:  map 
 . Dim:    4 x 8 
 . Time:   0 to 24 
@@ -564,21 +590,21 @@ sim</code></pre></div>
 <ul>
 <li>Using the simulated data as the starting point here</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim <span class="op">%&lt;&gt;%</span><span class="st"> </span>as.data.frame</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">sim <span class="op">%&lt;&gt;%</span><span class="st"> </span>as.data.frame</a></code></pre></div>
 <p>Observed data (<code>y</code>)</p>
 <ul>
 <li>Just select <code>DV</code> from observation records</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span>sim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(evid<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(DV) <span class="op">%&gt;%</span><span class="st"> </span>unlist <span class="op">%&gt;%</span><span class="st"> </span>unname
-
-y</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">y &lt;-<span class="st"> </span>sim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(evid<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(DV) <span class="op">%&gt;%</span><span class="st"> </span>unlist <span class="op">%&gt;%</span><span class="st"> </span>unname</a>
+<a class="sourceLine" id="cb9-2" title="2"></a>
+<a class="sourceLine" id="cb9-3" title="3">y</a></code></pre></div>
 <pre><code>. [1] 42.749445  6.932391  1.374557</code></pre>
 <p>Create a data set to use in the optimization</p>
 <ul>
 <li>We need to drop <code>ET1</code> and <code>ET2</code> since they are in the parameter list</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>sim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>ET1, <span class="op">-</span>ET2)
-data</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">data &lt;-<span class="st"> </span>sim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>ET1, <span class="op">-</span>ET2)</a>
+<a class="sourceLine" id="cb11-2" title="2">data</a></code></pre></div>
 <pre><code>.   ID time evid amt cmt        DV
 . 1  1  0.0    1 750   1 41.067037
 . 2  1  0.5    0   0   0 42.749445
@@ -605,7 +631,7 @@ data</code></pre></div>
 <ol style="list-style-type: decimal">
 <li>get the matrix for residual error</li>
 <li>Make sure <code>eta</code> is a list</li>
-<li>Make sure <code>eta</code> is properly named (i.e. <code>ETA1</code> and <code>ETA2</code>)</li>
+<li>Make sure <code>eta</code> is properly named (i.e. <code>ETA1</code> and <code>ETA2</code>)</li>
 <li>Copy <code>eta</code> into a matrix that is one row</li>
 <li>Update the model object (<code>m</code>) with the current values of <code>ETA1</code> and <code>ETA2</code></li>
 <li>If we are estimating (<code>!pred</code>), request only observations in the output (<code>obsonly</code>)</li>
@@ -614,30 +640,30 @@ data</code></pre></div>
 <li>The final lines calculate the EBE objective function; see <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/">this paper</a> for reference</li>
 <li>Notice that the function returns a single value (a number); the optimizer will minimize this value</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mapbayes &lt;-<span class="st"> </span><span class="cf">function</span>(eta,y,d,m,<span class="dt">pred=</span><span class="ot">FALSE</span>) {
-    
-  sig2 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(sigma)
-  eta <span class="op">%&lt;&gt;%</span><span class="st"> </span>as.list
-  <span class="kw">names</span>(eta) &lt;-<span class="st"> </span><span class="kw">names</span>(init)
-  eta_m &lt;-<span class="st"> </span>eta <span class="op">%&gt;%</span><span class="st"> </span>unlist <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow=</span><span class="dv">1</span>)
-  m <span class="op">%&lt;&gt;%</span><span class="st"> </span><span class="kw">param</span>(eta)
-  <span class="cf">if</span>(<span class="op">!</span>pred) m <span class="op">%&lt;&gt;%</span><span class="st"> </span>obsonly
-  out &lt;-<span class="st"> </span>m <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop.re</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">data_set</span>(d) <span class="op">%&gt;%</span><span class="st"> </span>mrgsim
-  <span class="cf">if</span>(pred) <span class="kw">return</span>(out <span class="op">%&gt;%</span><span class="st"> </span>as.tbl)
-  <span class="co"># http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/</span>
-  sig2j &lt;-<span class="st"> </span>out<span class="op">$</span>DV<span class="op">^</span><span class="dv">2</span><span class="op">*</span>sig2
-  sqwres &lt;-<span class="st"> </span><span class="kw">log</span>(sig2j) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>sig2j)<span class="op">*</span>(y<span class="op">-</span>out<span class="op">$</span>DV)<span class="op">^</span><span class="dv">2</span>
-  nOn &lt;-<span class="st"> </span><span class="kw">diag</span>(eta_m <span class="op">%*%</span><span class="st"> </span>omega.inv <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(eta_m))
-  <span class="kw">return</span>(<span class="kw">sum</span>(sqwres) <span class="op">+</span><span class="st"> </span>nOn)
-
-}</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">mapbayes &lt;-<span class="st"> </span><span class="cf">function</span>(eta,y,d,m,<span class="dt">pred=</span><span class="ot">FALSE</span>) {</a>
+<a class="sourceLine" id="cb13-2" title="2">    </a>
+<a class="sourceLine" id="cb13-3" title="3">  sig2 &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(sigma)</a>
+<a class="sourceLine" id="cb13-4" title="4">  eta <span class="op">%&lt;&gt;%</span><span class="st"> </span>as.list</a>
+<a class="sourceLine" id="cb13-5" title="5">  <span class="kw">names</span>(eta) &lt;-<span class="st"> </span><span class="kw">names</span>(init)</a>
+<a class="sourceLine" id="cb13-6" title="6">  eta_m &lt;-<span class="st"> </span>eta <span class="op">%&gt;%</span><span class="st"> </span>unlist <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb13-7" title="7">  m <span class="op">%&lt;&gt;%</span><span class="st"> </span><span class="kw">param</span>(eta)</a>
+<a class="sourceLine" id="cb13-8" title="8">  <span class="cf">if</span>(<span class="op">!</span>pred) m <span class="op">%&lt;&gt;%</span><span class="st"> </span>obsonly</a>
+<a class="sourceLine" id="cb13-9" title="9">  out &lt;-<span class="st"> </span>m <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop.re</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">data_set</span>(d) <span class="op">%&gt;%</span><span class="st"> </span>mrgsim</a>
+<a class="sourceLine" id="cb13-10" title="10">  <span class="cf">if</span>(pred) <span class="kw">return</span>(out <span class="op">%&gt;%</span><span class="st"> </span>as.tbl)</a>
+<a class="sourceLine" id="cb13-11" title="11">  <span class="co"># http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/</span></a>
+<a class="sourceLine" id="cb13-12" title="12">  sig2j &lt;-<span class="st"> </span>out<span class="op">$</span>DV<span class="op">^</span><span class="dv">2</span><span class="op">*</span>sig2</a>
+<a class="sourceLine" id="cb13-13" title="13">  sqwres &lt;-<span class="st"> </span><span class="kw">log</span>(sig2j) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>sig2j)<span class="op">*</span>(y<span class="op">-</span>out<span class="op">$</span>DV)<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb13-14" title="14">  nOn &lt;-<span class="st"> </span><span class="kw">diag</span>(eta_m <span class="op">%*%</span><span class="st"> </span>omega.inv <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(eta_m))</a>
+<a class="sourceLine" id="cb13-15" title="15">  <span class="kw">return</span>(<span class="kw">sum</span>(sqwres) <span class="op">+</span><span class="st"> </span>nOn)</a>
+<a class="sourceLine" id="cb13-16" title="16"></a>
+<a class="sourceLine" id="cb13-17" title="17">}</a></code></pre></div>
 </div>
 <div id="initial-estimate" class="section level2">
 <h2><span class="header-section-number">5.2</span> Initial estimate</h2>
 <ul>
 <li>Note again that we are optimizing the etas here</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">init &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">ETA1=</span><span class="op">-</span><span class="fl">0.3</span>, <span class="dt">ETA2=</span><span class="fl">0.2</span>)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">init &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">ETA1=</span><span class="op">-</span><span class="fl">0.3</span>, <span class="dt">ETA2=</span><span class="fl">0.2</span>)</a></code></pre></div>
 <p>Fit the data</p>
 <ul>
 <li><code>newuoa</code> is from the <code>minqa</code> package</li>
@@ -649,7 +675,7 @@ data</code></pre></div>
 <li>Second: the function to optimize</li>
 <li>The other argument are passed to <code>mapbayes</code></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">newuoa</span>(init,mapbayes,<span class="dt">y=</span>y,<span class="dt">m=</span>mod,<span class="dt">d=</span>data)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">fit &lt;-<span class="st"> </span><span class="kw">newuoa</span>(init,mapbayes,<span class="dt">y=</span>y,<span class="dt">m=</span>mod,<span class="dt">d=</span>data)</a></code></pre></div>
 <pre><code>. Warning: drop.re and drop_re are deprecated. Use zero_re instead.
 
 . Warning: drop.re and drop_re are deprecated. Use zero_re instead.
@@ -814,10 +840,10 @@ data</code></pre></div>
 
 . Warning: drop.re and drop_re are deprecated. Use zero_re instead.</code></pre>
 <p>Here are the final estimates</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit<span class="op">$</span>par</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">fit<span class="op">$</span>par</a></code></pre></div>
 <pre><code>. [1]  0.4995400 -0.3274858</code></pre>
 <p>Here are the simulated values</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slice</span>(sim,<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(ET1, ET2)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">slice</span>(sim,<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(ET1, ET2)</a></code></pre></div>
 <pre><code>.        ET1        ET2
 . 1 0.519569 -0.2727675</code></pre>
 </div>
@@ -825,12 +851,12 @@ data</code></pre></div>
 <div id="look-at-the-result" class="section level1">
 <h1><span class="header-section-number">6</span> Look at the result</h1>
 <p>A data set and model to get predictions; this will give us a smooth prediction line</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pdata &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(evid<span class="op">==</span><span class="dv">1</span>)
-pmod &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">update</span>(<span class="dt">end=</span><span class="dv">24</span>, <span class="dt">delta=</span><span class="fl">0.1</span>) </code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">pdata &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(evid<span class="op">==</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb21-2" title="2">pmod &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">update</span>(<span class="dt">end=</span><span class="dv">24</span>, <span class="dt">delta=</span><span class="fl">0.1</span>) </a></code></pre></div>
 <p>Predicted line based on final estimates</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred &lt;-<span class="st"> </span><span class="kw">mapbayes</span>(fit<span class="op">$</span>par,y,pdata,pmod,<span class="dt">pred=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(time <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">pred &lt;-<span class="st"> </span><span class="kw">mapbayes</span>(fit<span class="op">$</span>par,y,pdata,pmod,<span class="dt">pred=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(time <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a></code></pre></div>
 <pre><code>. Warning: drop.re and drop_re are deprecated. Use zero_re instead.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(pred)</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">head</span>(pred)</a></code></pre></div>
 <pre><code>. # A tibble: 6 x 5
 .      ID  time    DV   ET1   ET2
 .   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -841,9 +867,9 @@ pmod &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class
 . 5     1   0.5  41.3     0     0
 . 6     1   0.6  40.7     0     0</code></pre>
 <p>Predicted line based on initial estimates</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">initial &lt;-<span class="st"> </span><span class="kw">mapbayes</span>(init,y,pdata,pmod,<span class="dt">pred=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(time <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">initial &lt;-<span class="st"> </span><span class="kw">mapbayes</span>(init,y,pdata,pmod,<span class="dt">pred=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(time <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a></code></pre></div>
 <pre><code>. Warning: drop.re and drop_re are deprecated. Use zero_re instead.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(initial)</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">head</span>(initial)</a></code></pre></div>
 <pre><code>. # A tibble: 6 x 5
 .      ID  time    DV   ET1   ET2
 .   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -854,10 +880,10 @@ pmod &lt;-<span class="st"> </span>mod <span class="op">%&gt;%</span><span class
 . 5     1   0.5  25.7     0     0
 . 6     1   0.6  25.6     0     0</code></pre>
 <p>Plot</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>pred, <span class="kw">aes</span>(time,DV),<span class="dt">col=</span><span class="st">&quot;firebrick&quot;</span>, <span class="dt">lwd=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>initial,<span class="kw">aes</span>(time,DV), <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data=</span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(evid<span class="op">==</span><span class="dv">0</span>), <span class="kw">aes</span>(time,DV), <span class="dt">col=</span><span class="st">&quot;darkslateblue&quot;</span>,<span class="dt">size=</span><span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>pred, <span class="kw">aes</span>(time,DV),<span class="dt">col=</span><span class="st">&quot;firebrick&quot;</span>, <span class="dt">lwd=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb30-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>initial,<span class="kw">aes</span>(time,DV), <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&quot;darkgreen&quot;</span>, <span class="dt">lwd=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb30-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data=</span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(evid<span class="op">==</span><span class="dv">0</span>), <span class="kw">aes</span>(time,DV), <span class="dt">col=</span><span class="st">&quot;darkslateblue&quot;</span>,<span class="dt">size=</span><span class="dv">3</span>)</a></code></pre></div>
 <p><img src="map_bayes_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 
