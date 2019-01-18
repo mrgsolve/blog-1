@@ -119,6 +119,7 @@ To do a model for first-order absorption
 
 ```{r}
 pars <- list(CL=1,V=20,ka=1.2)
+
 calc <- pk_curve(
   t = seq(0,400,0.1), 
   dose = 100, 

@@ -570,16 +570,17 @@ div.tocify {
 <h1><span class="header-section-number">3</span> Oral dosing example</h1>
 <p>To do a model for first-order absorption</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">pars &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">CL=</span><span class="dv">1</span>,<span class="dt">V=</span><span class="dv">20</span>,<span class="dt">ka=</span><span class="fl">1.2</span>)</a>
-<a class="sourceLine" id="cb14-2" title="2">calc &lt;-<span class="st"> </span><span class="kw">pk_curve</span>(</a>
-<a class="sourceLine" id="cb14-3" title="3">  <span class="dt">t =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">400</span>,<span class="fl">0.1</span>), </a>
-<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">dose =</span> <span class="dv">100</span>, </a>
-<a class="sourceLine" id="cb14-5" title="5">  <span class="dt">ii =</span> <span class="dv">24</span>, </a>
-<a class="sourceLine" id="cb14-6" title="6">  <span class="dt">addl =</span> <span class="dv">9</span>, </a>
-<a class="sourceLine" id="cb14-7" title="7">  <span class="dt">params =</span> pars, </a>
-<a class="sourceLine" id="cb14-8" title="8">  <span class="dt">model=</span><span class="st">&quot;1cmt_oral&quot;</span></a>
-<a class="sourceLine" id="cb14-9" title="9">)</a>
-<a class="sourceLine" id="cb14-10" title="10"></a>
-<a class="sourceLine" id="cb14-11" title="11"><span class="kw">ggplot</span>(calc, <span class="kw">aes</span>(t,cp)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb14-2" title="2"></a>
+<a class="sourceLine" id="cb14-3" title="3">calc &lt;-<span class="st"> </span><span class="kw">pk_curve</span>(</a>
+<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">t =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">400</span>,<span class="fl">0.1</span>), </a>
+<a class="sourceLine" id="cb14-5" title="5">  <span class="dt">dose =</span> <span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb14-6" title="6">  <span class="dt">ii =</span> <span class="dv">24</span>, </a>
+<a class="sourceLine" id="cb14-7" title="7">  <span class="dt">addl =</span> <span class="dv">9</span>, </a>
+<a class="sourceLine" id="cb14-8" title="8">  <span class="dt">params =</span> pars, </a>
+<a class="sourceLine" id="cb14-9" title="9">  <span class="dt">model=</span><span class="st">&quot;1cmt_oral&quot;</span></a>
+<a class="sourceLine" id="cb14-10" title="10">)</a>
+<a class="sourceLine" id="cb14-11" title="11"></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="kw">ggplot</span>(calc, <span class="kw">aes</span>(t,cp)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</a></code></pre></div>
 <p><img src="validation_pmxtools_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">param =</span> <span class="kw">list</span>(<span class="dt">CL=</span><span class="dv">1</span>, <span class="dt">V=</span><span class="dv">20</span>, <span class="dt">KA=</span><span class="fl">1.2</span>), <span class="dt">end=</span><span class="dv">400</span>, <span class="dt">delta=</span><span class="fl">0.1</span>)</a>
 <a class="sourceLine" id="cb15-2" title="2"></a>
