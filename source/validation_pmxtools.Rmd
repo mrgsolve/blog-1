@@ -9,8 +9,8 @@ knitr::opts_chunk$set(echo = TRUE,comment='.',fig.align="center",message=FALSE,c
 ```
 
 
-I just discovered this nifty tool published by the folks over at Occams (with 
-other contributors as well) called [pmxTools](https://CRAN.R-project.org/package=pmxTools).  There 
+I just discovered this nifty tool published by the folks over at <red>Occams</red> (with 
+other contributors as well) called [<red>pmxTools</red>](https://CRAN.R-project.org/package=pmxTools).  There 
 are a lot of really useful R functions for your pharmacometrics workflow in this 
 package and worth checking it out in depth! 
 
@@ -18,7 +18,7 @@ What I want to focus on for this post is how we can use this package to
 cross validate mrgsolve output: we'll simulate with pmxTools and mrgsolve
 just to see the different workflows and check the output values.  If
 users are interested in other validation tests for mrgsolve, please see the 
-document [here](https://github.com/mrgsolve/nmtests).  _This is not a 
+document [<red>here</red>](https://github.com/mrgsolve/nmtests).  _This is not a 
 "lets-go-head-to-head with another project" type post_.  I just found this 
 tool very useful as a complement to my workflow.  I hope you find it useful too.
 
