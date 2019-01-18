@@ -118,7 +118,7 @@ summary(out$CP-calc[["cp"]])
 To do a model for first-order absorption
 
 ```{r}
-pars <- list(CL=1,V=20,ka=1.2)
+pars <- list(CL = 1, V = 0, ka = 1.2)
 
 calc <- pk_curve(
   t = seq(0,400,0.1), 
@@ -126,7 +126,7 @@ calc <- pk_curve(
   ii = 24, 
   addl = 9, 
   params = pars, 
-  model="1cmt_oral"
+  model = "1cmt_oral"
 )
 
 ggplot(calc, aes(t,cp)) + geom_line() + theme_bw()
@@ -137,7 +137,7 @@ mod <- modlib("pk1", param = list(CL=1, V=20, KA=1.2), end=400, delta=0.1)
 
 out <- mrgsim_e(
   mod, 
-  mutate(e, rate=0, cmt=1),
+  mutate(e, rate = 0, cmt = 1),
   recsort=3, 
   obsonly=TRUE
 )
