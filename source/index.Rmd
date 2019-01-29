@@ -47,6 +47,7 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 # Posts
 
 ## 2019
+  - [Expressive dosing event syntax](2019-ev_rx.html)
   - [Validating Simulation Results with pmxTools](validation_pmxtools.html)
 
 ## 2018

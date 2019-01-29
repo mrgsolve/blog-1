@@ -534,9 +534,9 @@ div.tocify {
 <a class="sourceLine" id="cb4-3" title="3"></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="st">$PKMODEL cmt = &quot;GUT CENT&quot;, depot = TRUE</span></a>
 <a class="sourceLine" id="cb4-5" title="5"></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="st">$PREAMBLE capture KA = KA1;</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="st">$MAIN</span></a>
 <a class="sourceLine" id="cb4-7" title="7"></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="st">$MAIN</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st">if(NEWIND &lt;=1) capture KA = KA1;</span></a>
 <a class="sourceLine" id="cb4-9" title="9"></a>
 <a class="sourceLine" id="cb4-10" title="10"><span class="st">if(EVID==1) {</span></a>
 <a class="sourceLine" id="cb4-11" title="11"><span class="st">  KA = KA1;</span></a>
@@ -647,7 +647,7 @@ div.tocify {
 <a class="sourceLine" id="cb17-14" title="14"></a>
 <a class="sourceLine" id="cb17-15" title="15"><span class="st">&#39;</span> </a></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;mevent4&quot;</span>, code)</a></code></pre></div>
-<pre><code>. Loading model from cache.</code></pre>
+<pre><code>. Building mevent4 ... done.</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">mod <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">end =</span> <span class="dv">240</span>, <span class="dt">delta =</span> <span class="fl">0.2</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(CENT<span class="op">~</span>time)</a></code></pre></div>
 <p><img src="2018-modeled-interventions_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 <p>So here, we simulated without the data set and implemented the dosing from within the model. This isn’t the way you should be implementing dosing like this on a regular basis, but it shows how you can trigger doses from within the model based on what has gone on up to that point in the simulation.</p>

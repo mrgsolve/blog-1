@@ -7,7 +7,7 @@ knitr::opts_chunk$set(comment='.', message=FALSE,
                       fig.align="center",cache=TRUE, autodep=TRUE)
 ```
 
-## Introduction
+# Introduction
 We had a user who was learning `mrgsolve` ask for a "complete example".  I wasn't sure what exactly that meant, but I created 
 this example and I'm sharing it today on the blog.
 
@@ -26,7 +26,7 @@ library(ggplot2)
 ```
 
 
-## Population PK model
+# Population PK model
 - One compartment with first order absorption
   - There are no ODEs in this model; the system is advanced for each time step through closed-form equations for the amount in each compartment
 - Covariates: weight on clearances and volumes, sex on volume
@@ -83,7 +83,7 @@ mod <- mcode_cache("demo", code)
 ```
 
 
-## Input data set
+# Input data set
 - `N=2000` patients are simulated in this example
 - We simulate patient-level weight and sex using the [`dmutate`](https://github.com/kylebmetrum/dmutate) package
 - We create a flag in the data set for patients with weight 
@@ -120,7 +120,7 @@ head(data)
 
 __NOTE__: this is just one way to set up a `data_set` for `mrgsolve`.  It might not be the best approach for your problem: maybe it's too complicated, maybe not complicated enough.  See other examples in the blog about creating input data sets or using event objects in your simulations.
 
-## Simulation
+# Simulation
 - We "carry" (copy) the dose group indicator into the simulated output (`carry_out`)
 - Also, we only collect observation records in the output (`obsonly`)
 - `mrgsolve` respects the seed you set in `R` using `set.seed` so that results are reproducible
@@ -139,7 +139,7 @@ out
 ```
 
 
-## Output presentation 
+# Output presentation 
 - For some plots, we use a `plot` method for `mrgsims` objects (the 
 object that is returned from the `mrgsim` function
 - For the other plots, it's really just turning the `mrgsims` object
@@ -175,7 +175,7 @@ ggplot(tr,aes(x=DV,fill=factor(dosegr))) +
 ```
 
 
-## Summary
+# Summary
 This example illustrated how to code a population PK model in `mrgsolve` format, create input data
 sets with varied dosing and covariate values, simulate, and plot some results. I also hope this example illustrates the design priorities for the `mrgsolve` workflow: we always try to leverage existing functionality available in `R` (such as `dmutate`, `dplyr` and `ggplot`) rather than re-creating our own inside the `mrgsolve` package. This might require you to write some more code, but ultimately it gives greater flexibility to get the simulation that you need for your project.   
 

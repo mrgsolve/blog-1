@@ -72,7 +72,7 @@ $PKMODEL cmt = "GUT CENT", depot = TRUE
 
 $MAIN
 
-if(NEWIND <=1) double KA = KA1;
+if(NEWIND <=1) capture KA = KA1;
 
 if(EVID==1) {
   KA = KA1;
