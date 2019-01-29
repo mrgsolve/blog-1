@@ -70,9 +70,9 @@ $PARAM CL = 1, V = 20, KA1 = 0.1, KA2 = 0.5, KA3 = 5
 
 $PKMODEL cmt = "GUT CENT", depot = TRUE
 
-$PREAMBLE capture KA = KA1;
-
 $MAIN
+
+if(NEWIND <=1) double KA = KA1;
 
 if(EVID==1) {
   KA = KA1;
