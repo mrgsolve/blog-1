@@ -17,7 +17,7 @@ I got into pharmacometrics after studying and working as a pharmacist, both
 in a community pharmacy (interning while I was a pharmacy student) and in an 
 inpatient (hospital) pharmacy (practicing as a pharmacist while studying 
 pharmacometrics and clinical pharmacology).  So I always thought it would be 
-cool to have mrgsolve take in dosing informationlike you would see on a Rx or
+cool to have mrgsolve take in dosing information like you would see on a Rx or
 written in a chart
 
 ```{yamle}
