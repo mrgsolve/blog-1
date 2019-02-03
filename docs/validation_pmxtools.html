@@ -547,7 +547,7 @@ div.tocify {
 </div>
 <div id="simulate-with-mrgsolve" class="section level2">
 <h2><span class="header-section-number">2.2</span> Simulate with mrgsolve</h2>
-<p>We can load the 2-compartment model from our model libary, and update the parameter set. We make an event object with the dosing information and simulate:</p>
+<p>We can load the 2-compartment model from our model library, and update the parameter set. We make an event object with the dosing information and simulate:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mod &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">modlib</span>(<span class="st">&quot;pk2&quot;</span>, <span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">400</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">param</span>(<span class="dt">CL =</span> <span class="dv">1</span>, <span class="dt">V2 =</span> <span class="dv">4</span>, <span class="dt">V3 =</span> <span class="dv">50</span>, <span class="dt">Q =</span> <span class="dv">5</span>)</a>

@@ -537,7 +537,7 @@ div.tocify {
 <p>The profile in pink was for <code>POP==2</code> or the lower clearance profile and blue was for <code>POP==1</code>.</p>
 <div id="modify-the-model-to-simulate-a-population-mixture" class="section level2">
 <h2><span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</h2>
-<p>In the get-started exmaple model, we hard-coded <code>POP</code> as a parameter and we had to supply the value of <code>POP</code> in the input data set (in this case, it was via <code>idata</code>).</p>
+<p>In the get-started example model, we hard-coded <code>POP</code> as a parameter and we had to supply the value of <code>POP</code> in the input data set (in this case, it was via <code>idata</code>).</p>
 <p>For the mixture model, we want <code>POP</code> to be simulated and we want the simulated value to be 1 with a probability of, say, 0.8 and 2 with a probability of 0.2.</p>
 <p>To make this happen, we need to simulate a binary variate for each individual. Random numbers are easy to simulate with <code>mrgsolve</code> when you use <code>$PLUGIN</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">code &lt;-<span class="st"> &#39;</span></a>
@@ -638,7 +638,7 @@ div.tocify {
 <ul>
 <li>Code mixture probabilities in <code>$PARAM</code></li>
 <li>Draw a variate (<code>mixv</code>) from <code>uniform(0,1)</code></li>
-<li>Determine <code>POP</code> based on the probabilites and <code>mixv</code></li>
+<li>Determine <code>POP</code> based on the probabilities and <code>mixv</code></li>
 <li>Remember: you must use <code>$PLUGIN</code> for this to work</li>
 </ul>
 <p>Now, let’s compile and test it out</p>

@@ -52,7 +52,7 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 
 ## 2018
 
-  - [Modeled intervenations (like MTIME)](2018-modeled-interventions.html)
+  - [Modeled interventions (like MTIME)](2018-modeled-interventions.html)
   - [Models without compartments](2018-pred.html)
 
 ## 2017

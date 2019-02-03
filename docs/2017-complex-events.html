@@ -539,7 +539,7 @@ div.tocify {
 . 1    0   1 100    1 24    6
 . 2  168   1 200    1 24    6
 . 3  336   1 100    1 24    6</code></pre>
-<p>When we create a sequence of event objects, <code>mrgsolve</code> calculates when each event is finished and automatically times each event according to the end time from the preceeding event. Notice that each event starts one dosing interval after the last dose of the previous event.</p>
+<p>When we create a sequence of event objects, <code>mrgsolve</code> calculates when each event is finished and automatically times each event according to the end time from the preceding event. Notice that each event starts one dosing interval after the last dose of the previous event.</p>
 <p>And try that out</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">events =</span> e3, <span class="dt">end =</span> <span class="dv">5</span><span class="op">*</span><span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
 <p><img src="2017-complex-events_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>

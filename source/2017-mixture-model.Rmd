@@ -57,7 +57,7 @@ blue was for `POP==1`.
 
 
 ## Modify the model to simulate a population mixture
-In the get-started exmaple model, we hard-coded `POP` as a parameter and 
+In the get-started example model, we hard-coded `POP` as a parameter and 
 we had to supply the value of `POP` in the input data set (in this case,
 it was via `idata`).
 
@@ -178,7 +178,7 @@ Here's what we did
   
   - Code mixture probabilities in `$PARAM`
   - Draw a variate (`mixv`) from `uniform(0,1)`
-  - Determine `POP` based on the probabilites and `mixv`
+  - Determine `POP` based on the probabilities and `mixv`
   - Remember: you must use `$PLUGIN` for this to work
 
 

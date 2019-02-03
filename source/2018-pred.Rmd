@@ -6,16 +6,11 @@ title: Models without compartments ($PRED)
 # Introduction
 This post introduces a new formal code block for writing models
 where there are no compartments.  The block is named after the 
-analgous NONMEM block called `$PRED`.  This functionality 
+analogous NONMEM block called `$PRED`.  This functionality 
 has always been possible with mrgsolve, but only now is there a 
 code block dedicated to these models. Also, a relaxed set of 
 data set constraints have been put in place when these types of 
 models are invoked. 
-
-# Status
-The functionality in this vignette can only be access from the 
-GitHub version.  We will update this vignette once these features
-are rolled into a release on CRAN.
 
 # Example model
 
@@ -52,7 +47,7 @@ so we'll generate an input data set with some values of `B`
 
 ```{r,message = FALSE}
 library(dplyr)
-data <- data_frame(ID = 1, B = exp(rnorm(100, 0,2)))
+data <- tibble(ID = 1, B = exp(rnorm(100, 0,2)))
 
 head(data)
 ```
@@ -69,7 +64,7 @@ Like other models, we can simulate from a population
 ```{r}
 library(purrr)
 set.seed(223)
-df <- map_df(1:30, function(i) data_frame(ID = i, B = seq(0,30,1)))
+df <- map_df(1:30, function(i) tibble(ID = i, B = seq(0,30,1)))
 
 head(df)
 
@@ -84,7 +79,7 @@ mod %>%
 
 Here is an implementation of a PK/PD model using `$PRED`
 
-In this modeL
+In this model
 
 - Calculate `CL` as a function of `WT` and a random effect
 - Derive `AUC` from `CL` and `DOSE` 

@@ -80,7 +80,7 @@ __Pretty easy!__
 
 ## Simulate with mrgsolve
 
-We can load the 2-compartment model from our model libary, and 
+We can load the 2-compartment model from our model library, and 
 update the parameter set.  We make an event object with the dosing 
 information and simulate:
 

@@ -63,7 +63,7 @@ e3
 
 When we create a sequence of event objects, `mrgsolve` calculates
 when each event is finished and automatically times each event
-according to the end time from the preceeding event.  Notice
+according to the end time from the preceding event.  Notice
 that each event starts one dosing interval after the last
 dose of the previous event.
 
