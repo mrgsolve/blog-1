@@ -1,5 +1,5 @@
 ---
-title: "SIR"
+title: "Tidy workflow for simulating dynamics in R"
 ---
 
 # Write the model
