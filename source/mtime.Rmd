@@ -2,6 +2,7 @@
 title: "mtime"
 ---
 
+# Introduction
 This is just a short post on a simplified implementation of modeled events
 in mrgsolve.  
 
@@ -10,6 +11,7 @@ modeling interventions in mrgsolve.  All that stil works fine.  But I found
 myself wanting a more straightforward implementation of the mtime
 functionality you get in NONMEM.  
 
+# Example with single mtime
 For example, we might wish a rate constant to change at some time 
 that is not found in a record in the input data set.  We can make this happen
 from the model code itself.  In addition to using `mevent` you can now use
@@ -21,6 +23,10 @@ Let's make KA change at 2.1 hours (`change_t` parameter in the example below).
 
 ```
 
+Again, the main motivation for this is just convenience and economy of code:
+we register the event time and get that time returned into a variable that 
+we can reference later on, checking if we are past that time or not.
+
 
 ```{r, message = FALSE, warning = FALSE}
 library(mrgsolve)
@@ -29,11 +35,13 @@ options(mrgsolve.soloc = "build")
 
 mod <- mread_cache("mtime_model.txt")
 
-mod %>% ev(amt=100) %>% mrgsim(delta = 0.222) %>% plot()
+mod %>% ev(amt=100) %>% mrgsim(delta = 0.222) %>% plot(CENT+KA~time)
 ```
 
 You won't see the message that we actually stumbled on `2.1` hours in the 
 simulation even though it was not in the lineup when the simulation started. 
+
+# Example with several mtimes
 
 We could keep track of several mtimes like this
 
