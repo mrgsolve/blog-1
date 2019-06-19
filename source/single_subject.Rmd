@@ -1,0 +1,47 @@
+---
+title: "Model Single Subject Data"
+---
+
+
+```{r events_setup, echo=FALSE,message=FALSE}
+knitr::opts_chunk$set(echo = TRUE,comment='.',fig.align="center",message=FALSE,cache=TRUE, autodep=TRUE)
+```
+
+```{r setup2}
+library(mrgsolve)
+library(tidyverse)
+library(nloptr)
+theme_set(theme_bw())
+options(mrgsolve.soloc="build")
+```
+
+```{r}
+data <- readr::read_csv("d4.txt")
+data <- mutate(data, DV = ifelse(CMT==1, NA_real_, DV))
+data <- mutate(data, EVID = ifelse(EVID==101, 1, 0), CMT = 2)
+```
+
+
+```{r}
+library(optimhelp)
+
+theta <- quick_par(CL = log(0.1), V = log(10), sigma = log(1))
+
+```
+
+```{r}
+mod <- modlib("pk1")
+
+fit <- nl_optr(theta, data = data, optimizer = "newuoa",
+               ofv = els, pred_initial=TRUE,
+               pred_name  = "CP", cov_step = TRUE, logdv = TRUE)
+```
+
+```{r}
+ggplot(fit$data) + 
+  geom_line(aes(time,PRED), lwd = 1) + 
+  geom_point(aes(time,DV), col = "firebrick", size = 3) + 
+  geom_line(aes(time, INITIAL), col = "darkgrey") + 
+  theme_bw() 
+```
+

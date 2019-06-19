@@ -2,6 +2,10 @@
 title: "Tidy workflow for simulating dynamics in R"
 ---
 
+# Background
+
+
+
 # Write the model
 
 ```{r, message = FALSE, warning = FALSE}

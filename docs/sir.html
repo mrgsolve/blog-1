@@ -423,8 +423,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -512,8 +510,11 @@ div.tocify {
 </div>
 
 
+<div id="background" class="section level1">
+<h1><span class="header-section-number">1</span> Background</h1>
+</div>
 <div id="write-the-model" class="section level1">
-<h1><span class="header-section-number">1</span> Write the model</h1>
+<h1><span class="header-section-number">2</span> Write the model</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
@@ -533,12 +534,12 @@ div.tocify {
 <a class="sourceLine" id="cb1-17" title="17"><span class="st">&#39;</span></a></code></pre></div>
 </div>
 <div id="compile-and-load" class="section level1">
-<h1><span class="header-section-number">2</span> Compile and load</h1>
+<h1><span class="header-section-number">3</span> Compile and load</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mcode</span>(<span class="st">&quot;sir&quot;</span>, model,  <span class="dt">end =</span> <span class="dv">30</span>, <span class="dt">delta =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">120</span>)</a></code></pre></div>
 <pre><code>## Building sir ... done.</code></pre>
 </div>
 <div id="simulate" class="section level1">
-<h1><span class="header-section-number">3</span> Simulate</h1>
+<h1><span class="header-section-number">4</span> Simulate</h1>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(<span class="dt">scales =</span> <span class="st">&quot;same&quot;</span>)</a></code></pre></div>
 <p><img src="sir_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, <span class="dt">output=</span><span class="st">&quot;df&quot;</span>)</a>
@@ -547,7 +548,7 @@ div.tocify {
 <p><img src="sir_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="challenge" class="section level1">
-<h1><span class="header-section-number">4</span> Challenge</h1>
+<h1><span class="header-section-number">5</span> Challenge</h1>
 <p>Explore the dynamics of the system for different values of the beta and b parameters by simulating and plotting trajectories as time series and in phase space (e.g., I vs. S). How the beta, B, and R0 related to the type of trajectories you get?</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">mod <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">wf_sweep</span>(Beta, <span class="dt">cv =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span></a>

@@ -47,9 +47,10 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 # Posts
 
 ## 2019
+  - [New in 0.9.1: write a model in Rmarkdown style code blocks](rmd_model.html)
   - [Tidy workflow for simulating dynamics in R](sir.html)
   - [Expressive dosing event syntax](2019-ev_rx.html)
-  - [Validating Simulation Results with pmxTools](validation_pmxtools.html)
+  - [Validating simulation results with pmxTools](validation_pmxtools.html)
 
 ## 2018
 
