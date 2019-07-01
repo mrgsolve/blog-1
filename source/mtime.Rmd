@@ -7,7 +7,7 @@ This is just a short post on a simplified implementation of modeled events
 in mrgsolve.  
 
 I previously posted [here](2018-modeled-interventions.html) about
-modeling interventions in mrgsolve.  All that stil works fine.  But I found
+modeling interventions in mrgsolve.  All that still works fine.  But I found
 myself wanting a more straightforward implementation of the mtime
 functionality you get in NONMEM.  
 
