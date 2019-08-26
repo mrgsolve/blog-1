@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -113,7 +114,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -333,48 +334,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -564,7 +526,7 @@ div.tocify {
 <a class="sourceLine" id="cb4-3" title="3">  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)</a>
 <a class="sourceLine" id="cb4-4" title="4">})</a></code></pre></div>
 <pre><code>.    user  system elapsed 
-.   0.005   0.000   0.005</code></pre>
+.   0.005   0.001   0.006</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">print</span>(sum)</a></code></pre></div>
 <pre><code>.        ID              time      RESPONSE          EBASE         
 .  Min.   :  1.00   Min.   :0   Min.   : 13.45   Min.   :-2.00624  
@@ -589,7 +551,7 @@ div.tocify {
 <a class="sourceLine" id="cb8-3" title="3">  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)</a>
 <a class="sourceLine" id="cb8-4" title="4">})</a></code></pre></div>
 <pre><code>.    user  system elapsed 
-.   0.005   0.000   0.005</code></pre>
+.   0.004   0.000   0.004</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">print</span>(sum)</a></code></pre></div>
 <pre><code>.        ID              time      RESPONSE          EBASE         
 .  Min.   :  1.00   Min.   :0   Min.   : 80.77   Min.   :-0.21353  
@@ -643,7 +605,7 @@ div.tocify {
 <a class="sourceLine" id="cb15-3" title="3">  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)</a>
 <a class="sourceLine" id="cb15-4" title="4">})</a></code></pre></div>
 <pre><code>.    user  system elapsed 
-.   0.004   0.000   0.004</code></pre>
+.   0.006   0.000   0.005</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">print</span>(sum)</a></code></pre></div>
 <pre><code>.        ID         time            CENT              CP         
 .  Min.   :1   Min.   : 0.00   Min.   :  0.00   Min.   :-7.4847  
@@ -661,7 +623,7 @@ div.tocify {
 <a class="sourceLine" id="cb19-3" title="3">  sum &lt;-<span class="st"> </span><span class="kw">summary</span>(out)</a>
 <a class="sourceLine" id="cb19-4" title="4">})</a></code></pre></div>
 <pre><code>.    user  system elapsed 
-.   0.005   0.000   0.004</code></pre>
+.   0.005   0.000   0.006</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">print</span>(sum)</a></code></pre></div>
 <pre><code>.        ID         time            CENT              CP          
 .  Min.   :1   Min.   : 0.00   Min.   :  0.00   Min.   : 0.03374  
@@ -697,6 +659,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

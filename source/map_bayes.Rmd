@@ -26,7 +26,9 @@ The setup was adapted from an existing project, where only a single
 individual was considered.  With some additional `R` coding, it could be expanded 
 to consider multiple individuals in a single run.
 
-
+This document shows how to simulate some data and then re-estimate the MAP Bayes
+estimates.  For clarity, just the optimization piece has been included in a 
+separate doc [map_bayes_example.html](map_bayes_example.html).  
 
 # One compartment model, keep it simple for now
 
@@ -75,11 +77,10 @@ double CL = TVCL*exp(ETA1 + ETA(1));
 double V =  TVVC*exp(ETA2 + ETA(2));
 
 $TABLE 
-double DV = (CENT/V)*(1+EPS(1));
-double ET1 = ETA(1);
-double ET2 = ETA(2);
+capture DV = (CENT/V)*(1+EPS(1));
+capture ET1 = ETA(1);
+capture ET2 = ETA(2);
 
-$CAPTURE DV ET1 ET2
 '
 
 mod <- mcode_cache("map", code)
@@ -132,7 +133,7 @@ sim <-
   ev(dose) %>%
   omat(omega) %>%
   smat(sigma) %>%
-  carry.out(amt,evid,cmt) %>%
+  carry_out(amt,evid,cmt) %>%
   mrgsim(end=-1, add=sampl)
 
 sim
@@ -142,19 +143,12 @@ sim
 # Create input for optimization
 
 * Using the simulated data as the starting point here
+* Set `DV` to `NA` for the dosing record
 
 ```{r}
-sim %<>% as.data.frame
+sim <- mutate(sim, DV = ifelse(evid==1, NA_real_, DV))
 ```
 
-Observed data (`y`)
-
-* Just select `DV` from observation records
-```{r}
-y <- sim %>% filter(evid==0) %>% select(DV) %>% unlist %>% unname
-
-y
-```
 
 Create a data set to use in the optimization
 
@@ -163,9 +157,13 @@ parameter list
 
 ```{r}
 data <- sim %>% select(-ET1, -ET2)
+
 data
 ```
 
+```{r,include=FALSE}
+saveRDS(data, "map_bayes_data.RDS")
+```
 
 
 # Optimize
@@ -182,9 +180,10 @@ variances are fixed.
 Arguments: 
 
 * `eta` the current values from the optimizer
-* `y` the observed data
-* `d` the data set that generated `y`
+* `ycol` the observed data column name
+* `d` the data set
 * `m` the model object
+* `dvcol` the predicted data column name
 * `pred` if `TRUE`, just return predicted values
 
 
@@ -195,7 +194,6 @@ Arguments:
 1. Make sure `eta` is properly named (i.e. `ETA1` and `ETA2`)
 1. Copy `eta` into a matrix that is one row
 1. Update the model object (`m`) with the current values of `ETA1` and `ETA2`
-1. If we are estimating (`!pred`), request only observations in the output (`obsonly`)
 1. Simulate from data set `d` and save output to `out` object
 1. If we are just requesting predictions (`if(pred)`) return the simulated data
 1. The final lines calculate the EBE objective function; see [this paper](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/) for reference
@@ -203,22 +201,20 @@ Arguments:
 will minimize this value
 
 ```{r}
-mapbayes <- function(eta,y,d,m,pred=FALSE) {
+mapbayes <- function(eta,d,ycol,m,dvcol,pred=FALSE) {
     
   sig2 <- as.numeric(sigma)
-  eta %<>% as.list
+  eta <- as.list(eta)
   names(eta) <- names(init)
   eta_m <- eta %>% unlist %>% matrix(nrow=1)
-  m %<>% param(eta)
-  if(!pred) m %<>% obsonly
-  out <- m %>% drop.re() %>% data_set(d) %>% mrgsim
-  if(pred) return(out %>% as.tbl)
+  m <-  param(m,eta)
+  out <- m %>% zero_re() %>% mrgsim(data=d,output="df")
+  if(pred) return(out)
   # http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/
-  sig2j <- out$DV^2*sig2
-  sqwres <- log(sig2j) + (1/sig2j)*(y-out$DV)^2
+  sig2j <- out[[dvcol]]^2*sig2
+  sqwres <- log(sig2j) + (1/sig2j)*(d[[ycol]] - out[[dvcol]])^2
   nOn <- diag(eta_m %*% omega.inv %*% t(eta_m))
-  return(sum(sqwres) + nOn)
-
+  return(sum(sqwres,na.rm=TRUE) + nOn)
 }
 ```
 
@@ -243,7 +239,7 @@ Arguments to `newuoa`
 * The other argument are passed to `mapbayes`
 
 ```{r}
-fit <- newuoa(init,mapbayes,y=y,m=mod,d=data)
+fit <- nloptr::newuoa(init,mapbayes,ycol="DV",m=mod,d=data,dvcol="DV")
 ```
 
 
@@ -270,13 +266,13 @@ pmod <- mod %>% update(end=24, delta=0.1)
 
 Predicted line based on final estimates
 ```{r}
-pred <- mapbayes(fit$par,y,pdata,pmod,pred=TRUE) %>% filter(time > 0)
+pred <- mapbayes(fit$par,ycol="DV",pdata,pmod,dvcol="DV",pred=TRUE) %>% filter(time > 0)
 head(pred)
 ```
 
 Predicted line based on initial estimates
 ```{r}
-initial <- mapbayes(init,y,pdata,pmod,pred=TRUE) %>% filter(time > 0)
+initial <- mapbayes(init,ycol="DV",pdata,pmod,dvcol="DV",pred=TRUE) %>% filter(time > 0)
 head(initial)
 
 ```
@@ -287,5 +283,6 @@ Plot
 ggplot() + 
   geom_line(data=pred, aes(time,DV),col="firebrick", lwd=1) + 
   geom_line(data=initial,aes(time,DV), lty=2, col="darkgreen", lwd=1) + 
-  geom_point(data=data %>% filter(evid==0), aes(time,DV), col="darkslateblue",size=3)
+  geom_point(data=data %>% filter(evid==0), aes(time,DV), col="darkslateblue",size=3) + 
+  theme_bw()
 ```

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -113,7 +114,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -333,48 +334,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -660,30 +622,30 @@ div.tocify {
 <pre><code>. # A tibble: 6 x 2
 .      ID   arm
 .   &lt;int&gt; &lt;dbl&gt;
-. 1     3     1
+. 1     4     1
 . 2     2     2
-. 3     4     2
-. 4     5     3
-. 5     1     3
-. 6     6     3</code></pre>
+. 3     3     2
+. 4     6     3
+. 5     5     3
+. 6     1     3</code></pre>
 <p>Here, we have 6 <code>IDs</code>, one in arm 1, two in arm 2, three in arm 3. Let’s take the events from the previous example and assign them to the different arms.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">e1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">250</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">250</span>, <span class="dt">time=</span><span class="dv">24</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb28-2" title="2">e2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">250</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">125</span>, <span class="dt">time=</span><span class="dv">24</span>, <span class="dt">ii=</span><span class="dv">12</span>, <span class="dt">addl=</span><span class="dv">7</span>)</a>
 <a class="sourceLine" id="cb28-3" title="3">e3 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">250</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">500</span>, <span class="dt">time=</span><span class="dv">24</span>, <span class="dt">ii=</span><span class="dv">48</span>, <span class="dt">addl=</span><span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="kw">assign_ev</span>(<span class="kw">list</span>(e3,e2,e1),idata,<span class="st">&quot;arm&quot;</span>)</a></code></pre></div>
 <pre><code>.    time cmt amt evid ii addl ID
-. 1     0   1 250    1  0    0  3
-. 2    24   1 500    1 48    1  3
+. 1     0   1 250    1  0    0  4
+. 2    24   1 500    1 48    1  4
 . 3     0   1 250    1  0    0  2
 . 4    24   1 125    1 12    7  2
-. 5     0   1 250    1  0    0  4
-. 6    24   1 125    1 12    7  4
-. 7     0   1 250    1  0    0  5
-. 8    24   1 250    1 24    3  5
-. 9     0   1 250    1  0    0  1
-. 10   24   1 250    1 24    3  1
-. 11    0   1 250    1  0    0  6
-. 12   24   1 250    1 24    3  6</code></pre>
+. 5     0   1 250    1  0    0  3
+. 6    24   1 125    1 12    7  3
+. 7     0   1 250    1  0    0  6
+. 8    24   1 250    1 24    3  6
+. 9     0   1 250    1  0    0  5
+. 10   24   1 250    1 24    3  5
+. 11    0   1 250    1  0    0  1
+. 12   24   1 250    1 24    3  1</code></pre>
 <p>Please look carefully at the input (<code>idata</code> and <code>list(e3,e2,e1)</code>); I have mixed it up a bit here to try to illustrate how things are assigned.</p>
 <hr>
 </div>
@@ -771,6 +733,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
