@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -173,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -322,6 +320,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -350,6 +349,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -488,16 +493,16 @@ div.tocify {
 <pre><code>## # A tibble: 10 x 4
 ##       ID  time   tad    CP
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1     1  0    -2     0   
-##  2     1  1    -1     0   
-##  3     1  2     0     0   
-##  4     1  2     0     0   
-##  5     1  3     1     3.07
-##  6     1  3.89  1.89  3.99
-##  7     1  4     2     4.05
-##  8     1  5     3     4.27
-##  9     1  5.91  3.91  4.22
-## 10     1  6     0     4.21</code></pre>
+##  1     1   0   -2        0
+##  2     1   0.1 -1.9      0
+##  3     1   0.2 -1.8      0
+##  4     1   0.3 -1.7      0
+##  5     1   0.4 -1.6      0
+##  6     1   0.5 -1.5      0
+##  7     1   0.6 -1.4      0
+##  8     1   0.7 -1.30     0
+##  9     1   0.8 -1.2      0
+## 10     1   0.9 -1.1      0</code></pre>
 <p>This is convenient because you can choose the output at run time, we give you the negative numbers prior to the first dose etc. This sort of calculation is possible because we let mrgsolve know ahead of time that we want this calculation done and mrgsolve makes an extra pass through the records to find when is the first dose for each individual.</p>
 </div>
 <div id="tad-calculated-in-the-model" class="section level1">

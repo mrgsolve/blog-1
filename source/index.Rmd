@@ -46,6 +46,9 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 
 # Posts
 
+## 2020
+  - [Steady State in mrgsolve](steady-state.html)
+
 ## 2019
   - [Time after dose](time_after_dose.html)
   - [Simpler mtime implementation](mtime.html)

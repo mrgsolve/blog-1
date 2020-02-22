@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -173,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -322,6 +320,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -350,6 +349,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -574,13 +579,13 @@ div.tocify {
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">data &lt;-<span class="st"> </span><span class="kw">assign_ev</span>(<span class="kw">list</span>(ev1,ev2),idata,<span class="st">&quot;dosegr&quot;</span>)</a>
 <a class="sourceLine" id="cb7-2" title="2"></a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="kw">head</span>(data)</a></code></pre></div>
-<pre><code>.   time cmt amt evid ii addl ID
-. 1    0   1 100    1 24    9  1
-. 2    0   1 100    1 24    9  2
-. 3    0   1 100    1 24    9  3
-. 4    0   1 150    1 24    9  4
-. 5    0   1 150    1 24    9  5
-. 6    0   1 100    1 24    9  6</code></pre>
+<pre><code>.   time amt ii addl cmt evid ID
+. 1    0 100 24    9   1    1  1
+. 2    0 100 24    9   1    1  2
+. 3    0 100 24    9   1    1  3
+. 4    0 150 24    9   1    1  4
+. 5    0 150 24    9   1    1  5
+. 6    0 100 24    9   1    1  6</code></pre>
 <p><strong>NOTE</strong>: this is just one way to set up a <code>data_set</code> for <code>mrgsolve</code>. It might not be the best approach for your problem: maybe it’s too complicated, maybe not complicated enough. See other examples in the blog about creating input data sets or using event objects in your simulations.</p>
 </div>
 <div id="simulation" class="section level1">

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -173,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -322,6 +320,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -350,6 +349,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -486,8 +491,8 @@ div.tocify {
 <a class="sourceLine" id="cb3-2" title="2"></a>
 <a class="sourceLine" id="cb3-3" title="3">e1</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl
-. 1    0   1 100    1 24    6</code></pre>
+.   time amt ii addl cmt evid
+. 1    0 100 24    6   1    1</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">delta=</span><span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">Req</span>(CP)</a>
 <a class="sourceLine" id="cb5-2" title="2"></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="kw">mrgsim_e</span>(mod, e1, <span class="dt">end =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">9</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
@@ -496,16 +501,16 @@ div.tocify {
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">e2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">48</span>, <span class="dt">until =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</a>
 <a class="sourceLine" id="cb6-2" title="2">e2</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl
-. 1    0   1 100    1 48    3</code></pre>
+.   time amt ii addl cmt evid
+. 1    0 100 48    3   1    1</code></pre>
 <p>and then combine them together in a sequence</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">e &lt;-<span class="st"> </span><span class="kw">seq</span>(e1,e2)</a>
 <a class="sourceLine" id="cb8-2" title="2"></a>
 <a class="sourceLine" id="cb8-3" title="3">e</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl
-. 1    0   1 100    1 24    6
-. 2  168   1 100    1 48    3</code></pre>
+.   time amt ii addl cmt evid
+. 1    0 100 24    6   1    1
+. 2  168 100 48    3   1    1</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">mrgsim_e</span>(mod, e, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>And then if we wanted to repeat 3 cycles of that</p>
@@ -523,9 +528,9 @@ div.tocify {
 <a class="sourceLine" id="cb12-2" title="2"></a>
 <a class="sourceLine" id="cb12-3" title="3">e5</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl
-. 1    0   1 100    1 24    6
-. 2  168   1 100    1 48    3</code></pre>
+.   time amt ii addl cmt evid
+. 1    0 100 24    6   1    1
+. 2  168 100 48    3   1    1</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">mrgsim_e</span>(mod, e5, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The syntax is:</p>
@@ -543,8 +548,8 @@ div.tocify {
 <a class="sourceLine" id="cb15-2" title="2"></a>
 <a class="sourceLine" id="cb15-3" title="3">e6</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl rate
-. 1    0   1 100    1 48    2   10</code></pre>
+.   time amt rate ii addl cmt evid
+. 1    0 100   10 48    2   1    1</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">mrgsim_e</span>(mod, e6, <span class="dt">end =</span> <span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Hrm … but we wanted the infusion to be IV, not in the depot compartment. To do that, put the compartment number after <code>in</code></p>
@@ -552,8 +557,8 @@ div.tocify {
 <a class="sourceLine" id="cb18-2" title="2"></a>
 <a class="sourceLine" id="cb18-3" title="3">e7</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl rate
-. 1    0   2 100    1 48    2   10</code></pre>
+.   time amt rate ii addl cmt evid
+. 1    0 100   10 48    2   2    1</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">mrgsim_e</span>(mod,e7, <span class="dt">end =</span> <span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
@@ -564,10 +569,10 @@ div.tocify {
 <a class="sourceLine" id="cb21-2" title="2"></a>
 <a class="sourceLine" id="cb21-3" title="3">e</a></code></pre></div>
 <pre><code>. Events:
-.   time cmt amt evid ii addl
-. 1    0   1 100    1 24    6
-. 2  168   1  50    1 12   13
-. 3  408   1 200    1 48    2</code></pre>
+.   time amt ii addl cmt evid
+. 1    0 100 24    6   1    1
+. 2  168  50 12   13   1    1
+. 3  408 200 48    2   1    1</code></pre>
 <p>It still takes a fair amount of text to get all of this out, but hopefully the notation is relatively compact and expressive.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">mrgsim_e</span>(mod, e, <span class="dt">end =</span> <span class="dv">600</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>

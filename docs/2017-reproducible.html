@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -173,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -322,6 +320,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -350,6 +349,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -567,8 +572,7 @@ div.tocify {
 <h2><span class="header-section-number">4.2</span> … but not after that</h2>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">filter</span>(single, time <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span>)</a></code></pre></div>
 <pre><code>. # A tibble: 0 x 5
-. # … with 5 variables: ID &lt;dbl&gt;, time &lt;dbl&gt;, CENT &lt;dbl&gt;, ETA1 &lt;dbl&gt;,
-. #   ETA2 &lt;dbl&gt;</code></pre>
+. # … with 5 variables: ID &lt;dbl&gt;, time &lt;dbl&gt;, CENT &lt;dbl&gt;, ETA1 &lt;dbl&gt;, ETA2 &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">filter</span>(multi, time <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span>)</a></code></pre></div>
 <pre><code>. # A tibble: 21,600 x 5
 .       ID  time  CENT  ETA1  ETA2

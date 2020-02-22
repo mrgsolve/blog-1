@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -173,7 +172,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -322,6 +320,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -350,6 +349,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -537,7 +542,7 @@ div.tocify {
 <p>We can check the difference between the values:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">summary</span>(out<span class="op">$</span>CP<span class="op">-</span>calc[[<span class="st">&quot;cp&quot;</span>]])</a></code></pre></div>
 <pre><code>.       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
-. -7.905e-14 -2.753e-14 -1.199e-14  5.394e-16  4.041e-14  5.662e-14</code></pre>
+. -7.550e-14 -2.487e-14 -1.021e-14  2.443e-15  4.091e-14  5.751e-14</code></pre>
 </div>
 </div>
 <div id="oral-dosing-example" class="section level1">

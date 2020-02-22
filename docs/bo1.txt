@@ -1,0 +1,37 @@
+srclib="C:\\R\\nlmixr_1.1.0-7\\R\\library"
+library(ggplot2,lib=srclib)
+library(nlmixr,lib=srclib)
+library(RxODE,lib=srclib)
+library(xpose,lib=srclib)
+library(xpose.nlmixr,lib=srclib)
+library(SnakeCharmR,lib=srclib)
+
+
+
+# read data
+d4 <- read.csv("d4.txt")
+
+######## nlmxr #####
+
+bo1_deq <- function() {
+  ini({
+    tcl <- log(0.1)
+    tv <- log(10)
+    
+    eps.pkprop <- 0.1
+    eps.pkadd <- 0.1
+  })
+  model({
+    cl <- exp(tcl)
+    v <- exp(tv)
+    
+    d/dt(center) = - cl / v * center
+    
+    cp = center / v
+    cp ~ prop(eps.pkprop) + add(eps.pkadd)
+  })
+}
+
+
+fit_bo1_deq <- nlmixr(bo1_deq, d4, est="focei", control=foceiControl(print=100000))
+
