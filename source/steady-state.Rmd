@@ -2,6 +2,11 @@
 title: "Steady State in mrgsolve"
 ---
 
+```{r,include=FALSE}
+options(mrgsolve.soloc = "build")
+knitr::opts_chunk$set(comment = '.', warning = FALSE, message = FALSE)
+```
+
 # Introduction
 
 When mrgsolve 0.10.0 was released in October, 2019, we made some changes to how
@@ -34,13 +39,6 @@ goes about finding steady state.
 ## For example
 
 Let's load a PK model
-
-```{r,include=FALSE}
-options(mrgsolve.soloc = "build")
-knitr::opts_chunk$set(comment = '.', warning = FALSE, message = FALSE)
-```
-
-
 
 ```{r}
 library(tidyverse)
