@@ -13,7 +13,7 @@ knitr::opts_chunk$set(comment = '.', warning = FALSE, message = FALSE)
 # Introduction
 
 This blog post shows some of the new features that came into mrgsolve starting
-with version `10.0.0` (October 2019) and `0.10.1` (February 2020).  The purpose 
+with version `0.10.0` (October 2019) and `0.10.1` (February 2020).  The purpose 
 is to illustrate what is possible rather than detailed documentation.  
 
 # Steady-state
