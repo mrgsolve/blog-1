@@ -47,6 +47,7 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 # Posts
 
 ## 2020
+  - [What's new in 0.10.0 and 0.10.1](new-0-10-1.html)
   - [Steady State in mrgsolve](steady-state.html)
   - [Start a zero-order infusion at steady state](zero-ss.html)
 

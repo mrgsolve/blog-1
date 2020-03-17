@@ -546,7 +546,7 @@ div.tocify {
 </div>
 <div id="one-compartment-misbehaves" class="section level2">
 <h2><span class="header-section-number">5.2</span> One compartment misbehaves</h2>
-<p>I have seen this with the dosing compartment when there is a very large interdose interval. So the amount gets driven very small, maybe flips sign and the calculations for steady state just don’t work out right to call it “good”. Here’s what you can do:</p>
+<p>I have seen this with the dosing compartment when there is a very large inter-dose interval. So the amount gets driven very small, maybe flips sign and the calculations for steady state just don’t work out right to call it “good”. Here’s what you can do:</p>
 <p>In your model, you can now give a vector of compartment to not look at for handling steady state:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1">[ set ] ss_cmt = <span class="st">&quot;-DEPOT&quot;</span></a>
 <a class="sourceLine" id="cb9-2" title="2"></a>

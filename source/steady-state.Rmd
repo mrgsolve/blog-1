@@ -148,7 +148,7 @@ So it might be that you have to set `ss_n` to something reasonable and also set
 ## One compartment misbehaves
 
 I have seen this with the dosing compartment when there is a very large 
-interdose interval.  So the amount gets driven very small, maybe flips sign
+inter-dose interval.  So the amount gets driven very small, maybe flips sign
 and the calculations for steady state just don't work out right to call it 
 "good".  Here's what you can do:
 
