@@ -11,7 +11,7 @@
 
 
 
-<title>Time after dose (TAD)</title>
+<title>Recover non-numeric data columns from data/idata sets</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -472,80 +472,142 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Time after dose (TAD)</h1>
+<h1 class="title toc-ignore">Recover non-numeric data columns from data/idata sets</h1>
 
 </div>
 
 
-<div id="tad-calculated-as-runtime-argument" class="section level1">
-<h1><span class="header-section-number">1</span> TAD calculated as runtime argument</h1>
-<p>For a while, you’ve been able to get time after dose in your simulated output</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(tidyverse)</a>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>We frequently want to access in the simulated output data items that were present in input data sets. For example, if we have multiple studies represented in the data, we’d like to simulate all studies and then summarize or plot the results by study. We need to study number in the simulated output to do that.</p>
+<p>For a long time, mrgsolve has had a <code>carry_out</code> feature, where input data columns can be selected and those input data automatically copied to the simulated (output) data. However, this has been limited to numeric data items.</p>
+<p>Starting with mrgsolve version <code>0.10.4</code>, users can bring non-numeric data items from input data to output. This feature is called <code>recover</code>.</p>
+</div>
+<div id="example---event-objects" class="section level1">
+<h1><span class="header-section-number">2</span> Example - event objects</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(mrgsolve)</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">req =</span> <span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6">mod <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">4</span>, <span class="dt">addl =</span> <span class="dv">3</span>, <span class="dt">time =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">tad =</span> <span class="ot">TRUE</span>, <span class="dt">add =</span> <span class="kw">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">10</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 10 x 4
-##       ID  time   tad    CP
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1     1  0    -2     0   
-##  2     1  1    -1     0   
-##  3     1  2     0     0   
-##  4     1  2     0     0   
-##  5     1  3     1     3.07
-##  6     1  3.89  1.89  3.99
-##  7     1  4     2     4.05
-##  8     1  5     3     4.27
-##  9     1  5.91  3.91  4.22
-## 10     1  6     0     4.21</code></pre>
-<p>This is convenient because you can choose the output at run time, we give you the negative numbers prior to the first dose etc. This sort of calculation is possible because we let mrgsolve know ahead of time that we want this calculation done and mrgsolve makes an extra pass through the records to find when is the first dose for each individual.</p>
+<a class="sourceLine" id="cb1-4" title="4">mod &lt;-<span class="st"> </span><span class="kw">house</span>(<span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">96</span>, <span class="dt">outvars =</span> <span class="st">&quot;CP&quot;</span>)</a></code></pre></div>
+<p>As a very simple example, we’ll make an event object with a regimen item in it</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">qd &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;100 mg daily&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3">qd</a></code></pre></div>
+<pre><code>. Events:
+.   time amt ii addl cmt evid      regimen
+. 1    0 100 24    2   1    1 100 mg daily</code></pre>
+<p>When I simulate with this event object, I’ll <code>recover</code> the <code>regimen</code> item</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, qd, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>)</a></code></pre></div>
+<p>I now have the “regimen” in the simulated output as a <code>character</code> data item:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">plot</span>(out, CP <span class="op">~</span><span class="st"> </span>time <span class="op">|</span>regimen)</a></code></pre></div>
+<p><img src="recover_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">as_tibble</span>(out)</a></code></pre></div>
+<pre><code>. # A tibble: 962 x 4
+.       ID  time    CP regimen     
+.    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
+.  1     1   0   0     100 mg daily
+.  2     1   0   0     100 mg daily
+.  3     1   0.1 0.564 100 mg daily
+.  4     1   0.2 1.06  100 mg daily
+.  5     1   0.3 1.50  100 mg daily
+.  6     1   0.4 1.89  100 mg daily
+.  7     1   0.5 2.23  100 mg daily
+.  8     1   0.6 2.52  100 mg daily
+.  9     1   0.7 2.79  100 mg daily
+. 10     1   0.8 3.02  100 mg daily
+. # … with 952 more rows</code></pre>
+<p>Now, make another group and simulate together</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">bid &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;50 q12 x6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;50 mg bid&quot;</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3">data &lt;-<span class="st"> </span><span class="kw">as_data_set</span>(bid,qd) </a></code></pre></div>
+<p>I’m going to turn this into a factor now …</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">regimen =</span> <span class="kw">fct_inorder</span>(regimen))</a>
+<a class="sourceLine" id="cb9-2" title="2">data</a></code></pre></div>
+<pre><code>.   ID time cmt evid amt ii addl      regimen
+. 1  1    0   1    1  50 12    5    50 mg bid
+. 2  2    0   1    1 100 24    2 100 mg daily</code></pre>
+<p>… so that when I summarize, the levels are in the order I want:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>) </a>
+<a class="sourceLine" id="cb11-2" title="2"></a>
+<a class="sourceLine" id="cb11-3" title="3">out <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(regimen) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</a></code></pre></div>
+<pre><code>. # A tibble: 2 x 2
+.   regimen       Cmax
+.   &lt;fct&gt;        &lt;dbl&gt;
+. 1 50 mg bid     4.85
+. 2 100 mg daily  6.15</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>regimen, <span class="dt">scales=</span><span class="st">&quot;same&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre></div>
+<p><img src="recover_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="tad-calculated-in-the-model" class="section level1">
-<h1><span class="header-section-number">2</span> TAD calculated in the model</h1>
-<p>Sometimes you would like to work with time after dose in your model. This isn’t super-complicated to do but does require some programming and setup and all of that. As of mrgsolve 0.9.1, there is a special function to do these calculations for you.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mread</span>(<span class="st">&quot;time_after_dose.txt&quot;</span>,<span class="dt">req =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
-<p>Looking at the <code>[MAIN]</code> block:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1">capture tadose = self.tad();</a></code></pre></div>
-<p>When you call <code>self.tad()</code> you will get the time after dose. It’s important that this gets called on every record … specifically every dosing record. It will not work properly if it is not called every record and there is no check at this time to make sure you follow that rule. So please follow the rule.</p>
-<p>To see an example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1">[ param ] CL = <span class="dv">1</span>, V = <span class="dv">20</span>, KA = <span class="dv">1</span></a>
-<a class="sourceLine" id="cb5-2" title="2"></a>
-<a class="sourceLine" id="cb5-3" title="3">[ pkmodel ] cmt = <span class="st">&quot;GUT,CENT&quot;</span>, depot = TRUE</a>
-<a class="sourceLine" id="cb5-4" title="4"></a>
-<a class="sourceLine" id="cb5-5" title="5">[ main ] </a>
-<a class="sourceLine" id="cb5-6" title="6">capture tadose = self.tad();</a>
-<a class="sourceLine" id="cb5-7" title="7"></a>
-<a class="sourceLine" id="cb5-8" title="8">[ table]</a>
-<a class="sourceLine" id="cb5-9" title="9">capture CP  = CENT/V;</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">mod <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">4</span>, <span class="dt">addl =</span> <span class="dv">3</span>, <span class="dt">time =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">tad =</span> <span class="ot">TRUE</span>, <span class="dt">add =</span> <span class="kw">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">10</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 10 x 5
-##       ID  time   tad tadose    CP
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1     1  0    -2     -1     0   
-##  2     1  1    -1     -1     0   
-##  3     1  2     0     -1     0   
-##  4     1  2     0      0     0   
-##  5     1  3     1      1     3.07
-##  6     1  3.89  1.89   1.89  3.99
-##  7     1  4     2      2     4.05
-##  8     1  5     3      3     4.27
-##  9     1  5.91  3.91   3.91  4.22
-## 10     1  6     0      0     4.21</code></pre>
-<p>You will notice two differences between <code>tad</code> (output requested at run time) and <code>tadose</code> (values calculated in the model itself) in the output listing above:</p>
-<ol style="list-style-type: decimal">
-<li><code>tadose</code> is -1 before the first dose</li>
-<li>specifically, <code>tadose</code> is -1 at the 2 hour observation record that occurs that the same time as the dose, but happens before the dose in record order</li>
-</ol>
-<p>The main point if this is that you can easily obtain time after dose in the problem (model) itself to use as you program the model and also output the number into the simulated output.</p>
+<div id="example---data-set" class="section level1">
+<h1><span class="header-section-number">3</span> Example - data set</h1>
+<p>There is no real change if I’m using <code>recover</code> with a data set</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">head</span>(data)</a></code></pre></div>
+<pre><code>.    C NUM ID SUBJ TIME SEQ CMT EVID AMT      DV   AGE    WT   CRCL ALB   BMI
+. 1 NA   1  1    1 0.00   0   1    1   5   0.000 28.03 55.16 114.45 4.4 21.67
+. 2 NA   2  1    1 0.61   1   2    0  NA  61.005 28.03 55.16 114.45 4.4 21.67
+. 3 NA   3  1    1 1.15   1   2    0  NA  90.976 28.03 55.16 114.45 4.4 21.67
+. 4 NA   4  1    1 1.73   1   2    0  NA 122.210 28.03 55.16 114.45 4.4 21.67
+. 5 NA   5  1    1 2.15   1   2    0  NA 126.090 28.03 55.16 114.45 4.4 21.67
+. 6 NA   6  1    1 3.19   1   2    0  NA  84.682 28.03 55.16 114.45 4.4 21.67
+.      AAG  SCR   AST   ALT     HT CP TAFD  TAD LDOS MDV BLQ PHASE STUDY   RF
+. 1 106.36 1.14 11.88 12.66 159.55  0 0.00 0.00    5   1   0     1   SAD norm
+. 2 106.36 1.14 11.88 12.66 159.55  0 0.61 0.61    5   0   0     1   SAD norm
+. 3 106.36 1.14 11.88 12.66 159.55  0 1.15 1.15    5   0   0     1   SAD norm
+. 4 106.36 1.14 11.88 12.66 159.55  0 1.73 1.73    5   0   0     1   SAD norm
+. 5 106.36 1.14 11.88 12.66 159.55  0 2.15 2.15    5   0   0     1   SAD norm
+. 6 106.36 1.14 11.88 12.66 159.55  0 3.19 3.19    5   0   0     1   SAD norm
+.         SEQ_f EVID_f MDV_f   BLQ_f PHASE_f  RENAL HEPATIC
+. 1 observation      1     1 below Q       1 Normal  normal
+. 2        dose      0     0 below Q       1 Normal  normal
+. 3        dose      0     0 below Q       1 Normal  normal
+. 4        dose      0     0 below Q       1 Normal  normal
+. 5        dose      0     0 below Q       1 Normal  normal
+. 6        dose      0     0 below Q       1 Normal  normal</code></pre>
+<p>Same idea as we had in event objects:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;WT,CRCL,STUDY,HEPATIC,RENAL&quot;</span>)</a></code></pre></div>
+<p>We copy either numeric, character, or factors into the output</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">as_tibble</span>(out)</a></code></pre></div>
+<pre><code>. # A tibble: 4,360 x 8
+.       ID  TIME    CP    WT  CRCL STUDY HEPATIC RENAL 
+.    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt; 
+.  1     1  0    0      55.2  114. SAD   normal  Normal
+.  2     1  0.61 0.162  55.2  114. SAD   normal  Normal
+.  3     1  1.15 0.229  55.2  114. SAD   normal  Normal
+.  4     1  1.73 0.261  55.2  114. SAD   normal  Normal
+.  5     1  2.15 0.271  55.2  114. SAD   normal  Normal
+.  6     1  3.19 0.273  55.2  114. SAD   normal  Normal
+.  7     1  4.21 0.263  55.2  114. SAD   normal  Normal
+.  8     1  5.09 0.253  55.2  114. SAD   normal  Normal
+.  9     1  6.22 0.238  55.2  114. SAD   normal  Normal
+. 10     1  8.09 0.216  55.2  114. SAD   normal  Normal
+. # … with 4,350 more rows</code></pre>
+<p>And we can summarize</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">out <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="st">  </span><span class="kw">filter</span>(TIME <span class="op">&lt;</span><span class="st"> </span><span class="dv">24</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(STUDY,HEPATIC,RENAL) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</a></code></pre></div>
+<pre><code>. # A tibble: 10 x 4
+. # Groups:   STUDY, HEPATIC [7]
+.    STUDY   HEPATIC RENAL     Cmax
+.    &lt;fct&gt;   &lt;fct&gt;   &lt;fct&gt;    &lt;dbl&gt;
+.  1 SAD     normal  Normal    9.53
+.  2 MAD     normal  Normal    5.52
+.  3 Renal   normal  Normal    1.60
+.  4 Renal   normal  Mild      1.59
+.  5 Renal   normal  Moderate  1.95
+.  6 Renal   normal  Severe    1.54
+.  7 Hepatic normal  Normal    1.47
+.  8 Hepatic Pugh1   Normal    1.40
+.  9 Hepatic Pugh2   Normal    1.28
+. 10 Hepatic Pugh3   Normal    1.45</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">sims &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(out)</a>
+<a class="sourceLine" id="cb21-2" title="2"></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(TIME,CP,<span class="dt">group=</span>ID)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-4" title="4"><span class="st">  </span><span class="kw">facet_grid</span>(STUDY<span class="op">~</span>RENAL) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-5" title="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="recover_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 
 <hr>
