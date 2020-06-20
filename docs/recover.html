@@ -609,6 +609,13 @@ div.tocify {
 <a class="sourceLine" id="cb21-5" title="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</a></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
+<div id="what-is-the-difference-carry_out-recover" class="section level1">
+<h1><span class="header-section-number">4</span> What is the difference: carry_out / recover</h1>
+<p>There should not be a difference in the simulation result whether you use <code>carry_out</code> or <code>recover</code> (outside of the fact that <code>recover</code> takes any type of data).</p>
+<p>There will be a very minor performance hit for using <code>recover</code> because it has to join the input data on to the simulated data. But this should be imperceptible in the vast majority of cases. Of course, when every microsecond of simulation time counts, think carefully about what you are doing and consider more efficient alternatives. Remember that features like <code>carry_out</code> and <code>recover</code> are convenience features to make you life easier. They always increase the overall simulation time to some degree or another. So when benchmarking mrgsolve, you should always consider if <code>carry_out</code> or <code>recover</code> are being used or not.</p>
+<p><code>recover</code> depends on <code>carry_out</code> functionality to work: under the hood, we label the input data rows with an index number, <code>carry_out</code> that index, and then use that index to join input to output data. So <code>carry_out</code> won’t go away. But I’m guessing that recover will be fine for most applications.</p>
+<p>Going forward, I will be adding other convenience functions around <code>recover</code> and working to make it a more convenient part of your workflow.</p>
+</div>
 
 <hr>
 <p>

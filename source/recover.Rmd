@@ -130,3 +130,27 @@ ggplot(sims, aes(TIME,CP,group=ID)) +
   facet_grid(STUDY~RENAL) + 
   geom_line() + theme_bw()
 ```
+
+# What is the difference: carry_out / recover
+
+There should not be a difference in the simulation result whether you use
+`carry_out` or `recover` (outside of the fact that `recover` takes any type 
+of data).  
+
+There will be a very minor performance hit for using `recover` because it has to
+join the input data on to the simulated data. But this should be imperceptible
+in the vast majority of cases. Of course, when every microsecond of simulation
+time counts, think carefully about what you are doing and consider more
+efficient alternatives. Remember that features like `carry_out` and `recover`
+are convenience features to make you life easier.  They always increase the
+overall simulation time to some degree or another.  So when benchmarking
+mrgsolve, you should always consider if `carry_out` or `recover` are being 
+used or not.
+
+`recover` depends on `carry_out` functionality to work: under the hood, we label
+the input data rows with an index number, `carry_out` that index, and then use
+that index to join input to output data.  So `carry_out` won't go away. But I'm
+guessing that recover will be fine for most applications.
+
+Going forward, I will be adding other convenience functions around `recover`
+and working to make it a more convenient part of your workflow.  
