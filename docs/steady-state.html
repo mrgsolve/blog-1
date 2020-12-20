@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -497,22 +511,22 @@ div.tocify {
 <div id="for-example" class="section level2">
 <h2><span class="header-section-number">2.1</span> For example</h2>
 <p>Let’s load a PK model</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk2&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk2&quot;</span>)</span></code></pre></div>
 <p>And let’s imagine a 100 mg QD dosing regimen</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">dose &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">24</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dose &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">24</span>)</span></code></pre></div>
 <p>And give that dose a large number of times</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">dose &lt;-<span class="st"> </span><span class="kw">mutate</span>(dose, <span class="dt">total =</span> <span class="dv">1000</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dose &lt;-<span class="st"> </span><span class="kw">mutate</span>(dose, <span class="dt">total =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <p>Let’s just look at trough concentrations and see how the trough develops over the dosing period</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">update</span>(mod, <span class="dt">delta =</span> <span class="dv">24</span>, <span class="dt">end =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">20</span>, <span class="dt">outvars =</span> <span class="st">&quot;CENT,PERIPH&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mod &lt;-<span class="st"> </span><span class="kw">update</span>(mod, <span class="dt">delta =</span> <span class="dv">24</span>, <span class="dt">end =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">20</span>, <span class="dt">outvars =</span> <span class="st">&quot;CENT,PERIPH&quot;</span>)</span></code></pre></div>
 <p>And simulate that out</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim_e</span>(mod,dose,<span class="dt">recsort=</span><span class="dv">3</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">plot</span>(out)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim_e</span>(mod,dose,<span class="dt">recsort=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">plot</span>(out)</span></code></pre></div>
 <p><img src="steady-state_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Obviously, the trough concentration starts to increase and after a certain period stops changing</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">tail</span>(out) </a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">tail</span>(out) </span></code></pre></div>
 <pre><code>.    ID time     CENT   PERIPH
 . 17  1  360 53.95222 31.95587
 . 18  1  384 53.95257 31.95608
@@ -548,52 +562,52 @@ div.tocify {
 <h2><span class="header-section-number">5.2</span> One compartment misbehaves</h2>
 <p>I have seen this with the dosing compartment when there is a very large inter-dose interval. So the amount gets driven very small, maybe flips sign and the calculations for steady state just don’t work out right to call it “good”. Here’s what you can do:</p>
 <p>In your model, you can now give a vector of compartment to not look at for handling steady state:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb9-1" title="1">[ set ] ss_cmt = <span class="st">&quot;-DEPOT&quot;</span></a>
-<a class="sourceLine" id="cb9-2" title="2"></a>
-<a class="sourceLine" id="cb9-3" title="3">[ cmt ] DEPOT CENT PERIPH</a>
-<a class="sourceLine" id="cb9-4" title="4"></a>
-<a class="sourceLine" id="cb9-5" title="5">[ ode ]</a>
-<a class="sourceLine" id="cb9-6" title="6">dxdt_DEPOT  = ...;</a>
-<a class="sourceLine" id="cb9-7" title="7">dxdt_CENT   = ...;</a>
-<a class="sourceLine" id="cb9-8" title="8">dxdt_PERIPH = ...;</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1"></a>[ set ] ss_cmt = <span class="st">&quot;-DEPOT&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a>[ cmt ] DEPOT CENT PERIPH</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>[ ode ]</span>
+<span id="cb9-6"><a href="#cb9-6"></a>dxdt_DEPOT  = ...;</span>
+<span id="cb9-7"><a href="#cb9-7"></a>dxdt_CENT   = ...;</span>
+<span id="cb9-8"><a href="#cb9-8"></a>dxdt_PERIPH = ...;</span></code></pre></div>
 <p>The <code>-DEPOT</code> says “forget about the DEPOT compartment when running up to steady state”; it was giving me numerical problems and I don’t really care about that one so much either.</p>
 </div>
 <div id="auc-compartment-in-the-model" class="section level2">
 <h2><span class="header-section-number">5.3</span> AUC compartment in the model</h2>
 <p>Let’s say you’re accumulating stuff in a compartment for AUC calculation. When you have this in the model, you’ll never make it to steady state according to the definition set out above.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb10-1" title="1">[ set ] ss_cmt = <span class="st">&quot;-AUC&quot;</span></a>
-<a class="sourceLine" id="cb10-2" title="2"></a>
-<a class="sourceLine" id="cb10-3" title="3">[ cmt ] DEPOT CENT PERIPH AUC</a>
-<a class="sourceLine" id="cb10-4" title="4"></a>
-<a class="sourceLine" id="cb10-5" title="5">[ ode ]</a>
-<a class="sourceLine" id="cb10-6" title="6">dxdt_DEPOT  = ...;</a>
-<a class="sourceLine" id="cb10-7" title="7">dxdt_CENT   = ...;</a>
-<a class="sourceLine" id="cb10-8" title="8">dxdt_PERIPH = ...;</a>
-<a class="sourceLine" id="cb10-9" title="9">dxdt_AUC = CENT/V;</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1"></a>[ set ] ss_cmt = <span class="st">&quot;-AUC&quot;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>[ cmt ] DEPOT CENT PERIPH AUC</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a>[ ode ]</span>
+<span id="cb10-6"><a href="#cb10-6"></a>dxdt_DEPOT  = ...;</span>
+<span id="cb10-7"><a href="#cb10-7"></a>dxdt_CENT   = ...;</span>
+<span id="cb10-8"><a href="#cb10-8"></a>dxdt_PERIPH = ...;</span>
+<span id="cb10-9"><a href="#cb10-9"></a>dxdt_AUC = CENT/V;</span></code></pre></div>
 <p>Rather than trying to figure that out under the hood, mrgsolve just asks you to tell it to forget about the <code>AUC</code> compartment when determining steady state.</p>
 <p>There is another (better) way to handle this. Users have a new variable that they can check that evaluates to <code>true</code> when mrgsolve is advancing the system to steady state. So you might write this:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb11-1" title="1">[ cmt ] DEPOT CENT PERIPH AUC</a>
-<a class="sourceLine" id="cb11-2" title="2"></a>
-<a class="sourceLine" id="cb11-3" title="3">[ ode ]</a>
-<a class="sourceLine" id="cb11-4" title="4">dxdt_DEPOT  = ...;</a>
-<a class="sourceLine" id="cb11-5" title="5">dxdt_CENT   = ...;</a>
-<a class="sourceLine" id="cb11-6" title="6">dxdt_PERIPH = ...;</a>
-<a class="sourceLine" id="cb11-7" title="7">dxdt_AUC = CENT/V;</a>
-<a class="sourceLine" id="cb11-8" title="8"></a>
-<a class="sourceLine" id="cb11-9" title="9"><span class="cf">if</span>(SS_ADVANCE) dxdt_AUC = <span class="dv">0</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1"></a>[ cmt ] DEPOT CENT PERIPH AUC</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>[ ode ]</span>
+<span id="cb11-4"><a href="#cb11-4"></a>dxdt_DEPOT  = ...;</span>
+<span id="cb11-5"><a href="#cb11-5"></a>dxdt_CENT   = ...;</span>
+<span id="cb11-6"><a href="#cb11-6"></a>dxdt_PERIPH = ...;</span>
+<span id="cb11-7"><a href="#cb11-7"></a>dxdt_AUC = CENT/V;</span>
+<span id="cb11-8"><a href="#cb11-8"></a></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="cf">if</span>(SS_ADVANCE) dxdt_AUC = <span class="dv">0</span>;</span></code></pre></div>
 <p>This will prevent the <code>AUC</code> compartment from advancing at all when mrgsolve is looking for steady state. And this compartment won’t be a stumbling block for the SS determination (as described above).</p>
 </div>
 <div id="only-consider-a-single-compartment" class="section level2">
 <h2><span class="header-section-number">5.4</span> Only consider a single compartment</h2>
 <p>Rather than excluding the misbehaving compartment, we can also request that only one compartment be evaluated for SS</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb12-1" title="1">[ set ] ss_cmt = <span class="st">&quot;CENT&quot;</span></a>
-<a class="sourceLine" id="cb12-2" title="2"></a>
-<a class="sourceLine" id="cb12-3" title="3">[ cmt ] DEPOT CENT PERIPH </a>
-<a class="sourceLine" id="cb12-4" title="4"></a>
-<a class="sourceLine" id="cb12-5" title="5">[ ode ]</a>
-<a class="sourceLine" id="cb12-6" title="6">dxdt_DEPOT  = ...;</a>
-<a class="sourceLine" id="cb12-7" title="7">dxdt_CENT   = ...;</a>
-<a class="sourceLine" id="cb12-8" title="8">dxdt_PERIPH = ...;</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1"></a>[ set ] ss_cmt = <span class="st">&quot;CENT&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>[ cmt ] DEPOT CENT PERIPH </span>
+<span id="cb12-4"><a href="#cb12-4"></a></span>
+<span id="cb12-5"><a href="#cb12-5"></a>[ ode ]</span>
+<span id="cb12-6"><a href="#cb12-6"></a>dxdt_DEPOT  = ...;</span>
+<span id="cb12-7"><a href="#cb12-7"></a>dxdt_CENT   = ...;</span>
+<span id="cb12-8"><a href="#cb12-8"></a>dxdt_PERIPH = ...;</span></code></pre></div>
 <p>This ignores every compartment except for <code>CENT</code> when figuring out SS.</p>
 </div>
 </div>
@@ -626,7 +640,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -665,7 +679,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

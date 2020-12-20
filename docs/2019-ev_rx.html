@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -477,9 +491,9 @@ div.tocify {
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <p>I got into pharmacometrics after studying and working as a pharmacist, both in a community pharmacy (interning while I was a pharmacy student) and in an inpatient (hospital) pharmacy (practicing as a pharmacist while studying pharmacometrics and clinical pharmacology). So I always thought it would be cool to have mrgsolve take in dosing information like you would see on a Rx or written in a chart</p>
 <pre class="yamle"><code>sig: 100 mg po daily x 7</code></pre>
 <p>This post introduces something new in mrgsolve 0.9.0 that works along those lines.</p>
@@ -487,36 +501,36 @@ div.tocify {
 <h1><span class="header-section-number">1</span> Review</h1>
 <p>First, a review: we have these things called <red>event objects</red> in mrgsolve: they are simple ways to specify a part of a dosing regimen. They are meant to be quick and easy to create and you are able to combine different “elementary” objects together according to certain rules to make more complex dosing regimens.</p>
 <p>For example, say we want a dose every day for one week. Assuming that our model is in hours, we could write</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">e1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">24</span>, <span class="dt">until =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3">e1</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>e1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">24</span>, <span class="dt">until =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>e1</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0 100 24    6   1    1</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">delta=</span><span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">Req</span>(CP)</a>
-<a class="sourceLine" id="cb5-2" title="2"></a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="kw">mrgsim_e</span>(mod, e1, <span class="dt">end =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">9</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">delta=</span><span class="fl">0.1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">Req</span>(CP)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">mrgsim_e</span>(mod, e1, <span class="dt">end =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">9</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>And if I wanted to follow that by a week at every 48 hours, first create the q48h event object</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">e2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">48</span>, <span class="dt">until =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2">e2</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>e2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">48</span>, <span class="dt">until =</span> <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>e2</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0 100 48    3   1    1</code></pre>
 <p>and then combine them together in a sequence</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">e &lt;-<span class="st"> </span><span class="kw">seq</span>(e1,e2)</a>
-<a class="sourceLine" id="cb8-2" title="2"></a>
-<a class="sourceLine" id="cb8-3" title="3">e</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>e &lt;-<span class="st"> </span><span class="kw">seq</span>(e1,e2)</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>e</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0 100 24    6   1    1
 . 2  168 100 48    3   1    1</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">mrgsim_e</span>(mod, e, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">mrgsim_e</span>(mod, e, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>And then if we wanted to repeat 3 cycles of that</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">e4 &lt;-<span class="st"> </span><span class="kw">ev_repeat</span>(e, <span class="dt">n=</span><span class="dv">3</span>, <span class="dt">as.ev =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb11-2" title="2"></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="kw">mrgsim_e</span>(mod, e4, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">8</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>e4 &lt;-<span class="st"> </span><span class="kw">ev_repeat</span>(e, <span class="dt">n=</span><span class="dv">3</span>, <span class="dt">as.ev =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="kw">mrgsim_e</span>(mod, e4, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">8</span>) <span class="op">%&gt;%</span><span class="st"> </span>plot</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="new-in-0.9.0" class="section level1">
@@ -524,14 +538,14 @@ div.tocify {
 <p>New in 0.9.0 is a grammar of specifying some of this dose event information. I’ve been wanting to do something like this for a while, but never quite had the right implementation. The current try isn’t perfect, but I thought it was worth it to give a try and see if we can improve.</p>
 <div id="bolus-doses" class="section level2">
 <h2><span class="header-section-number">2.1</span> Bolus doses</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">e5 &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q 24 x7 then 100 q48 x 4&quot;</span>)</a>
-<a class="sourceLine" id="cb12-2" title="2"></a>
-<a class="sourceLine" id="cb12-3" title="3">e5</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>e5 &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q 24 x7 then 100 q48 x 4&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>e5</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0 100 24    6   1    1
 . 2  168 100 48    3   1    1</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">mrgsim_e</span>(mod, e5, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">mrgsim_e</span>(mod, e5, <span class="dt">end =</span> <span class="dv">168</span><span class="op">*</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The syntax is:</p>
 <ul>
@@ -544,37 +558,37 @@ div.tocify {
 <div id="infusion" class="section level2">
 <h2><span class="header-section-number">2.2</span> Infusion</h2>
 <p>To do an infusion, the duration of the infusion comes after <code>over</code></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">e6 &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 over 10 q 48 x 3&quot;</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2"></a>
-<a class="sourceLine" id="cb15-3" title="3">e6</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>e6 &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 over 10 q 48 x 3&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a>e6</span></code></pre></div>
 <pre><code>. Events:
 .   time amt rate ii addl cmt evid
 . 1    0 100   10 48    2   1    1</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">mrgsim_e</span>(mod, e6, <span class="dt">end =</span> <span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">mrgsim_e</span>(mod, e6, <span class="dt">end =</span> <span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Hrm … but we wanted the infusion to be IV, not in the depot compartment. To do that, put the compartment number after <code>in</code></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">e7 &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 over 10 in 2 q 48 x 3&quot;</span>)</a>
-<a class="sourceLine" id="cb18-2" title="2"></a>
-<a class="sourceLine" id="cb18-3" title="3">e7</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>e7 &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 over 10 in 2 q 48 x 3&quot;</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>e7</span></code></pre></div>
 <pre><code>. Events:
 .   time amt rate ii addl cmt evid
 . 1    0 100   10 48    2   2    1</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">mrgsim_e</span>(mod,e7, <span class="dt">end =</span> <span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">mrgsim_e</span>(mod,e7, <span class="dt">end =</span> <span class="dv">168</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="another-sequence" class="section level2">
 <h2><span class="header-section-number">2.3</span> Another sequence</h2>
 <p>Rather than <code>then</code> you can separate by <code>comma</code>. Also, see if you can tell what <code>after</code> does here:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">e &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q 24 x 7, 50 q 12 x 14, 200 q48 x 3 after 72&quot;</span>)</a>
-<a class="sourceLine" id="cb21-2" title="2"></a>
-<a class="sourceLine" id="cb21-3" title="3">e</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>e &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q 24 x 7, 50 q 12 x 14, 200 q48 x 3 after 72&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a>e</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0 100 24    6   1    1
 . 2  168  50 12   13   1    1
 . 3  408 200 48    2   1    1</code></pre>
 <p>It still takes a fair amount of text to get all of this out, but hopefully the notation is relatively compact and expressive.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">mrgsim_e</span>(mod, e, <span class="dt">end =</span> <span class="dv">600</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">mrgsim_e</span>(mod, e, <span class="dt">end =</span> <span class="dv">600</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>()</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -598,7 +612,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -637,7 +651,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -481,10 +495,10 @@ div.tocify {
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>We had a user who was learning <code>mrgsolve</code> ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog.</p>
 <p>This is an invented example to illustrate features and workflow for <code>mrgsolve</code>. If you attend one of our training workshops, we work examples using published models to answer real questions you’ll encounter in drug development. So compared to the workshop material, this is a bit contrived. But I wanted to show how you might tackle a problem involving a population model from end to end.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(dmutate)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(dmutate)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
 </div>
 <div id="population-pk-model" class="section level1">
 <h1><span class="header-section-number">2</span> Population PK model</h1>
@@ -503,43 +517,43 @@ div.tocify {
 </ul></li>
 </ul>
 <p><strong>Here’s the model specification</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">code &lt;-<span class="st"> &#39;</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="st">$PARAM TVCL = 1.23, TVV = 35.7, TVKA = 1.3</span></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="st">F1 = 0.82, ALAG = 1.21</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="st">WT = 70, SEX = 0</span></a>
-<a class="sourceLine" id="cb2-5" title="5"></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="st">$MAIN</span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="st">double CL = TVCL*pow(WT/70,0.75)*exp(ECL);</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="st">double V  = TVV*(WT/70)*exp(EV);</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="st">double KA = TVKA*exp(EKA);</span></a>
-<a class="sourceLine" id="cb2-10" title="10"></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="st">if(SEX==1) V = V*0.8;</span></a>
-<a class="sourceLine" id="cb2-12" title="12"></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="st">F_GUT = F1;</span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="st">ALAG_GUT = ALAG;</span></a>
-<a class="sourceLine" id="cb2-15" title="15"></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="st">$PKMODEL cmt=&quot;GUT CENT&quot;, depot=TRUE</span></a>
-<a class="sourceLine" id="cb2-17" title="17"></a>
-<a class="sourceLine" id="cb2-18" title="18"><span class="st">$OMEGA @labels ECL EV EKA</span></a>
-<a class="sourceLine" id="cb2-19" title="19"><span class="st">0.015 0.2 0.5</span></a>
-<a class="sourceLine" id="cb2-20" title="20"></a>
-<a class="sourceLine" id="cb2-21" title="21"><span class="st">$SIGMA @labels PROP ADD</span></a>
-<a class="sourceLine" id="cb2-22" title="22"><span class="st">0.03 230</span></a>
-<a class="sourceLine" id="cb2-23" title="23"></a>
-<a class="sourceLine" id="cb2-24" title="24"><span class="st">$TABLE</span></a>
-<a class="sourceLine" id="cb2-25" title="25"><span class="st">capture IPRED = CENT/(V/1000);</span></a>
-<a class="sourceLine" id="cb2-26" title="26"><span class="st">capture DV = IPRED*(1+PROP)+ADD;</span></a>
-<a class="sourceLine" id="cb2-27" title="27"></a>
-<a class="sourceLine" id="cb2-28" title="28"><span class="st">while(DV &lt; 0) {</span></a>
-<a class="sourceLine" id="cb2-29" title="29"><span class="st">  simeps();</span></a>
-<a class="sourceLine" id="cb2-30" title="30"><span class="st">  DV = IPRED*(1+PROP)+ADD;</span></a>
-<a class="sourceLine" id="cb2-31" title="31"><span class="st">}</span></a>
-<a class="sourceLine" id="cb2-32" title="32"></a>
-<a class="sourceLine" id="cb2-33" title="33"><span class="st">$CAPTURE WT CL </span></a>
-<a class="sourceLine" id="cb2-34" title="34"><span class="st">&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>code &lt;-<span class="st"> &#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="st">$PARAM TVCL = 1.23, TVV = 35.7, TVKA = 1.3</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="st">F1 = 0.82, ALAG = 1.21</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="st">WT = 70, SEX = 0</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">$MAIN</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">double CL = TVCL*pow(WT/70,0.75)*exp(ECL);</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="st">double V  = TVV*(WT/70)*exp(EV);</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="st">double KA = TVKA*exp(EKA);</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="st">if(SEX==1) V = V*0.8;</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="st">F_GUT = F1;</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="st">ALAG_GUT = ALAG;</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="st">$PKMODEL cmt=&quot;GUT CENT&quot;, depot=TRUE</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="st">$OMEGA @labels ECL EV EKA</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="st">0.015 0.2 0.5</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="st">$SIGMA @labels PROP ADD</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="st">0.03 230</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="st">$TABLE</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="st">capture IPRED = CENT/(V/1000);</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="st">capture DV = IPRED*(1+PROP)+ADD;</span></span>
+<span id="cb2-27"><a href="#cb2-27"></a></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="st">while(DV &lt; 0) {</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a><span class="st">  simeps();</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="st">  DV = IPRED*(1+PROP)+ADD;</span></span>
+<span id="cb2-31"><a href="#cb2-31"></a><span class="st">}</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a></span>
+<span id="cb2-33"><a href="#cb2-33"></a><span class="st">$CAPTURE WT CL </span></span>
+<span id="cb2-34"><a href="#cb2-34"></a><span class="st">&#39;</span></span></code></pre></div>
 <p><strong>Compile and load the model</strong></p>
 <p>We use <code>mcode_cache</code> here, which caches the model when you compile. If the cache is not invalidated, <code>mrgsolve</code> loads from the cache next time rather than re-compiling.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;demo&quot;</span>, code)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;demo&quot;</span>, code)</span></code></pre></div>
 </div>
 <div id="input-data-set" class="section level1">
 <h1><span class="header-section-number">3</span> Input data set</h1>
@@ -550,14 +564,17 @@ div.tocify {
 <li>Patients with weight less than 90 kg get a certain dose while patients with weight greater than 90 kg get a higher dose</li>
 <li>Dosing proceeds Q24H x 10 doses</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">set.seed</span>(<span class="dv">33020</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2">idata &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw">mutate_random</span>(WT[<span class="dv">50</span>,<span class="dv">110</span>] <span class="op">~</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">80</span>,<span class="dv">30</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw">mutate_random</span>(SEX <span class="op">~</span><span class="st"> </span><span class="kw">rbinomial</span>(<span class="fl">0.7</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dosegr =</span> <span class="kw">as.integer</span>(WT <span class="op">&gt;</span><span class="st"> </span><span class="dv">90</span>))</a>
-<a class="sourceLine" id="cb4-7" title="7"></a>
-<a class="sourceLine" id="cb4-8" title="8">idata</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">set.seed</span>(<span class="dv">33020</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>idata &lt;-<span class="st"> </span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">data_frame</span>(<span class="dt">ID=</span><span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">mutate_random</span>(WT[<span class="dv">50</span>,<span class="dv">110</span>] <span class="op">~</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">80</span>,<span class="dv">30</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">mutate_random</span>(SEX <span class="op">~</span><span class="st"> </span><span class="kw">rbinomial</span>(<span class="fl">0.7</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dosegr =</span> <span class="kw">as.integer</span>(WT <span class="op">&gt;</span><span class="st"> </span><span class="dv">90</span>))</span></code></pre></div>
+<pre><code>. Warning: `data_frame()` is deprecated as of tibble 1.1.0.
+. Please use `tibble()` instead.
+. This warning is displayed once every 8 hours.
+. Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>idata</span></code></pre></div>
 <pre><code>. # A tibble: 2,000 x 4
 .       ID    WT   SEX dosegr
 .    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;int&gt;
@@ -573,12 +590,12 @@ div.tocify {
 . 10    10  69.7     1      0
 . # … with 1,990 more rows</code></pre>
 <p>The dosing elements are implemented through <code>event</code> objects.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">ev1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2">ev2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">150</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">9</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>ev1 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">9</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>ev2 &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">150</span>, <span class="dt">ii=</span><span class="dv">24</span>, <span class="dt">addl=</span><span class="dv">9</span>)</span></code></pre></div>
 <p>The <code>assign_ev</code> function looks at the <code>dosegr</code> column in <code>idata</code> and assigns a dosing event sequence (<code>e1</code> or <code>e2</code>) based on the value of <code>dosegr</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">data &lt;-<span class="st"> </span><span class="kw">assign_ev</span>(<span class="kw">list</span>(ev1,ev2),idata,<span class="st">&quot;dosegr&quot;</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="kw">head</span>(data)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>data &lt;-<span class="st"> </span><span class="kw">assign_ev</span>(<span class="kw">list</span>(ev1,ev2),idata,<span class="st">&quot;dosegr&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">head</span>(data)</span></code></pre></div>
 <pre><code>.   time amt ii addl cmt evid ID
 . 1    0 100 24    9   1    1  1
 . 2    0 100 24    9   1    1  2
@@ -595,16 +612,16 @@ div.tocify {
 <li>Also, we only collect observation records in the output (<code>obsonly</code>)</li>
 <li><code>mrgsolve</code> respects the seed you set in <code>R</code> using <code>set.seed</code> so that results are reproducible</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">set.seed</span>(<span class="dv">11009</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"></a>
-<a class="sourceLine" id="cb9-3" title="3">out &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span>mod <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="st">  </span><span class="kw">data_set</span>(data) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="st">  </span><span class="kw">carry_out</span>(dosegr) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">delta=</span><span class="dv">1</span>, <span class="dt">end=</span><span class="dv">360</span>, <span class="dt">obsonly=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb9-9" title="9"></a>
-<a class="sourceLine" id="cb9-10" title="10">out</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">set.seed</span>(<span class="dv">11009</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>out &lt;-<span class="st"> </span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span>mod <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">data_set</span>(data) <span class="op">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span><span class="kw">idata_set</span>(idata) <span class="op">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span><span class="kw">carry_out</span>(dosegr) <span class="op">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">delta=</span><span class="dv">1</span>, <span class="dt">end=</span><span class="dv">360</span>, <span class="dt">obsonly=</span><span class="ot">TRUE</span>)</span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a>out</span></code></pre></div>
 <pre><code>. Model:  demo 
 . Dim:    722000 x 9 
 . Time:   0 to 360 
@@ -628,19 +645,19 @@ div.tocify {
 <li>But notice that <code>mrgsolve</code> provides methods for sending the <code>mrgsims</code> object directly into a <code>dplyr</code> data summary pipeline</li>
 </ul>
 <p>This shows the plot method for <code>mrgsims</code> objects</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">plot</span>(out, IPRED<span class="op">+</span>DV<span class="op">~</span>., <span class="dt">subset=</span>ID<span class="op">==</span><span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">plot</span>(out, IPRED<span class="op">+</span>DV<span class="op">~</span>., <span class="dt">subset=</span>ID<span class="op">==</span><span class="dv">10</span>)</span></code></pre></div>
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The <code>mrgsims</code> object can be passed right into <code>dplyr::filter</code></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">tr &lt;-<span class="st"> </span><span class="kw">filter</span>(out, time<span class="op">==</span><span class="dv">240</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>tr &lt;-<span class="st"> </span><span class="kw">filter</span>(out, time<span class="op">==</span><span class="dv">240</span>)</span></code></pre></div>
 <p>Simulated day 10 concentration versus patient weight by dose/weight group</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">ggplot</span>(tr, <span class="kw">aes</span>(<span class="dt">x=</span>WT,<span class="dt">y=</span>DV)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>dosegr) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;loess&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">ggplot</span>(tr, <span class="kw">aes</span>(<span class="dt">x=</span>WT,<span class="dt">y=</span>DV)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>dosegr) <span class="op">+</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Density plots of day 10 concentrations in the two dose/weight groups</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">ggplot</span>(tr,<span class="kw">aes</span>(<span class="dt">x=</span>DV,<span class="dt">fill=</span><span class="kw">factor</span>(dosegr))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Set1&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">ggplot</span>(tr,<span class="kw">aes</span>(<span class="dt">x=</span>DV,<span class="dt">fill=</span><span class="kw">factor</span>(dosegr))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>) <span class="op">+</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Set1&quot;</span>)</span></code></pre></div>
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="summary" class="section level1">
@@ -664,7 +681,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -703,7 +720,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

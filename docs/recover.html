@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -485,23 +499,23 @@ div.tocify {
 </div>
 <div id="example---event-objects" class="section level1">
 <h1><span class="header-section-number">2</span> Example - event objects</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">mod &lt;-<span class="st"> </span><span class="kw">house</span>(<span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">96</span>, <span class="dt">outvars =</span> <span class="st">&quot;CP&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>mod &lt;-<span class="st"> </span><span class="kw">house</span>(<span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">96</span>, <span class="dt">outvars =</span> <span class="st">&quot;CP&quot;</span>)</span></code></pre></div>
 <p>As a very simple example, we’ll make an event object with a regimen item in it</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">qd &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;100 mg qd&quot;</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3">qd</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>qd &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;100 mg qd&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>qd</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid   regimen
 . 1    0 100 24    2   1    1 100 mg qd</code></pre>
 <p>When I simulate with this event object, I’ll <code>recover</code> the <code>regimen</code> item</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, qd, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, qd, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>)</span></code></pre></div>
 <p>I now have the “regimen” in the simulated output as a <code>character</code> data item:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">plot</span>(out, CP <span class="op">~</span><span class="st"> </span>time <span class="op">|</span>regimen)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">plot</span>(out, CP <span class="op">~</span><span class="st"> </span>time <span class="op">|</span>regimen)</span></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">as_tibble</span>(out)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">as_tibble</span>(out)</span></code></pre></div>
 <pre><code>. # A tibble: 962 x 4
 .       ID  time    CP regimen  
 .    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
@@ -517,33 +531,34 @@ div.tocify {
 . 10     1   0.8 3.02  100 mg qd
 . # … with 952 more rows</code></pre>
 <p>Now, make another group and simulate together</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">bid &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;50 q12 x6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;50 mg bid&quot;</span>)</a>
-<a class="sourceLine" id="cb8-2" title="2"></a>
-<a class="sourceLine" id="cb8-3" title="3">data &lt;-<span class="st"> </span><span class="kw">as_data_set</span>(bid,qd) </a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>bid &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;50 q12 x6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;50 mg bid&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>data &lt;-<span class="st"> </span><span class="kw">as_data_set</span>(bid,qd) </span></code></pre></div>
 <p>I’m going to turn this into a factor now …</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">regimen =</span> <span class="kw">fct_inorder</span>(regimen))</a>
-<a class="sourceLine" id="cb9-2" title="2">data</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">regimen =</span> <span class="kw">fct_inorder</span>(regimen))</span>
+<span id="cb9-2"><a href="#cb9-2"></a>data</span></code></pre></div>
 <pre><code>.   ID time cmt evid amt ii addl   regimen
 . 1  1    0   1    1  50 12    5 50 mg bid
 . 2  2    0   1    1 100 24    2 100 mg qd</code></pre>
 <p>… so that when I summarize, the levels are in the order I want:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>) </a>
-<a class="sourceLine" id="cb11-2" title="2"></a>
-<a class="sourceLine" id="cb11-3" title="3">out <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(regimen) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-5" title="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>) </span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>out <span class="op">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">group_by</span>(regimen) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</span></code></pre></div>
+<pre><code>. `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>. # A tibble: 2 x 2
 .   regimen    Cmax
 .   &lt;fct&gt;     &lt;dbl&gt;
 . 1 50 mg bid  4.85
 . 2 100 mg qd  6.15</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>regimen, <span class="dt">scales=</span><span class="st">&quot;same&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>regimen, <span class="dt">scales=</span><span class="st">&quot;same&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="example---data-set" class="section level1">
 <h1><span class="header-section-number">3</span> Example - data set</h1>
 <p>There is no real change if I’m using <code>recover</code> with a data set</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">head</span>(data)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">head</span>(data)</span></code></pre></div>
 <pre><code>.    C NUM ID SUBJ TIME SEQ CMT EVID AMT      DV   AGE    WT   CRCL ALB   BMI
 . 1 NA   1  1    1 0.00   0   1    1   5   0.000 28.03 55.16 114.45 4.4 21.67
 . 2 NA   2  1    1 0.61   1   2    0  NA  61.005 28.03 55.16 114.45 4.4 21.67
@@ -566,9 +581,9 @@ div.tocify {
 . 5        dose      0     0 below Q       1 Normal  normal
 . 6        dose      0     0 below Q       1 Normal  normal</code></pre>
 <p>Same idea as we had in event objects:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;WT,CRCL,STUDY,HEPATIC,RENAL&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;WT,CRCL,STUDY,HEPATIC,RENAL&quot;</span>)</span></code></pre></div>
 <p>We copy either numeric, character, or factors into the output</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">as_tibble</span>(out)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">as_tibble</span>(out)</span></code></pre></div>
 <pre><code>. # A tibble: 4,360 x 8
 .       ID  TIME    CP    WT  CRCL STUDY HEPATIC RENAL 
 .    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt; 
@@ -584,10 +599,11 @@ div.tocify {
 . 10     1  8.09 0.216  55.2  114. SAD   normal  Normal
 . # … with 4,350 more rows</code></pre>
 <p>And we can summarize</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">out <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="st">  </span><span class="kw">filter</span>(TIME <span class="op">&lt;</span><span class="st"> </span><span class="dv">24</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(STUDY,HEPATIC,RENAL) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>out <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw">filter</span>(TIME <span class="op">&lt;</span><span class="st"> </span><span class="dv">24</span>) <span class="op">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw">group_by</span>(STUDY,HEPATIC,RENAL) <span class="op">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</span></code></pre></div>
+<pre><code>. `summarise()` regrouping output by &#39;STUDY&#39;, &#39;HEPATIC&#39; (override with `.groups` argument)</code></pre>
 <pre><code>. # A tibble: 10 x 4
 . # Groups:   STUDY, HEPATIC [7]
 .    STUDY   HEPATIC RENAL     Cmax
@@ -602,11 +618,11 @@ div.tocify {
 .  8 Hepatic Pugh1   Normal    1.40
 .  9 Hepatic Pugh2   Normal    1.28
 . 10 Hepatic Pugh3   Normal    1.45</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">sims &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(out)</a>
-<a class="sourceLine" id="cb21-2" title="2"></a>
-<a class="sourceLine" id="cb21-3" title="3"><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(TIME,CP,<span class="dt">group=</span>ID)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-4" title="4"><span class="st">  </span><span class="kw">facet_grid</span>(STUDY<span class="op">~</span>RENAL) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-5" title="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>sims &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(out)</span>
+<span id="cb23-2"><a href="#cb23-2"></a></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(TIME,CP,<span class="dt">group=</span>ID)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="st">  </span><span class="kw">facet_grid</span>(STUDY<span class="op">~</span>RENAL) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</span></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 <div id="what-is-the-difference-carry_out-recover" class="section level1">
@@ -632,7 +648,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -671,7 +687,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -482,28 +496,28 @@ div.tocify {
 <h1><span class="header-section-number">1</span> Two Populations</h1>
 <p>Let’s imagine there were two populations in the mixture model, with the second having smaller clearance than the first. In this example, we will develop some code for a simple model and then extend it to implement the mixture model component.</p>
 <p>A simple model might be:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">code &lt;-<span class="st"> &#39;</span></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="st">$PARAM TVCL = 1, V = 30, KA=1.2, POP = 1, THETA1 = 0.5</span></a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="st">$PKMODEL cmt=&quot;GUT CENT&quot;, depot=TRUE</span></a>
-<a class="sourceLine" id="cb1-8" title="8"></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="st">$MAIN</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="st">double CL = TVCL;</span></a>
-<a class="sourceLine" id="cb1-11" title="11"></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="st">if(POP==2) CL = TVCL * THETA1;</span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="st">&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>code &lt;-<span class="st"> &#39;</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="st">$PARAM TVCL = 1, V = 30, KA=1.2, POP = 1, THETA1 = 0.5</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="st">$PKMODEL cmt=&quot;GUT CENT&quot;, depot=TRUE</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="st">$MAIN</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="st">double CL = TVCL;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="st">if(POP==2) CL = TVCL * THETA1;</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="st">&#39;</span></span></code></pre></div>
 <p>In this model, we created a parameter for the population indicator (<code>POP</code>) and if <code>POP</code> is 2 then clearance is lower than it would be otherwise.</p>
 <p>Compile this model and run</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;A&quot;</span>, code) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">update</span>(<span class="dt">end=</span><span class="dv">72</span>, <span class="dt">delta=</span><span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3">idata &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">POP=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5">e &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">idata=</span>idata,<span class="dt">events=</span>e) <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;A&quot;</span>, code) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">update</span>(<span class="dt">end=</span><span class="dv">72</span>, <span class="dt">delta=</span><span class="fl">0.1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>idata &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">POP=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>e &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">idata=</span>idata,<span class="dt">events=</span>e) <span class="op">%&gt;%</span><span class="st"> </span>plot</span></code></pre></div>
 <p><img src="2017-mixture-model_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The profile in pink was for <code>POP==2</code> or the lower clearance profile and blue was for <code>POP==1</code>.</p>
 <div id="modify-the-model-to-simulate-a-population-mixture" class="section level2">
@@ -511,24 +525,24 @@ div.tocify {
 <p>In the get-started example model, we hard-coded <code>POP</code> as a parameter and we had to supply the value of <code>POP</code> in the input data set (in this case, it was via <code>idata</code>).</p>
 <p>For the mixture model, we want <code>POP</code> to be simulated and we want the simulated value to be 1 with a probability of, say, 0.8 and 2 with a probability of 0.2.</p>
 <p>To make this happen, we need to simulate a binary variate for each individual. Random numbers are easy to simulate with <code>mrgsolve</code> when you use <code>$PLUGIN</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">code &lt;-<span class="st"> &#39;</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="st">$PLUGIN Rcpp</span></a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="st">$MAIN</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="st">if(NEWIND &lt;=1) {</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="st">  int POP = 1 + R::rbinom(1,0.2);</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="st">}</span></a>
-<a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="st">$CAPTURE POP</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb3-11" title="11"></a>
-<a class="sourceLine" id="cb3-12" title="12">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;B&quot;</span>, code)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>code &lt;-<span class="st"> &#39;</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">$PLUGIN Rcpp</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">$MAIN</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="st">if(NEWIND &lt;=1) {</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="st">  int POP = 1 + R::rbinom(1,0.2);</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="st">}</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="st">$CAPTURE POP</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="st">&#39;</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a>mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;B&quot;</span>, code)</span></code></pre></div>
 <p>Here, we invoked the <code>Rcpp</code> plugin that allows us to call <code>R::binom(1,0.8)</code>. <code>R::binom</code> is just like the regular <code>R</code> version, but it only draws one variate (<code>n=1</code>).</p>
 <p>Let’s test it out</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">set.seed</span>(<span class="dv">222</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, <span class="dt">nid=</span><span class="dv">10000</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3"></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="kw">head</span>(out)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">set.seed</span>(<span class="dv">222</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, <span class="dt">nid=</span><span class="dv">10000</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">head</span>(out)</span></code></pre></div>
 <pre><code>.   ID time POP
 . 1  1    0   2
 . 2  2    0   1
@@ -537,36 +551,36 @@ div.tocify {
 . 5  5    0   2
 . 6  6    0   2</code></pre>
 <p>Here, we’ve got 20% of the people in the population with <code>POP</code> of 2:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">mean</span>(out<span class="op">$</span>POP<span class="op">==</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">mean</span>(out<span class="op">$</span>POP<span class="op">==</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>. [1] 0.1973</code></pre>
 <p>Now, let’s modify the model again to incorporate our random <code>POP</code> calculation with the PK model. I have also included a home-brewed <code>ETA</code> using <code>R::rnorm</code> as another example and to make the summary a little more interesting.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">code &lt;-<span class="st"> &#39;</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="st">$PLUGIN Rcpp</span></a>
-<a class="sourceLine" id="cb8-3" title="3"></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="st">$PARAM TVCL = 1, V = 30, KA=1.2, THETA1 = 0.5</span></a>
-<a class="sourceLine" id="cb8-5" title="5"></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="st">$PKMODEL cmt=&quot;GUT CENT&quot;, depot=TRUE</span></a>
-<a class="sourceLine" id="cb8-7" title="7"></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="st">$MAIN</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="st">if(NEWIND &lt;=1) {</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="st">  int POP = 1 + R::rbinom(1,0.2);</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="st">  double myETA = R::rnorm(0,sqrt(0.09));</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="st">}</span></a>
-<a class="sourceLine" id="cb8-13" title="13"></a>
-<a class="sourceLine" id="cb8-14" title="14"><span class="st">double CL = TVCL;</span></a>
-<a class="sourceLine" id="cb8-15" title="15"></a>
-<a class="sourceLine" id="cb8-16" title="16"><span class="st">if(POP==2) CL = TVCL * THETA1;</span></a>
-<a class="sourceLine" id="cb8-17" title="17"></a>
-<a class="sourceLine" id="cb8-18" title="18"><span class="st">double CLi = CL*exp(myETA);</span></a>
-<a class="sourceLine" id="cb8-19" title="19"></a>
-<a class="sourceLine" id="cb8-20" title="20"><span class="st">$CAPTURE POP CL CLi</span></a>
-<a class="sourceLine" id="cb8-21" title="21"><span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb8-22" title="22"></a>
-<a class="sourceLine" id="cb8-23" title="23">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;C&quot;</span>, code)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>code &lt;-<span class="st"> &#39;</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="st">$PLUGIN Rcpp</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">$PARAM TVCL = 1, V = 30, KA=1.2, THETA1 = 0.5</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="st">$PKMODEL cmt=&quot;GUT CENT&quot;, depot=TRUE</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="st">$MAIN</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="st">if(NEWIND &lt;=1) {</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="st">  int POP = 1 + R::rbinom(1,0.2);</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="st">  double myETA = R::rnorm(0,sqrt(0.09));</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="st">}</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="st">double CL = TVCL;</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="st">if(POP==2) CL = TVCL * THETA1;</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="st">double CLi = CL*exp(myETA);</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="st">$CAPTURE POP CL CLi</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="st">&#39;</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a></span>
+<span id="cb8-23"><a href="#cb8-23"></a>mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;C&quot;</span>, code)</span></code></pre></div>
 <p>And simulate again</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">set.seed</span>(<span class="dv">444</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod,<span class="dt">nid=</span><span class="dv">10000</span>, <span class="dt">end=</span><span class="dv">72</span>, <span class="dt">events=</span>e,<span class="dt">obsonly=</span><span class="ot">TRUE</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">head</span>(out)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">set.seed</span>(<span class="dv">444</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod,<span class="dt">nid=</span><span class="dv">10000</span>, <span class="dt">end=</span><span class="dv">72</span>, <span class="dt">events=</span>e,<span class="dt">obsonly=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">head</span>(out)</span></code></pre></div>
 <pre><code>.   ID time        GUT     CENT POP CL       CLi
 . 1  1    0  0.0000000  0.00000   1  1 0.7642753
 . 2  1    1 30.1194212 68.50511   1  1 0.7642753
@@ -574,12 +588,12 @@ div.tocify {
 . 4  1    3  2.7323722 90.25855   1  1 0.7642753
 . 5  1    4  0.8229747 89.17134   1  1 0.7642753
 . 6  1    5  0.2478752 86.81173   1  1 0.7642753</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">mean</span>(out<span class="op">$</span>CL<span class="op">==</span><span class="fl">0.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">mean</span>(out<span class="op">$</span>CL<span class="op">==</span><span class="fl">0.5</span>)</span></code></pre></div>
 <pre><code>. [1] 0.1977</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">out <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">filter</span>(time<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(POP) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">N=</span><span class="kw">n</span>(), <span class="dt">Median =</span> <span class="kw">median</span>(CLi))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>out <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">filter</span>(time<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">group_by</span>(POP) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">N=</span><span class="kw">n</span>(), <span class="dt">Median =</span> <span class="kw">median</span>(CLi))</span></code></pre></div>
 <pre><code>. # A tibble: 2 x 3
 .     POP     N Median
 .   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
@@ -590,21 +604,21 @@ div.tocify {
 <div id="three-or-more-populations" class="section level1">
 <h1><span class="header-section-number">2</span> Three (or more) Populations</h1>
 <p>There are probably several ways to simulate three populations. Here is one way. We’ll drop the PK model for now and focus on generating <code>POP</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">code &lt;-<span class="st"> &#39;</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="st">$PARAM p1 = 0.33, p2 = 0.6</span></a>
-<a class="sourceLine" id="cb16-3" title="3"></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="st">$PLUGIN Rcpp</span></a>
-<a class="sourceLine" id="cb16-5" title="5"></a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="st">$MAIN</span></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="st">if(NEWIND &lt;=1) {</span></a>
-<a class="sourceLine" id="cb16-8" title="8"><span class="st">  double mixv = R::runif(0,1);</span></a>
-<a class="sourceLine" id="cb16-9" title="9"><span class="st">  int POP = 1;</span></a>
-<a class="sourceLine" id="cb16-10" title="10"><span class="st">  if(mixv &gt; p1) POP = 2;</span></a>
-<a class="sourceLine" id="cb16-11" title="11"><span class="st">  if(mixv &gt; (p1+p2)) POP = 3;</span></a>
-<a class="sourceLine" id="cb16-12" title="12"><span class="st">}</span></a>
-<a class="sourceLine" id="cb16-13" title="13"></a>
-<a class="sourceLine" id="cb16-14" title="14"><span class="st">$CAPTURE POP mixv</span></a>
-<a class="sourceLine" id="cb16-15" title="15"><span class="st">&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>code &lt;-<span class="st"> &#39;</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="st">$PARAM p1 = 0.33, p2 = 0.6</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="st">$PLUGIN Rcpp</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="st">$MAIN</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="st">if(NEWIND &lt;=1) {</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="st">  double mixv = R::runif(0,1);</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="st">  int POP = 1;</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="st">  if(mixv &gt; p1) POP = 2;</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a><span class="st">  if(mixv &gt; (p1+p2)) POP = 3;</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a><span class="st">}</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a></span>
+<span id="cb16-14"><a href="#cb16-14"></a><span class="st">$CAPTURE POP mixv</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="st">&#39;</span></span></code></pre></div>
 <p>Here’s what we did</p>
 <ul>
 <li>Code mixture probabilities in <code>$PARAM</code></li>
@@ -613,11 +627,11 @@ div.tocify {
 <li>Remember: you must use <code>$PLUGIN</code> for this to work</li>
 </ul>
 <p>Now, let’s compile and test it out</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;D&quot;</span>, code)</a>
-<a class="sourceLine" id="cb17-2" title="2"></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="kw">set.seed</span>(<span class="dv">333</span>)</a>
-<a class="sourceLine" id="cb17-4" title="4">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, <span class="dt">nid=</span><span class="dv">10000</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">head</span>(out)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mcode_cache</span>(<span class="st">&quot;D&quot;</span>, code)</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">set.seed</span>(<span class="dv">333</span>)</span>
+<span id="cb17-4"><a href="#cb17-4"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, <span class="dt">nid=</span><span class="dv">10000</span>, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">head</span>(out)</span></code></pre></div>
 <pre><code>.   ID time POP       mixv
 . 1  1    0   2 0.46700066
 . 2  2    0   1 0.08459815
@@ -626,7 +640,7 @@ div.tocify {
 . 5  5    0   1 0.02011937
 . 6  6    0   2 0.72355739</code></pre>
 <p>And check that the population is properly configured</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">out <span class="op">%&gt;%</span><span class="st"> </span>as.tbl <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(POP) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">p =</span> n<span class="op">/</span><span class="kw">nrow</span>(out))</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>out <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(POP) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">p =</span> n<span class="op">/</span><span class="kw">nrow</span>(out))</span></code></pre></div>
 <pre><code>. # A tibble: 3 x 3
 .     POP     n      p
 .   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
@@ -652,7 +666,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -691,7 +705,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -486,57 +500,57 @@ div.tocify {
 <h1><span class="header-section-number">2</span> Example with single mtime</h1>
 <p>For example, we might wish a rate constant to change at some time that is not found in a record in the input data set. We can make this happen from the model code itself. In addition to using <code>mevent</code> you can now use <code>mtime</code> to make this happen. <code>mtime</code> is just a simpler subset of the <code>mevent</code> functionality.</p>
 <p>Let’s make KA change at 2.1 hours (<code>change_t</code> parameter in the example below).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">[ param ]</a>
-<a class="sourceLine" id="cb1-2" title="2">CL =<span class="st"> </span><span class="dv">1</span>, V =<span class="st"> </span><span class="dv">20</span>, KA1 =<span class="st"> </span><span class="fl">0.1</span>, KA2 =<span class="st"> </span><span class="fl">2.5</span>, change_t =<span class="st"> </span><span class="fl">2.1</span></a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">[ pkmodel ] </a>
-<a class="sourceLine" id="cb1-5" title="5">cmt =<span class="st"> &quot;GUT,CENT&quot;</span>, depot =<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7">[ main ] </a>
-<a class="sourceLine" id="cb1-8" title="8">double mt =<span class="st"> </span><span class="kw">self.mtime</span>(change_t);</a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10">capture KA =<span class="st"> </span>KA1;</a>
-<a class="sourceLine" id="cb1-11" title="11"></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="cf">if</span>(TIME <span class="op">&gt;</span><span class="st"> </span>mt) KA =<span class="st"> </span>KA2;</a>
-<a class="sourceLine" id="cb1-13" title="13"></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="cf">if</span>(TIME <span class="op">==</span><span class="st"> </span>change_t) {</a>
-<a class="sourceLine" id="cb1-15" title="15">  mrg<span class="op">::</span><span class="kw">report</span>(<span class="st">&quot;wait a minute ... time is 2.1?&quot;</span>);  </a>
-<a class="sourceLine" id="cb1-16" title="16">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>[ param ]</span>
+<span id="cb1-2"><a href="#cb1-2"></a>CL =<span class="st"> </span><span class="dv">1</span>, V =<span class="st"> </span><span class="dv">20</span>, KA1 =<span class="st"> </span><span class="fl">0.1</span>, KA2 =<span class="st"> </span><span class="fl">2.5</span>, change_t =<span class="st"> </span><span class="fl">2.1</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>[ pkmodel ] </span>
+<span id="cb1-5"><a href="#cb1-5"></a>cmt =<span class="st"> &quot;GUT,CENT&quot;</span>, depot =<span class="st"> </span><span class="ot">TRUE</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>[ main ] </span>
+<span id="cb1-8"><a href="#cb1-8"></a>double mt =<span class="st"> </span><span class="kw">self.mtime</span>(change_t);</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>capture KA =<span class="st"> </span>KA1;</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="cf">if</span>(TIME <span class="op">&gt;</span><span class="st"> </span>mt) KA =<span class="st"> </span>KA2;</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="cf">if</span>(TIME <span class="op">==</span><span class="st"> </span>change_t) {</span>
+<span id="cb1-15"><a href="#cb1-15"></a>  mrg<span class="op">::</span><span class="kw">report</span>(<span class="st">&quot;wait a minute ... time is 2.1?&quot;</span>);  </span>
+<span id="cb1-16"><a href="#cb1-16"></a>}</span></code></pre></div>
 <p>Again, the main motivation for this is just convenience and economy of code: we register the event time and get that time returned into a variable that we can reference later on, checking if we are past that time or not.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw">options</span>(<span class="dt">mrgsolve.soloc =</span> <span class="st">&quot;build&quot;</span>)</a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5">mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;mtime_model.txt&quot;</span>)</a>
-<a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">delta =</span> <span class="fl">0.222</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(CENT<span class="op">+</span>KA<span class="op">~</span>time)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">options</span>(<span class="dt">mrgsolve.soloc =</span> <span class="st">&quot;build&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;mtime_model.txt&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>(<span class="dt">delta =</span> <span class="fl">0.222</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(CENT<span class="op">+</span>KA<span class="op">~</span>time)</span></code></pre></div>
 <p><img src="mtime_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>You won’t see the message that we actually stumbled on <code>2.1</code> hours in the simulation even though it was not in the lineup when the simulation started.</p>
 </div>
 <div id="example-with-several-mtimes" class="section level1">
 <h1><span class="header-section-number">3</span> Example with several mtimes</h1>
 <p>We could keep track of several mtimes like this</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">[ set ] end=<span class="dv">8</span>, delta=<span class="fl">0.1</span></a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3">[ param ]</a>
-<a class="sourceLine" id="cb3-4" title="4">CL =<span class="st"> </span><span class="dv">1</span>, V =<span class="st"> </span><span class="dv">20</span>, KA1 =<span class="st"> </span><span class="fl">0.1</span>, KA2 =<span class="st"> </span><span class="fl">0.5</span>, KA3 =<span class="st"> </span><span class="dv">5</span>, change_t =<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb3-5" title="5"></a>
-<a class="sourceLine" id="cb3-6" title="6">[ pkmodel ] </a>
-<a class="sourceLine" id="cb3-7" title="7">cmt =<span class="st"> &quot;GUT,CENT&quot;</span>, depot =<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9">[ main ] </a>
-<a class="sourceLine" id="cb3-10" title="10">double mt =<span class="st"> </span><span class="kw">self.mtime</span>(change_t);</a>
-<a class="sourceLine" id="cb3-11" title="11"></a>
-<a class="sourceLine" id="cb3-12" title="12">double mt2 =<span class="st"> </span><span class="kw">self.mtime</span>(change_t <span class="op">+</span><span class="st"> </span><span class="dv">1</span>);</a>
-<a class="sourceLine" id="cb3-13" title="13"></a>
-<a class="sourceLine" id="cb3-14" title="14">capture KA =<span class="st"> </span>KA1;</a>
-<a class="sourceLine" id="cb3-15" title="15"></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="cf">if</span>(TIME <span class="op">&gt;</span><span class="st"> </span>mt) KA =<span class="st"> </span>KA2;</a>
-<a class="sourceLine" id="cb3-17" title="17"></a>
-<a class="sourceLine" id="cb3-18" title="18"><span class="cf">if</span>(TIME <span class="op">&gt;</span><span class="st"> </span>mt2) KA =<span class="st"> </span>KA3;</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;mtime_model_2.txt&quot;</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3">mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(CENT <span class="op">+</span><span class="st"> </span>KA <span class="op">~</span><span class="st"> </span>time)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>[ set ] end=<span class="dv">8</span>, delta=<span class="fl">0.1</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>[ param ]</span>
+<span id="cb3-4"><a href="#cb3-4"></a>CL =<span class="st"> </span><span class="dv">1</span>, V =<span class="st"> </span><span class="dv">20</span>, KA1 =<span class="st"> </span><span class="fl">0.1</span>, KA2 =<span class="st"> </span><span class="fl">0.5</span>, KA3 =<span class="st"> </span><span class="dv">5</span>, change_t =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>[ pkmodel ] </span>
+<span id="cb3-7"><a href="#cb3-7"></a>cmt =<span class="st"> &quot;GUT,CENT&quot;</span>, depot =<span class="st"> </span><span class="ot">TRUE</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a>[ main ] </span>
+<span id="cb3-10"><a href="#cb3-10"></a>double mt =<span class="st"> </span><span class="kw">self.mtime</span>(change_t);</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a>double mt2 =<span class="st"> </span><span class="kw">self.mtime</span>(change_t <span class="op">+</span><span class="st"> </span><span class="dv">1</span>);</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>capture KA =<span class="st"> </span>KA1;</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="cf">if</span>(TIME <span class="op">&gt;</span><span class="st"> </span>mt) KA =<span class="st"> </span>KA2;</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="cf">if</span>(TIME <span class="op">&gt;</span><span class="st"> </span>mt2) KA =<span class="st"> </span>KA3;</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mread_cache</span>(<span class="st">&quot;mtime_model_2.txt&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>mod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt=</span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mrgsim</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">plot</span>(CENT <span class="op">+</span><span class="st"> </span>KA <span class="op">~</span><span class="st"> </span>time)</span></code></pre></div>
 <p><img src="mtime_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 
@@ -555,7 +569,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -594,7 +608,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

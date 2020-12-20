@@ -23,6 +23,9 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,12 +37,21 @@
   gtag('config', 'UA-92528248-1');
 </script>
 
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -49,14 +61,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -65,9 +79,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -480,53 +494,53 @@ div.tocify {
 <div id="tad-calculated-as-runtime-argument" class="section level1">
 <h1><span class="header-section-number">1</span> TAD calculated as runtime argument</h1>
 <p>For a while, you’ve been able to get time after dose in your simulated output</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(mrgsolve)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">req =</span> <span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb1-5" title="5"></a>
-<a class="sourceLine" id="cb1-6" title="6">mod <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">4</span>, <span class="dt">addl =</span> <span class="dv">3</span>, <span class="dt">time =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">tad =</span> <span class="ot">TRUE</span>, <span class="dt">add =</span> <span class="kw">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(mrgsolve)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">req =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>mod <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">4</span>, <span class="dt">addl =</span> <span class="dv">3</span>, <span class="dt">time =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">tad =</span> <span class="ot">TRUE</span>, <span class="dt">add =</span> <span class="kw">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="st">  </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 4
 ##       ID  time   tad    CP
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1     1  0    -2     0   
-##  2     1  1    -1     0   
-##  3     1  2     0     0   
-##  4     1  2     0     0   
-##  5     1  3     1     3.07
-##  6     1  3.89  1.89  3.99
-##  7     1  4     2     4.05
-##  8     1  5     3     4.27
-##  9     1  5.91  3.91  4.22
-## 10     1  6     0     4.21</code></pre>
+##  1     1   0   -2        0
+##  2     1   0.1 -1.9      0
+##  3     1   0.2 -1.8      0
+##  4     1   0.3 -1.7      0
+##  5     1   0.4 -1.6      0
+##  6     1   0.5 -1.5      0
+##  7     1   0.6 -1.4      0
+##  8     1   0.7 -1.30     0
+##  9     1   0.8 -1.2      0
+## 10     1   0.9 -1.1      0</code></pre>
 <p>This is convenient because you can choose the output at run time, we give you the negative numbers prior to the first dose etc. This sort of calculation is possible because we let mrgsolve know ahead of time that we want this calculation done and mrgsolve makes an extra pass through the records to find when is the first dose for each individual.</p>
 </div>
 <div id="tad-calculated-in-the-model" class="section level1">
 <h1><span class="header-section-number">2</span> TAD calculated in the model</h1>
 <p>Sometimes you would like to work with time after dose in your model. This isn’t super-complicated to do but does require some programming and setup and all of that. As of mrgsolve 0.9.1, there is a special function to do these calculations for you.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">mod &lt;-<span class="st"> </span><span class="kw">mread</span>(<span class="st">&quot;time_after_dose.txt&quot;</span>,<span class="dt">req =</span> <span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mread</span>(<span class="st">&quot;time_after_dose.txt&quot;</span>,<span class="dt">req =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p>Looking at the <code>[MAIN]</code> block:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb4-1" title="1">capture tadose = self.tad();</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1"></a>capture tadose = self.tad();</span></code></pre></div>
 <p>When you call <code>self.tad()</code> you will get the time after dose. It’s important that this gets called on every record … specifically every dosing record. It will not work properly if it is not called every record and there is no check at this time to make sure you follow that rule. So please follow the rule.</p>
 <p>To see an example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb5-1" title="1">[ param ] CL = <span class="dv">1</span>, V = <span class="dv">20</span>, KA = <span class="dv">1</span></a>
-<a class="sourceLine" id="cb5-2" title="2"></a>
-<a class="sourceLine" id="cb5-3" title="3">[ pkmodel ] cmt = <span class="st">&quot;GUT,CENT&quot;</span>, depot = TRUE</a>
-<a class="sourceLine" id="cb5-4" title="4"></a>
-<a class="sourceLine" id="cb5-5" title="5">[ main ] </a>
-<a class="sourceLine" id="cb5-6" title="6">capture tadose = self.tad();</a>
-<a class="sourceLine" id="cb5-7" title="7"></a>
-<a class="sourceLine" id="cb5-8" title="8">[ table]</a>
-<a class="sourceLine" id="cb5-9" title="9">capture CP  = CENT/V;</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">mod <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">4</span>, <span class="dt">addl =</span> <span class="dv">3</span>, <span class="dt">time =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">tad =</span> <span class="ot">TRUE</span>, <span class="dt">add =</span> <span class="kw">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1"></a>[ param ] CL = <span class="dv">1</span>, V = <span class="dv">20</span>, KA = <span class="dv">1</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>[ pkmodel ] cmt = <span class="st">&quot;GUT,CENT&quot;</span>, depot = TRUE</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a>[ main ] </span>
+<span id="cb5-6"><a href="#cb5-6"></a>capture tadose = self.tad();</span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a>[ table]</span>
+<span id="cb5-9"><a href="#cb5-9"></a>capture CP  = CENT/V;</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>mod <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">ii =</span> <span class="dv">4</span>, <span class="dt">addl =</span> <span class="dv">3</span>, <span class="dt">time =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">mrgsim</span>(<span class="dt">tad =</span> <span class="ot">TRUE</span>, <span class="dt">add =</span> <span class="kw">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 5
 ##       ID  time   tad tadose    CP
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
@@ -563,7 +577,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -602,7 +616,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
