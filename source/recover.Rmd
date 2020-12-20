@@ -36,7 +36,7 @@ As a very simple example, we'll make an event object with a regimen item in
 it
 
 ```{r}
-qd <- ev_rx("100 q24 x3") %>% mutate(regimen = "100 mg daily")
+qd <- ev_rx("100 q24 x3") %>% mutate(regimen = "100 mg qd")
 
 qd
 ```

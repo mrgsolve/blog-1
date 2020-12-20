@@ -490,12 +490,12 @@ div.tocify {
 <a class="sourceLine" id="cb1-3" title="3"></a>
 <a class="sourceLine" id="cb1-4" title="4">mod &lt;-<span class="st"> </span><span class="kw">house</span>(<span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">96</span>, <span class="dt">outvars =</span> <span class="st">&quot;CP&quot;</span>)</a></code></pre></div>
 <p>As a very simple example, we’ll make an event object with a regimen item in it</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">qd &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;100 mg daily&quot;</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">qd &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;100 mg qd&quot;</span>)</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
 <a class="sourceLine" id="cb2-3" title="3">qd</a></code></pre></div>
 <pre><code>. Events:
-.   time amt ii addl cmt evid      regimen
-. 1    0 100 24    2   1    1 100 mg daily</code></pre>
+.   time amt ii addl cmt evid   regimen
+. 1    0 100 24    2   1    1 100 mg qd</code></pre>
 <p>When I simulate with this event object, I’ll <code>recover</code> the <code>regimen</code> item</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, qd, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>)</a></code></pre></div>
 <p>I now have the “regimen” in the simulated output as a <code>character</code> data item:</p>
@@ -503,18 +503,18 @@ div.tocify {
 <p><img src="recover_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">as_tibble</span>(out)</a></code></pre></div>
 <pre><code>. # A tibble: 962 x 4
-.       ID  time    CP regimen     
-.    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
-.  1     1   0   0     100 mg daily
-.  2     1   0   0     100 mg daily
-.  3     1   0.1 0.564 100 mg daily
-.  4     1   0.2 1.06  100 mg daily
-.  5     1   0.3 1.50  100 mg daily
-.  6     1   0.4 1.89  100 mg daily
-.  7     1   0.5 2.23  100 mg daily
-.  8     1   0.6 2.52  100 mg daily
-.  9     1   0.7 2.79  100 mg daily
-. 10     1   0.8 3.02  100 mg daily
+.       ID  time    CP regimen  
+.    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
+.  1     1   0   0     100 mg qd
+.  2     1   0   0     100 mg qd
+.  3     1   0.1 0.564 100 mg qd
+.  4     1   0.2 1.06  100 mg qd
+.  5     1   0.3 1.50  100 mg qd
+.  6     1   0.4 1.89  100 mg qd
+.  7     1   0.5 2.23  100 mg qd
+.  8     1   0.6 2.52  100 mg qd
+.  9     1   0.7 2.79  100 mg qd
+. 10     1   0.8 3.02  100 mg qd
 . # … with 952 more rows</code></pre>
 <p>Now, make another group and simulate together</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">bid &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;50 q12 x6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;50 mg bid&quot;</span>)</a>
@@ -523,9 +523,9 @@ div.tocify {
 <p>I’m going to turn this into a factor now …</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">regimen =</span> <span class="kw">fct_inorder</span>(regimen))</a>
 <a class="sourceLine" id="cb9-2" title="2">data</a></code></pre></div>
-<pre><code>.   ID time cmt evid amt ii addl      regimen
-. 1  1    0   1    1  50 12    5    50 mg bid
-. 2  2    0   1    1 100 24    2 100 mg daily</code></pre>
+<pre><code>.   ID time cmt evid amt ii addl   regimen
+. 1  1    0   1    1  50 12    5 50 mg bid
+. 2  2    0   1    1 100 24    2 100 mg qd</code></pre>
 <p>… so that when I summarize, the levels are in the order I want:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>) </a>
 <a class="sourceLine" id="cb11-2" title="2"></a>
@@ -533,10 +533,10 @@ div.tocify {
 <a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(regimen) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb11-5" title="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</a></code></pre></div>
 <pre><code>. # A tibble: 2 x 2
-.   regimen       Cmax
-.   &lt;fct&gt;        &lt;dbl&gt;
-. 1 50 mg bid     4.85
-. 2 100 mg daily  6.15</code></pre>
+.   regimen    Cmax
+.   &lt;fct&gt;     &lt;dbl&gt;
+. 1 50 mg bid  4.85
+. 2 100 mg qd  6.15</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>regimen, <span class="dt">scales=</span><span class="st">&quot;same&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</a></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
