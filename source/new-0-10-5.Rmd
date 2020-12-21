@@ -14,12 +14,16 @@ knitr::opts_chunk$set(comment = '.')
 
 This blog post shows some of the new features that came into mrgsolve starting
 with version `0.10.5` (December 2020).  The purpose 
-is to illustrate what is possible rather than detailed documentation.  
+is to illustrate what is possible rather than detailed documentation. There
+were other small bugs and gremlins fixed as well, but we are focused on 
+bigger, user-facing changes here.
 
 # Specify capture at compile time
 
 __Big Idea__: The feature helps give you more flexibility for getting 
-data out of your model and into your simulated output. 
+data out of your model and into your simulated output. You have the ability
+to select output items when you run `mread()` in addition to specifying them 
+in the model code. 
 
 In your mrgsolve model, you can request that the values of different variables
 are written into the simulated output.  This is done through the capture block
@@ -54,7 +58,7 @@ outvars(mod)
 And now when I simulate from the model, I'll get all of these quantities
 back:
 ```{r}
-mrgsim(mod)
+mrgsim(mod, ev(amt = 100))
 ```
 
 This is temporary until the model is re-compiled again
@@ -90,7 +94,7 @@ parameter columns and one non-parameter column:
 data <- expand.ev(amt = 100, WT = "500", TVV = "ABC", name = "KYLE")
 ```
 
-
+When we simulation, we get some messages for dropped columns:
 ```{r}
 mrgsim(mod, data)
 ```
@@ -101,11 +105,12 @@ relevant to the simulation.
 
 This example is made up to illustrate the behavior.  But in typical usage when 
 we do things right, we might have extra character columns that we don't care
-about. In this case we get no warnings:
+about. **In this case we get no warnings**:
 
 ```{r}
 data <- expand.ev(
-  amt = 100, WT = 70, TVV = 20, name = "KYLE", 
+  amt = 100, WT = 70, TVV = 20, 
+  name = "KYLE", 
   state = "minnesota"
 )
 
@@ -135,7 +140,7 @@ capture CP = CENT/V;
 '
 mod <- mcode("error", code)
 
-mrgsim(mod)
+mrgsim(mod, ev(amt = 100))
 ```
 
 # Try loading the model at runtime if it isn't loaded
@@ -169,6 +174,11 @@ needs to be compiled.
 
 Version 0.10.5 also adds a new plugin with the ability to calculate 
 time after dose in any compartment. 
+
+We write a model using the `tad` plugin to track time after dose in 
+compartments `one` and `two`.  We create `tadose` objects to track 
+this and we can call the `tad()` method on these objects, passing 
+in the `self` data item.
 
 ```{r}
 code <- '
@@ -214,8 +224,18 @@ mod %>% mrgsim(data1, tad = TRUE)
  This is a little nicer because it will fill in negative `tad` values for you.
  
 
+# Improved handling of time-varying covariates
 
-
+This one is a little harder to demonstrate.  mrgsolve has always 
+been able to simulate time-varying covariates, but it hasn't always 
+inserted a hard discontinuity when parameter values change in the 
+data set over time.  Starting in 0.10.5, when parameters are read 
+from the `data-set` and they change from record to record, we 
+now re-initialize the ode solver so a hard discontinuity is created
+in the simulation.  This will create more accurate simulations 
+around the time that the covariate value changes.  This results in 
+no change when running 1- and 2-compartment models which are handled with 
+the closed form equations. 
 
 
 
