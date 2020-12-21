@@ -1,5 +1,5 @@
 ---
-title: "New in 0.10.5"
+title: "New in 0.10.7"
 ---
 
 
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(comment = '.')
 # Introduction
 
 This blog post shows some of the new features that came into mrgsolve starting
-with version `0.10.5` (December 2020).  The purpose 
+with version `0.10.7` (December 2020).  The purpose 
 is to illustrate what is possible rather than detailed documentation. There
 were other small bugs and gremlins fixed as well, but we are focused on 
 bigger, user-facing changes here.
@@ -42,7 +42,7 @@ We can check what will be captured:
 outvars(mod)
 ```
 
-Starting with mrgsolve 0.10.5, you can specify additional variables for 
+Starting with mrgsolve 0.10.7, you can specify additional variables for 
 capture when you read in the model with `mread()`:
 
 ```{r}
@@ -172,7 +172,7 @@ needs to be compiled.
 
 # Time after dose in specific compartment
 
-Version 0.10.5 also adds a new plugin with the ability to calculate 
+Version 0.10.7 also adds a new plugin with the ability to calculate 
 time after dose in any compartment. 
 
 We write a model using the `tad` plugin to track time after dose in 
@@ -229,7 +229,7 @@ mod %>% mrgsim(data1, tad = TRUE)
 This one is a little harder to demonstrate.  mrgsolve has always 
 been able to simulate time-varying covariates, but it hasn't always 
 inserted a hard discontinuity when parameter values change in the 
-data set over time.  Starting in 0.10.5, when parameters are read 
+data set over time.  Starting in 0.10.7, when parameters are read 
 from the `data-set` and they change from record to record, we 
 now re-initialize the ode solver so a hard discontinuity is created
 in the simulation.  This will create more accurate simulations 

@@ -47,7 +47,7 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 # Posts
 
 ## 2020
-  - [What's new in 0.10.5](new-0-10-5.html)
+  - [What's new in 0.10.7](new-0-10-7.html)
   - [Recover non-numeric data columns from data/idata sets](recover.html)
   - [What's new in 0.10.0 and 0.10.1](new-0-10-1.html)
   - [Steady State in mrgsolve](steady-state.html)

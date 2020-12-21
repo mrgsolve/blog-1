@@ -11,7 +11,7 @@
 
 
 
-<title>New in 0.10.5</title>
+<title>New in 0.10.7</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -486,14 +486,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">New in 0.10.5</h1>
+<h1 class="title toc-ignore">New in 0.10.7</h1>
 
 </div>
 
 
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>This blog post shows some of the new features that came into mrgsolve starting with version <code>0.10.5</code> (December 2020). The purpose is to illustrate what is possible rather than detailed documentation. There were other small bugs and gremlins fixed as well, but we are focused on bigger, user-facing changes here.</p>
+<p>This blog post shows some of the new features that came into mrgsolve starting with version <code>0.10.7</code> (December 2020). The purpose is to illustrate what is possible rather than detailed documentation. There were other small bugs and gremlins fixed as well, but we are focused on bigger, user-facing changes here.</p>
 </div>
 <div id="specify-capture-at-compile-time" class="section level1">
 <h1><span class="header-section-number">2</span> Specify capture at compile time</h1>
@@ -524,7 +524,7 @@ div.tocify {
 . 
 . $capture
 . [1] &quot;CL&quot; &quot;DV&quot;</code></pre>
-<p>Starting with mrgsolve 0.10.5, you can specify additional variables for capture when you read in the model with <code>mread()</code>:</p>
+<p>Starting with mrgsolve 0.10.7, you can specify additional variables for capture when you read in the model with <code>mread()</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mread</span>(<span class="st">&quot;popexample.mod&quot;</span>, <span class="dt">capture =</span> <span class="st">&quot;ETA(1), WT, IPRED, V&quot;</span>)</span></code></pre></div>
 <pre><code>. Building popexample_mod ... done.</code></pre>
 <p>Here, I’ve asked for the value of one of the ETAs, a parameter (<code>WT</code>) and a couple of derived quantities (<code>IPRED</code> and <code>V</code>):</p>
@@ -695,7 +695,7 @@ div.tocify {
 </div>
 <div id="time-after-dose-in-specific-compartment" class="section level1">
 <h1><span class="header-section-number">6</span> Time after dose in specific compartment</h1>
-<p>Version 0.10.5 also adds a new plugin with the ability to calculate time after dose in any compartment.</p>
+<p>Version 0.10.7 also adds a new plugin with the ability to calculate time after dose in any compartment.</p>
 <p>We write a model using the <code>tad</code> plugin to track time after dose in compartments <code>one</code> and <code>two</code>. We create <code>tadose</code> objects to track this and we can call the <code>tad()</code> method on these objects, passing in the <code>self</code> data item.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a>code &lt;-<span class="st"> &#39;</span></span>
 <span id="cb40-2"><a href="#cb40-2"></a></span>
@@ -757,7 +757,7 @@ div.tocify {
 </div>
 <div id="improved-handling-of-time-varying-covariates" class="section level1">
 <h1><span class="header-section-number">7</span> Improved handling of time-varying covariates</h1>
-<p>This one is a little harder to demonstrate. mrgsolve has always been able to simulate time-varying covariates, but it hasn’t always inserted a hard discontinuity when parameter values change in the data set over time. Starting in 0.10.5, when parameters are read from the <code>data-set</code> and they change from record to record, we now re-initialize the ode solver so a hard discontinuity is created in the simulation. This will create more accurate simulations around the time that the covariate value changes. This results in no change when running 1- and 2-compartment models which are handled with the closed form equations.</p>
+<p>This one is a little harder to demonstrate. mrgsolve has always been able to simulate time-varying covariates, but it hasn’t always inserted a hard discontinuity when parameter values change in the data set over time. Starting in 0.10.7, when parameters are read from the <code>data-set</code> and they change from record to record, we now re-initialize the ode solver so a hard discontinuity is created in the simulation. This will create more accurate simulations around the time that the covariate value changes. This results in no change when running 1- and 2-compartment models which are handled with the closed form equations.</p>
 </div>
 
 <hr>
