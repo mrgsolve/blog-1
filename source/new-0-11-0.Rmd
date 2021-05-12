@@ -325,3 +325,10 @@ mod <- mcode("letters", code, compile = FALSE)
 param(mod)
 ```
 
+# Check User Interrupt
+
+Starting with version `0.11.1`, we will start periodically checking for the 
+user interrupt signal (`Esc` or `Control-C`) as the simulation proceeds. This 
+will let you kill a long-running simulation mid-stream. You can change the check 
+interval by the `interrupt` argument to `mrgsim()`. Reduce the number to 
+check more frequently and pass `-1` to not check at all.

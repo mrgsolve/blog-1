@@ -703,6 +703,10 @@ div.tocify {
 .  l    12    | y    25   
 .  m    13    | z    26</code></pre>
 </div>
+<div id="check-user-interrupt" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> Check User Interrupt</h1>
+<p>Starting with version <code>0.11.1</code>, we will start periodically checking for the user interrupt signal (<code>Esc</code> or <code>Control-C</code>) as the simulation proceeds. This will let you kill a long-running simulation mid-stream. You can change the check interval by the <code>interrupt</code> argument to <code>mrgsim()</code>. Reduce the number to check more frequently and pass <code>-1</code> to not check at all.</p>
+</div>
 
 <hr>
 <p>
