@@ -1,0 +1,5 @@
+In file included from pk1cmt-mread-source.cpp:3:
+./pk1cmt-mread-header.h:25:4: warning: extra ';' outside of a function is a C++11 extension [-Wc++11-extra-semi]
+   ;
+   ^
+1 warning generated.

@@ -13,19 +13,26 @@
 
 <title>Recover non-numeric data columns from data/idata sets</title>
 
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -47,21 +54,27 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +94,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -135,39 +148,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 <link rel="stylesheet" href="css/styles.css" type="text/css" />
 <link rel="stylesheet" href="css/colors.css" type="text/css" />
@@ -179,10 +162,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -199,40 +178,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -260,7 +212,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -272,7 +224,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -283,10 +235,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -298,7 +263,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -424,13 +388,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -458,7 +422,7 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/mrgsolve/blog">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -472,7 +436,7 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/metrumresearchgroup/mrgsolve">
-    <span class="fa fa-code fa-lg"></span>
+    <span class="fas fa-code fa-lg"></span>
      
   </a>
 </li>
@@ -482,7 +446,7 @@ div.tocify {
 </div><!--/.navbar -->
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -491,31 +455,31 @@ div.tocify {
 </div>
 
 
-<div id="introduction" class="section level1">
-<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="introduction" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>We frequently want to access in the simulated output data items that were present in input data sets. For example, if we have multiple studies represented in the data, we’d like to simulate all studies and then summarize or plot the results by study. We need to study number in the simulated output to do that.</p>
 <p>For a long time, mrgsolve has had a <code>carry_out</code> feature, where input data columns can be selected and those input data automatically copied to the simulated (output) data. However, this has been limited to numeric data items.</p>
 <p>Starting with mrgsolve version <code>0.10.4</code>, users can bring non-numeric data items from input data to output. This feature is called <code>recover</code>.</p>
 </div>
-<div id="example---event-objects" class="section level1">
-<h1><span class="header-section-number">2</span> Example - event objects</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(mrgsolve)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>mod &lt;-<span class="st"> </span><span class="kw">house</span>(<span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">96</span>, <span class="dt">outvars =</span> <span class="st">&quot;CP&quot;</span>)</span></code></pre></div>
+<div id="example---event-objects" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Example - event objects</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">house</span>(<span class="at">delta =</span> <span class="fl">0.1</span>, <span class="at">end =</span> <span class="dv">96</span>, <span class="at">outvars =</span> <span class="st">&quot;CP&quot;</span>)</span></code></pre></div>
 <p>As a very simple example, we’ll make an event object with a regimen item in it</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>qd &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;100 mg qd&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>qd</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>qd <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">&quot;100 q24 x3&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">regimen =</span> <span class="st">&quot;100 mg qd&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>qd</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid   regimen
 . 1    0 100 24    2   1    1 100 mg qd</code></pre>
 <p>When I simulate with this event object, I’ll <code>recover</code> the <code>regimen</code> item</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, qd, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, qd, <span class="at">recover =</span> <span class="st">&quot;regimen&quot;</span>)</span></code></pre></div>
 <p>I now have the “regimen” in the simulated output as a <code>character</code> data item:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">plot</span>(out, CP <span class="op">~</span><span class="st"> </span>time <span class="op">|</span>regimen)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, CP <span class="sc">~</span> time <span class="sc">|</span>regimen)</span></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">as_tibble</span>(out)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(out)</span></code></pre></div>
 <pre><code>. # A tibble: 962 x 4
 .       ID  time    CP regimen  
 .    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
@@ -531,34 +495,33 @@ div.tocify {
 . 10     1   0.8 3.02  100 mg qd
 . # … with 952 more rows</code></pre>
 <p>Now, make another group and simulate together</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>bid &lt;-<span class="st"> </span><span class="kw">ev_rx</span>(<span class="st">&quot;50 q12 x6&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">regimen =</span> <span class="st">&quot;50 mg bid&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>data &lt;-<span class="st"> </span><span class="kw">as_data_set</span>(bid,qd) </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bid <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">&quot;50 q12 x6&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">regimen =</span> <span class="st">&quot;50 mg bid&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as_data_set</span>(bid,qd) </span></code></pre></div>
 <p>I’m going to turn this into a factor now …</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">regimen =</span> <span class="kw">fct_inorder</span>(regimen))</span>
-<span id="cb9-2"><a href="#cb9-2"></a>data</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">mutate</span>(data, <span class="at">regimen =</span> <span class="fu">fct_inorder</span>(regimen))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
 <pre><code>.   ID time cmt evid amt ii addl   regimen
 . 1  1    0   1    1  50 12    5 50 mg bid
 . 2  2    0   1    1 100 24    2 100 mg qd</code></pre>
 <p>… so that when I summarize, the levels are in the order I want:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;regimen&quot;</span>) </span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a>out <span class="op">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">group_by</span>(regimen) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</span></code></pre></div>
-<pre><code>. `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">recover =</span> <span class="st">&quot;regimen&quot;</span>) </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(regimen) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Cmax =</span> <span class="fu">max</span>(CP))</span></code></pre></div>
 <pre><code>. # A tibble: 2 x 2
 .   regimen    Cmax
 .   &lt;fct&gt;     &lt;dbl&gt;
 . 1 50 mg bid  4.85
 . 2 100 mg qd  6.15</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">plot</span>(out, CP<span class="op">~</span>time<span class="op">|</span>regimen, <span class="dt">scales=</span><span class="st">&quot;same&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, CP<span class="sc">~</span>time<span class="sc">|</span>regimen, <span class="at">scales=</span><span class="st">&quot;same&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>)</span></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="example---data-set" class="section level1">
-<h1><span class="header-section-number">3</span> Example - data set</h1>
+<div id="example---data-set" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Example - data set</h1>
 <p>There is no real change if I’m using <code>recover</code> with a data set</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">head</span>(data)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
 <pre><code>.    C NUM ID SUBJ TIME SEQ CMT EVID AMT      DV   AGE    WT   CRCL ALB   BMI
 . 1 NA   1  1    1 0.00   0   1    1   5   0.000 28.03 55.16 114.45 4.4 21.67
 . 2 NA   2  1    1 0.61   1   2    0  NA  61.005 28.03 55.16 114.45 4.4 21.67
@@ -581,9 +544,9 @@ div.tocify {
 . 5        dose      0     0 below Q       1 Normal  normal
 . 6        dose      0     0 below Q       1 Normal  normal</code></pre>
 <p>Same idea as we had in event objects:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim</span>(mod, data, <span class="dt">recover =</span> <span class="st">&quot;WT,CRCL,STUDY,HEPATIC,RENAL&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">recover =</span> <span class="st">&quot;WT,CRCL,STUDY,HEPATIC,RENAL&quot;</span>)</span></code></pre></div>
 <p>We copy either numeric, character, or factors into the output</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">as_tibble</span>(out)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(out)</span></code></pre></div>
 <pre><code>. # A tibble: 4,360 x 8
 .       ID  TIME    CP    WT  CRCL STUDY HEPATIC RENAL 
 .    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt; 
@@ -599,11 +562,11 @@ div.tocify {
 . 10     1  8.09 0.216  55.2  114. SAD   normal  Normal
 . # … with 4,350 more rows</code></pre>
 <p>And we can summarize</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>out <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw">filter</span>(TIME <span class="op">&lt;</span><span class="st"> </span><span class="dv">24</span>) <span class="op">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw">group_by</span>(STUDY,HEPATIC,RENAL) <span class="op">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Cmax =</span> <span class="kw">max</span>(CP))</span></code></pre></div>
-<pre><code>. `summarise()` regrouping output by &#39;STUDY&#39;, &#39;HEPATIC&#39; (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TIME <span class="sc">&lt;</span> <span class="dv">24</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(STUDY,HEPATIC,RENAL) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Cmax =</span> <span class="fu">max</span>(CP))</span></code></pre></div>
+<pre><code>. `summarise()` has grouped output by &#39;STUDY&#39;, &#39;HEPATIC&#39;. You can override using the `.groups` argument.</code></pre>
 <pre><code>. # A tibble: 10 x 4
 . # Groups:   STUDY, HEPATIC [7]
 .    STUDY   HEPATIC RENAL     Cmax
@@ -618,15 +581,15 @@ div.tocify {
 .  8 Hepatic Pugh1   Normal    1.40
 .  9 Hepatic Pugh2   Normal    1.28
 . 10 Hepatic Pugh3   Normal    1.45</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>sims &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(out)</span>
-<span id="cb23-2"><a href="#cb23-2"></a></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="kw">ggplot</span>(sims, <span class="kw">aes</span>(TIME,CP,<span class="dt">group=</span>ID)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="st">  </span><span class="kw">facet_grid</span>(STUDY<span class="op">~</span>RENAL) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(out)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sims, <span class="fu">aes</span>(TIME,CP,<span class="at">group=</span>ID)) <span class="sc">+</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(STUDY<span class="sc">~</span>RENAL) <span class="sc">+</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="recover_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
-<div id="what-is-the-difference-carry_out-recover" class="section level1">
-<h1><span class="header-section-number">4</span> What is the difference: carry_out / recover</h1>
+<div id="what-is-the-difference-carry_out-recover" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> What is the difference: carry_out / recover</h1>
 <p>There should not be a difference in the simulation result whether you use <code>carry_out</code> or <code>recover</code> (outside of the fact that <code>recover</code> takes any type of data).</p>
 <p>There will be a very minor performance hit for using <code>recover</code> because it has to join the input data on to the simulated data. But this should be imperceptible in the vast majority of cases. Of course, when every microsecond of simulation time counts, think carefully about what you are doing and consider more efficient alternatives. Remember that features like <code>carry_out</code> and <code>recover</code> are convenience features to make you life easier. They always increase the overall simulation time to some degree or another. So when benchmarking mrgsolve, you should always consider if <code>carry_out</code> or <code>recover</code> are being used or not.</p>
 <p><code>recover</code> depends on <code>carry_out</code> functionality to work: under the hood, we label the input data rows with an index number, <code>carry_out</code> that index, and then use that index to join input to output data. So <code>carry_out</code> won’t go away. But I’m guessing that recover will be fine for most applications.</p>
@@ -666,7 +629,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

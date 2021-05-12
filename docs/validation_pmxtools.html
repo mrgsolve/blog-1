@@ -13,19 +13,26 @@
 
 <title>Validating Simulation Results with pmxTools</title>
 
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -47,21 +54,27 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +94,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -135,39 +148,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 <link rel="stylesheet" href="css/styles.css" type="text/css" />
 <link rel="stylesheet" href="css/colors.css" type="text/css" />
@@ -179,10 +162,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -199,40 +178,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -260,7 +212,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -272,7 +224,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -283,10 +235,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -298,7 +263,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -424,13 +388,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -458,7 +422,7 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/mrgsolve/blog">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -472,7 +436,7 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/metrumresearchgroup/mrgsolve">
-    <span class="fa fa-code fa-lg"></span>
+    <span class="fas fa-code fa-lg"></span>
      
   </a>
 </li>
@@ -482,7 +446,7 @@ div.tocify {
 </div><!--/.navbar -->
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -493,32 +457,32 @@ div.tocify {
 
 <p>I just discovered this nifty tool published by the folks over at <red>Occams</red> (with other contributors as well) called <a href="https://CRAN.R-project.org/package=pmxTools"><red>pmxTools</red></a>. There are a lot of really useful R functions for your pharmacometrics workflow in this package and worth checking it out in depth!</p>
 <p>What I want to focus on for this post is how we can use this package to cross validate mrgsolve output: we’ll simulate with pmxTools and mrgsolve just to see the different workflows and check the output values. If users are interested in other validation tests for mrgsolve, please see the document <a href="https://github.com/mrgsolve/nmtests"><red>here</red></a>. <em>This is not a “lets-go-head-to-head with another project” type post</em>. I just found this tool very useful as a complement to my workflow. I hope you find it useful too.</p>
-<div id="setup" class="section level1">
-<h1><span class="header-section-number">1</span> Setup</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(mrgsolve)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">options</span>(<span class="dt">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(pmxTools)</span></code></pre></div>
+<div id="setup" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Setup</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pmxTools)</span></code></pre></div>
 </div>
-<div id="two-compartment-infusion" class="section level1">
-<h1><span class="header-section-number">2</span> Two-compartment infusion</h1>
-<div id="simulate-with-pmxtoolspk_curve" class="section level2">
-<h2><span class="header-section-number">2.1</span> Simulate with <code>pmxTools::pk_curve</code></h2>
+<div id="two-compartment-infusion" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Two-compartment infusion</h1>
+<div id="simulate-with-pmxtoolspk_curve" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Simulate with <code>pmxTools::pk_curve</code></h2>
 <p>You can use this function to generate a PK profile based on super-positioning.</p>
 <p>To simulate a 2-compartment model after IV infusion of 100 mg over 10 hours, first define a list of pk parameters, including <code>tinf</code>, the infusion duration</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>pars &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">CL =</span> <span class="dv">1</span>, <span class="dt">V1 =</span> <span class="dv">4</span>, <span class="dt">V2 =</span> <span class="dv">50</span>, <span class="dt">Q =</span> <span class="dv">5</span>, <span class="dt">tinf=</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">CL =</span> <span class="dv">1</span>, <span class="at">V1 =</span> <span class="dv">4</span>, <span class="at">V2 =</span> <span class="dv">50</span>, <span class="at">Q =</span> <span class="dv">5</span>, <span class="at">tinf=</span><span class="dv">10</span>)</span></code></pre></div>
 <p>Call <code>pk_curve</code> and provide simulation times, dose regimen (including <code>dose</code>, <code>ii</code>, <code>addl</code>), the model parameters, and select the model, in this case it is <code>2cmt_infusion</code></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>calc &lt;-<span class="st"> </span><span class="kw">pk_curve</span>(</span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">t =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">400</span>,<span class="fl">0.1</span>), </span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">dose =</span> <span class="dv">100</span>, </span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="dt">ii =</span> <span class="dv">24</span>, </span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="dt">addl =</span> <span class="dv">9</span>, </span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="dt">params =</span> pars, </span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="dt">model=</span><span class="st">&quot;2cmt_infusion&quot;</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">head</span>(calc)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>calc <span class="ot">&lt;-</span> <span class="fu">pk_curve</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">t =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">400</span>,<span class="fl">0.1</span>), </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dose =</span> <span class="dv">100</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ii =</span> <span class="dv">24</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">addl =</span> <span class="dv">9</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">params =</span> pars, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model=</span><span class="st">&quot;2cmt_infusion&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(calc)</span></code></pre></div>
 <pre><code>.     t        cp
 . 1 0.0 0.0000000
 . 2 0.1 0.2322016
@@ -526,23 +490,23 @@ div.tocify {
 . 4 0.3 0.6050735
 . 5 0.4 0.7544486
 . 6 0.5 0.8838735</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> calc, <span class="kw">aes</span>(t,cp)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> calc, <span class="fu">aes</span>(t,cp)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="validation_pmxtools_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p><strong>Pretty easy!</strong></p>
 </div>
-<div id="simulate-with-mrgsolve" class="section level2">
-<h2><span class="header-section-number">2.2</span> Simulate with mrgsolve</h2>
+<div id="simulate-with-mrgsolve" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Simulate with mrgsolve</h2>
 <p>We can load the 2-compartment model from our model library, and update the parameter set. We make an event object with the dosing information and simulate:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mod &lt;-<span class="st"> </span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">modlib</span>(<span class="st">&quot;pk2&quot;</span>, <span class="dt">delta =</span> <span class="fl">0.1</span>, <span class="dt">end =</span> <span class="dv">400</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">param</span>(<span class="dt">CL =</span> <span class="dv">1</span>, <span class="dt">V2 =</span> <span class="dv">4</span>, <span class="dt">V3 =</span> <span class="dv">50</span>, <span class="dt">Q =</span> <span class="dv">5</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a>e &lt;-<span class="st"> </span><span class="kw">ev</span>(<span class="dt">amt =</span> <span class="dv">100</span>, <span class="dt">rate =</span> <span class="dv">10</span>, <span class="dt">ii =</span> <span class="dv">24</span>, <span class="dt">addl =</span> <span class="dv">9</span>, <span class="dt">cmt =</span> <span class="dv">2</span>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim_e</span>(mod,e, <span class="dt">obsonly=</span><span class="ot">TRUE</span>, <span class="dt">recsort=</span><span class="dv">3</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">plot</span>(out, CP<span class="op">~</span>time)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modlib</span>(<span class="st">&quot;pk2&quot;</span>, <span class="at">delta =</span> <span class="fl">0.1</span>, <span class="at">end =</span> <span class="dv">400</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">param</span>(<span class="at">CL =</span> <span class="dv">1</span>, <span class="at">V2 =</span> <span class="dv">4</span>, <span class="at">V3 =</span> <span class="dv">50</span>, <span class="at">Q =</span> <span class="dv">5</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">rate =</span> <span class="dv">10</span>, <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">9</span>, <span class="at">cmt =</span> <span class="dv">2</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim_e</span>(mod,e, <span class="at">obsonly=</span><span class="cn">TRUE</span>, <span class="at">recsort=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, CP<span class="sc">~</span>time)</span></code></pre></div>
 <p><img src="validation_pmxtools_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">head</span>(out)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(out)</span></code></pre></div>
 <pre><code>.   ID time EV      CENT     PERIPH        CP
 . 1  1  0.0  0 0.0000000 0.00000000 0.0000000
 . 2  1  0.1  0 0.9288064 0.05929462 0.2322016
@@ -551,51 +515,51 @@ div.tocify {
 . 5  1  0.4  0 3.0177942 0.81659743 0.7544486
 . 6  1  0.5  0 3.5354939 1.21682828 0.8838735</code></pre>
 </div>
-<div id="are-they-the-same" class="section level2">
-<h2><span class="header-section-number">2.3</span> Are they the same?</h2>
+<div id="are-they-the-same" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Are they the same?</h2>
 <p>We can check the difference between the values:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">summary</span>(out<span class="op">$</span>CP<span class="op">-</span>calc[[<span class="st">&quot;cp&quot;</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out<span class="sc">$</span>CP<span class="sc">-</span>calc[[<span class="st">&quot;cp&quot;</span>]])</span></code></pre></div>
 <pre><code>.       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
 . -7.550e-14 -2.487e-14 -1.021e-14  2.443e-15  4.091e-14  5.751e-14</code></pre>
 </div>
 </div>
-<div id="oral-dosing-example" class="section level1">
-<h1><span class="header-section-number">3</span> Oral dosing example</h1>
+<div id="oral-dosing-example" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Oral dosing example</h1>
 <p>To do a model for first-order absorption</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>pars &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">CL =</span> <span class="dv">1</span>, <span class="dt">V =</span> <span class="dv">20</span>, <span class="dt">ka =</span> <span class="fl">1.2</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a></span>
-<span id="cb14-3"><a href="#cb14-3"></a>calc &lt;-<span class="st"> </span><span class="kw">pk_curve</span>(</span>
-<span id="cb14-4"><a href="#cb14-4"></a>  <span class="dt">t =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">400</span>,<span class="fl">0.1</span>), </span>
-<span id="cb14-5"><a href="#cb14-5"></a>  <span class="dt">dose =</span> <span class="dv">100</span>, </span>
-<span id="cb14-6"><a href="#cb14-6"></a>  <span class="dt">ii =</span> <span class="dv">24</span>, </span>
-<span id="cb14-7"><a href="#cb14-7"></a>  <span class="dt">addl =</span> <span class="dv">9</span>, </span>
-<span id="cb14-8"><a href="#cb14-8"></a>  <span class="dt">params =</span> pars, </span>
-<span id="cb14-9"><a href="#cb14-9"></a>  <span class="dt">model =</span> <span class="st">&quot;1cmt_oral&quot;</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a>)</span>
-<span id="cb14-11"><a href="#cb14-11"></a></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="kw">ggplot</span>(calc, <span class="kw">aes</span>(t,cp)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pars <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">CL =</span> <span class="dv">1</span>, <span class="at">V =</span> <span class="dv">20</span>, <span class="at">ka =</span> <span class="fl">1.2</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>calc <span class="ot">&lt;-</span> <span class="fu">pk_curve</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">t =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">400</span>,<span class="fl">0.1</span>), </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dose =</span> <span class="dv">100</span>, </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ii =</span> <span class="dv">24</span>, </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">addl =</span> <span class="dv">9</span>, </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">params =</span> pars, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">&quot;1cmt_oral&quot;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(calc, <span class="fu">aes</span>(t,cp)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="validation_pmxtools_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>mod &lt;-<span class="st"> </span><span class="kw">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="dt">param =</span> <span class="kw">list</span>(<span class="dt">CL=</span><span class="dv">1</span>, <span class="dt">V=</span><span class="dv">20</span>, <span class="dt">KA=</span><span class="fl">1.2</span>), <span class="dt">end=</span><span class="dv">400</span>, <span class="dt">delta=</span><span class="fl">0.1</span>)</span>
-<span id="cb15-2"><a href="#cb15-2"></a></span>
-<span id="cb15-3"><a href="#cb15-3"></a>out &lt;-<span class="st"> </span><span class="kw">mrgsim_e</span>(</span>
-<span id="cb15-4"><a href="#cb15-4"></a>  mod, </span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="kw">mutate</span>(e, <span class="dt">rate =</span> <span class="dv">0</span>, <span class="dt">cmt =</span> <span class="dv">1</span>),</span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="dt">recsort=</span><span class="dv">3</span>, </span>
-<span id="cb15-7"><a href="#cb15-7"></a>  <span class="dt">obsonly=</span><span class="ot">TRUE</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>)</span>
-<span id="cb15-9"><a href="#cb15-9"></a></span>
-<span id="cb15-10"><a href="#cb15-10"></a><span class="kw">plot</span>(out, EV<span class="op">+</span>CP<span class="op">~</span>time)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;pk1&quot;</span>, <span class="at">param =</span> <span class="fu">list</span>(<span class="at">CL=</span><span class="dv">1</span>, <span class="at">V=</span><span class="dv">20</span>, <span class="at">KA=</span><span class="fl">1.2</span>), <span class="at">end=</span><span class="dv">400</span>, <span class="at">delta=</span><span class="fl">0.1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim_e</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  mod, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(e, <span class="at">rate =</span> <span class="dv">0</span>, <span class="at">cmt =</span> <span class="dv">1</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">recsort=</span><span class="dv">3</span>, </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">obsonly=</span><span class="cn">TRUE</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, EV<span class="sc">+</span>CP<span class="sc">~</span>time)</span></code></pre></div>
 <p><img src="validation_pmxtools_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">summary</span>(out<span class="op">$</span>CP<span class="op">-</span>calc[[<span class="st">&quot;cp&quot;</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(out<span class="sc">$</span>CP<span class="sc">-</span>calc[[<span class="st">&quot;cp&quot;</span>]])</span></code></pre></div>
 <pre><code>.       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
 . -5.640e-14 -3.286e-14 -1.998e-14 -1.767e-14 -4.233e-16  9.059e-14</code></pre>
 </div>
-<div id="caution" class="section level1">
-<h1><span class="header-section-number">4</span> Caution</h1>
+<div id="caution" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Caution</h1>
 <p>Please note that we used some specific options to get the results exactly comparable. It really does take a lot of care to ensure that the setup is exactly the same for both tools when doing comparisons like this. If you start benchmarking and the results don’t come out the same, please go back and double check your setup to make sure you haven’t made any assumptions about how each tool works.</p>
 </div>
-<div id="building-our-community" class="section level1">
-<h1><span class="header-section-number">5</span> Building our community</h1>
+<div id="building-our-community" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Building our community</h1>
 <p>As I noted earlier, the goal of this post wasn’t to go head-to-head with pmxTools. Rather, I wanted to show how the mrgsolve project can take advantage of this great tool to help our development and validate what we’re doing. I can only hope that others also find mrgsolve as useful for their project, validation or other type of simulation work that needs to get done. This sort of synergy between development projects is only possible with an open-source community dedicated to open and public development projects and sharing of knowledge and tools. The more we do this in our pharmacometrics community, the more progress we’ll all make and our science will advance. And we will have done it together.</p>
 </div>
 
@@ -632,7 +596,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

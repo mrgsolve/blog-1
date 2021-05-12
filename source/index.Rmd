@@ -46,6 +46,9 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 
 # Posts
 
+## 2021
+  - [New in 0.11.0 and 0.11.1](new-0-11-0.html)
+
 ## 2020
   - [What's new in 0.10.7](new-0-10-7.html)
   - [Recover non-numeric data columns from data/idata sets](recover.html)

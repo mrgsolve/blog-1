@@ -13,19 +13,26 @@
 
 <title>Work with R objects in your model</title>
 
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -47,21 +54,27 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +94,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -135,39 +148,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 <link rel="stylesheet" href="css/styles.css" type="text/css" />
 <link rel="stylesheet" href="css/colors.css" type="text/css" />
@@ -179,10 +162,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -199,40 +178,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -260,7 +212,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -272,7 +224,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -283,10 +235,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -298,7 +263,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -424,13 +388,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -458,7 +422,7 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/mrgsolve/blog">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -472,7 +436,7 @@ div.tocify {
 </li>
 <li>
   <a href="https://github.com/metrumresearchgroup/mrgsolve">
-    <span class="fa fa-code fa-lg"></span>
+    <span class="fas fa-code fa-lg"></span>
      
   </a>
 </li>
@@ -482,7 +446,7 @@ div.tocify {
 </div><!--/.navbar -->
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -491,61 +455,61 @@ div.tocify {
 </div>
 
 
-<div id="about" class="section level1">
-<h1><span class="header-section-number">1</span> About</h1>
+<div id="about" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> About</h1>
 <ul>
 <li>This model doesn’t really accomplish anything useful. I coded this up to show how we can get <code>vector</code>, <code>matrix</code> data as well as <code>R</code> functions into your simulation.</li>
 <li>After we show the model code, we walk through the key lines of code and explain why / where this type of extension could be useful.</li>
 </ul>
 </div>
-<div id="documentation" class="section level1">
-<h1><span class="header-section-number">2</span> Documentation</h1>
+<div id="documentation" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Documentation</h1>
 <ul>
 <li>You can find documentation for functions in <code>mrgx</code> plugin here: <a href="http://mrgsolve.github.io/doxygen/">http://mrgsolve.github.io/doxygen/</a></li>
 <li>Follow the <code>mrgx</code> “module”</li>
 </ul>
 </div>
-<div id="example" class="section level1">
-<h1><span class="header-section-number">3</span> Example</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(mrgsolve)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(magrittr)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>code &lt;-<span class="st"> &#39;</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">$PARAM xout = 13</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">$PLUGIN Rcpp mrgx</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="st">$GLOBAL </span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">Rcpp::Function appx(&quot;approx&quot;); </span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="st">Rcpp::NumericVector x;</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="st">Rcpp::NumericVector y;</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="st">$PREAMBLE</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="st">x = mrgx::get&lt;Rcpp::NumericVector&gt;(&quot;x&quot;, self);</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="st">y = mrgx::get&lt;Rcpp::NumericVector&gt;(&quot;y&quot;, self);</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="st">$MAIN</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="st">Rcpp::List out = appx(x,y,xout);</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="st">double yout = Rcpp::as&lt;double&gt;(out[&quot;y&quot;]);</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="st">$ENV</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="st">set.seed(11122)</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="st">n &lt;- 10</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="st">x &lt;- sort(runif(n,10,20))</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="st">y &lt;- sort(rnorm(n))</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="st">$CAPTURE xout yout</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="st">&#39;</span></span></code></pre></div>
+<div id="example" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Example</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM xout = 13</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">$PLUGIN Rcpp mrgx</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">$GLOBAL </span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">Rcpp::Function appx(&quot;approx&quot;); </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">Rcpp::NumericVector x;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">Rcpp::NumericVector y;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">$PREAMBLE</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">x = mrgx::get&lt;Rcpp::NumericVector&gt;(&quot;x&quot;, self);</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">y = mrgx::get&lt;Rcpp::NumericVector&gt;(&quot;y&quot;, self);</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">$MAIN</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">Rcpp::List out = appx(x,y,xout);</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">double yout = Rcpp::as&lt;double&gt;(out[&quot;y&quot;]);</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="st">$ENV</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="st">set.seed(11122)</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st">n &lt;- 10</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="st">x &lt;- sort(runif(n,10,20))</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st">y &lt;- sort(rnorm(n))</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st">$CAPTURE xout yout</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
 </div>
-<div id="not-sure-whats-going-on" class="section level1">
-<h1><span class="header-section-number">4</span> Not sure what’s going on?</h1>
+<div id="not-sure-whats-going-on" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Not sure what’s going on?</h1>
 <ul>
 <li>Scroll down to the bottom for some context and discussion.</li>
 </ul>
 </div>
-<div id="about-the-code" class="section level1">
-<h1><span class="header-section-number">5</span> About the code</h1>
+<div id="about-the-code" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> About the code</h1>
 <ul>
 <li>Use <code>$PLUGIN</code>
 <ul>
@@ -570,27 +534,27 @@ div.tocify {
 </ul></li>
 </ul>
 </div>
-<div id="more-info" class="section level1">
-<h1><span class="header-section-number">6</span> More info</h1>
+<div id="more-info" class="section level1" number="6">
+<h1 number="6"><span class="header-section-number">6</span> More info</h1>
 <ul>
 <li><a href="http://mrgsolve.github.io/user_guide/model-specification.html#block-plugin" class="uri">http://mrgsolve.github.io/user_guide/model-specification.html#block-plugin</a></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod &lt;-<span class="st"> </span><span class="kw">mcode</span>(<span class="st">&quot;approx&quot;</span>, code)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;approx&quot;</span>, code)</span></code></pre></div>
 <pre><code>. Building approx ... done.</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>e &lt;-<span class="st"> </span><span class="kw">env_get</span>(mod)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">approx</span>(e<span class="op">$</span>x,e<span class="op">$</span>y, <span class="dt">xout=</span><span class="dv">13</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">env_get</span>(mod)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">approx</span>(e<span class="sc">$</span>x,e<span class="sc">$</span>y, <span class="at">xout=</span><span class="dv">13</span>)</span></code></pre></div>
 <pre><code>. $x
 . [1] 13
 . 
 . $y
 . [1] 0.2543653</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">mrgsim</span>(mod, <span class="dt">end=</span><span class="op">-</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> as.data.frame</span></code></pre></div>
 <pre><code>.   ID time xout      yout
 . 1  1    0   13 0.2543653</code></pre>
 </div>
-<div id="what-problem-does-this-solve" class="section level1">
-<h1><span class="header-section-number">7</span> What problem does this solve?</h1>
+<div id="what-problem-does-this-solve" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> What problem does this solve?</h1>
 <p>So you might be asking, why do you need to do all of this? The general goal is to allow you to get a variety of data structures into your model code.</p>
 <p>So far, you’ve been able to get scalar values via the <code>$PARAM</code> list. This allows you to say what the <code>TVCL</code> is or the <code>KA</code> or the patient <code>WT</code> etc. When you specify parameters with those names, those symbols take (scalar) values and we can use them in the code and we can update those values in a couple of different ways. Note that you also can input matrices in <code>$OMEGA</code> and <code>$SIGMA</code>, but you don’t get direct access to those matrices … only the variates that were drawn using those matrices.</p>
 <p>We’ve hit the point where getting scalar data into the problem isn’t enough. Now, we are working on models that require <code>vector</code> data or specification of <code>matrix</code> data. Usually we are requiring those data structures in <code>numeric</code> format. We would also like to call <code>R</code> functions using that data to do calculations necessary for the model simulation to proceed.</p>
@@ -634,7 +598,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
