@@ -517,6 +517,10 @@ div.tocify {
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>() <span class="sc">%&gt;%</span> <span class="fu">plot</span>(CENT <span class="sc">+</span> KA <span class="sc">~</span> time)</span></code></pre></div>
 <p><img src="mtime_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
+<div id="check-user-interrupt" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Check User Interrupt</h1>
+<p>Starting with version <code>0.11.1</code>, we will start periodically checking for the user interrupt signal (<code>Esc</code> or <code>Control-C</code>) as the simulation proceeds. This will let you kill a long-running simulation mid-stream. You can change the check interval by the <code>interrupt</code> argument to <code>mrgsim()</code>. Reduce the number to check more frequently and pass <code>-1</code> to not check at all.</p>
+</div>
 
 <hr>
 <p>
