@@ -554,16 +554,16 @@ div.tocify {
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="st">[ pkmodel ] cmt = &quot;depot,cent&quot;, depot = TRUE</span></span>
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">[ error ] </span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="st">capture cp = cent/V;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="st">double cp = cent/V;</span></span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;ebe&quot;</span>, code, <span class="at">capture =</span> <span class="st">&quot;CL,V&quot;</span>)</span></code></pre></div>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;ebe&quot;</span>, code, <span class="at">capture =</span> <span class="st">&quot;CL,V,cp&quot;</span>)</span></code></pre></div>
 <pre><code>## Building ebe ... done.</code></pre>
 </div>
 <div id="simulate" class="section level2" number="7.3">
 <h2 number="7.3"><span class="header-section-number">7.3</span> Simulate</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data) </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out)</span></code></pre></div>
-<p><img src="simulate-ebe_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">end =</span> <span class="dv">72</span>) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="st">&quot;CL,V,cp&quot;</span>)</span></code></pre></div>
+<p><img src="simulate-ebe_files/figure-html/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
 <div id="check" class="section level2" number="7.4">
 <h2 number="7.4"><span class="header-section-number">7.4</span> Check</h2>
@@ -577,9 +577,9 @@ div.tocify {
 <pre><code>## # A tibble: 3 × 4
 ##      ID    CL     V     n
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-## 1     1 0.788  63.3    26
-## 2     2 1.29   65.1    26
-## 3     3 0.909  36.5    26</code></pre>
+## 1     1 0.788  63.3    74
+## 2     2 1.29   65.1    74
+## 3     3 0.909  36.5    74</code></pre>
 </div>
 <div id="random-simulation" class="section level2" number="7.5">
 <h2 number="7.5"><span class="header-section-number">7.5</span> Random simulation</h2>

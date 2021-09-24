@@ -132,16 +132,16 @@ if(CLI > 0) {
 [ pkmodel ] cmt = "depot,cent", depot = TRUE
 
 [ error ] 
-capture cp = cent/V;
+double cp = cent/V;
 '
-mod <- mcode("ebe", code, capture = "CL,V")
+mod <- mcode("ebe", code, capture = "CL,V,cp")
 ```
 
 ## Simulate
 
-```{r}
-out <- mrgsim(mod, data) 
-plot(out)
+```{r, fig.width = 8, fig.height = 4}
+out <- mrgsim(mod, data, end = 72) 
+plot(out, "CL,V,cp")
 ```
 
 ## Check
