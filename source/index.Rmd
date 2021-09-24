@@ -47,6 +47,7 @@ for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
 # Posts
 
 ## 2021
+  - [Simulate both random parameters and specific EBE from the same model](simulate-ebe.html)
   - [New in 0.11.0 and 0.11.1](new-0-11-0.html)
 
 ## 2020
