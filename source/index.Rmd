@@ -2,7 +2,8 @@
 pagetitle: "mrgsolve blog"
 output: 
   html_document:
-    toc: FALSE
+    toc: false
+    number_sections: false
 ---
 
 ```{r, echo=FALSE, message = FALSE}
