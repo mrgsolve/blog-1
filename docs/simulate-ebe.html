@@ -458,7 +458,8 @@ div.tocify {
 
 <div id="introduction" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>This blog post will show you how to use your model to do both Monte Carlo, population simulation and simulation from a specific set of empirical Bayes estimates (EBE) or specific individual parameters. The basic implementation for this approach was pioneered by <strong>Tim Waterhouse</strong> at MetrumRG.</p>
+<p>This blog post will show you how to use a single model to do both<br />
+population simulation (with patient-specific covariates and random <code>ETA</code>s) and simulation from a specific set of empirical Bayes estimates (EBE; a specific, pre-defined set of individual parameters like what you get out of your NONMEM run). The basic implementation for this approach was pioneered by <strong>Tim Waterhouse</strong> at MetrumRG.</p>
 </div>
 <div id="background" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> Background</h1>
@@ -480,8 +481,10 @@ div.tocify {
 ## 3     3 0.909  36.5</code></pre>
 <p>How can I work these into these into the simulation with this model?</p>
 </div>
-<div id="re-name-the-ebe" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Re-name the EBE</h1>
+<div id="a-solution" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> A solution</h1>
+<div id="re-name-the-ebe" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Re-name the EBE</h2>
 <p>Instead of using <code>CL</code> and <code>V</code> in your data, rename them to <code>CLI</code> and <code>VI</code></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>par <span class="ot">&lt;-</span> <span class="fu">rename</span>(par, <span class="at">CLI =</span> CL, <span class="at">VI =</span> V)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>par</span></code></pre></div>
@@ -493,16 +496,16 @@ div.tocify {
 ## 3     3 0.909  36.5</code></pre>
 <p>The specific names you choose isn’t as important as naming them something other than what you used in the model.</p>
 </div>
-<div id="add-parameters-to-the-model" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Add parameters to the model</h1>
+<div id="add-parameters-to-the-model" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Add parameters to the model</h2>
 <p>Now you need to add these as parameters in the model so mrgsolve will pick them up when you pass them in on the data set</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[ param ] </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>WT = <span class="dv">70</span> , BMI = <span class="dv">23</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>CLI = -<span class="dv">1</span>, VI = -<span class="dv">1</span></span></code></pre></div>
 <p>Note we gave these parameters a special value: <code>-1</code>. This will be important for the next step.</p>
 </div>
-<div id="conditional-update-of-cl-and-v" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Conditional update of CL and V</h1>
+<div id="conditional-update-of-cl-and-v" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Conditional update of CL and V</h2>
 <p>Now, after the population parameters are declared and defined, you can put a block of code that updates those variables only if <code>CLI</code> is greater than zero; that is, if the updated parameter is something other than that special / null value, we’ll use that; otherwise use the random simulated value</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>[ main ] </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -514,8 +517,8 @@ div.tocify {
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  V = VI;</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="include-cli-and-vi-in-the-data" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Include CLI and VI in the data</h1>
+<div id="include-cli-and-vi-in-the-data" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Include CLI and VI in the data</h2>
 <p>Now, whenever we attach these specially named parameters to the data, we’ll get a simulation from the EBE; otherwise, we’ll get the simulation from the covariates and randomly drawn ETA.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(par)</span>
@@ -525,10 +528,11 @@ div.tocify {
 ## 2  2    0 100   1    1 1.2883051 65.09495
 ## 3  3    0 100   1    1 0.9089769 36.45781</code></pre>
 </div>
-<div id="example" class="section level1" number="7">
-<h1 number="7"><span class="header-section-number">7</span> Example</h1>
-<div id="model" class="section level2" number="7.1">
-<h2 number="7.1"><span class="header-section-number">7.1</span> Model</h2>
+</div>
+<div id="example" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Example</h1>
+<div id="model" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Model</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">[ param ] </span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">WT = 70 , BMI = 23, KA = 1</span></span>
@@ -556,14 +560,14 @@ div.tocify {
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;ebe&quot;</span>, code, <span class="at">capture =</span> <span class="st">&quot;CL,V,cp&quot;</span>)</span></code></pre></div>
 <pre><code>## Building ebe ... done.</code></pre>
 </div>
-<div id="simulate" class="section level2" number="7.2">
-<h2 number="7.2"><span class="header-section-number">7.2</span> Simulate</h2>
+<div id="simulate" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Simulate</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">end =</span> <span class="dv">72</span>) </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="st">&quot;CL,V,cp&quot;</span>)</span></code></pre></div>
 <p><img src="simulate-ebe_files/figure-html/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
-<div id="check" class="section level2" number="7.3">
-<h2 number="7.3"><span class="header-section-number">7.3</span> Check</h2>
+<div id="check" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Check</h2>
 <p>Verify that the <code>CL</code> and <code>V</code> in the output match the <code>CLI</code> and <code>VI</code> in the input</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
 <pre><code>##   ID time amt cmt evid       CLI       VI
@@ -578,8 +582,8 @@ div.tocify {
 ## 2     2 1.29   65.1    74
 ## 3     3 0.909  36.5    74</code></pre>
 </div>
-<div id="random-simulation" class="section level2" number="7.4">
-<h2 number="7.4"><span class="header-section-number">7.4</span> Random simulation</h2>
+<div id="random-simulation" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> Random simulation</h2>
 <p>Now, if we drop the EBE from the data, we get our random basic random simulation</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  data, </span>
