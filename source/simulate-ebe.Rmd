@@ -24,7 +24,7 @@ double V  = THETA2 * pow(BMI/23,THETA3) * exp(ETA(2));
 
 For this model, you feed in subject-specific `WT` and `BMI`, mrgsolve will 
 simulate `ETA(1)` and `ETA(2)` and you will get a subject-specific `CL`
-and `V2` that can be used to advance the system.
+and `V` that can be used to advance the system.
 
 But what if you have a specific set of `CL` and `V` that came from your 
 NONMEM model output that you want to used here instead?  For example, I have
@@ -72,7 +72,7 @@ CLI = -1, VI = -1
 Note we gave these parameters a special value: `-1`. This will be important 
 for the next step.
 
-# Conditional update of CL and V2
+# Conditional update of CL and V
 
 Now, after the population parameters are declared and defined, you can 
 put a block of code that updates those variables only if `CLI` is greater than 
@@ -91,7 +91,7 @@ if(CLI > 0) {
 }
 ```
 
-# Include CLI and V2I in the data
+# Include CLI and VI in the data
 
 Now, whenever we attach these specially named parameters to the data, we'll 
 get a simulation from the EBE; otherwise, we'll get the simulation from 
@@ -162,7 +162,7 @@ Now, if we drop the EBE from the data, we get our random basic random simulation
 data2 <- mutate(
   data, 
   CLI = NULL, 
-  V2I = NULL, 
+  VI = NULL, 
   BMI = c(20, 23, 26), 
   WT = c(60, 70, 80)
 )
