@@ -517,11 +517,6 @@ div.tocify {
 <div id="include-cli-and-vi-in-the-data" class="section level1" number="6">
 <h1 number="6"><span class="header-section-number">6</span> Include CLI and VI in the data</h1>
 <p>Now, whenever we attach these specially named parameters to the data, we’ll get a simulation from the EBE; otherwise, we’ll get the simulation from the covariates and randomly drawn ETA.</p>
-</div>
-<div id="full-example" class="section level1" number="7">
-<h1 number="7"><span class="header-section-number">7</span> Full example</h1>
-<div id="data" class="section level2" number="7.1">
-<h2 number="7.1"><span class="header-section-number">7.1</span> Data</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(par)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
@@ -530,8 +525,10 @@ div.tocify {
 ## 2  2    0 100   1    1 1.2883051 65.09495
 ## 3  3    0 100   1    1 0.9089769 36.45781</code></pre>
 </div>
-<div id="model" class="section level2" number="7.2">
-<h2 number="7.2"><span class="header-section-number">7.2</span> Model</h2>
+<div id="example" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> Example</h1>
+<div id="model" class="section level2" number="7.1">
+<h2 number="7.1"><span class="header-section-number">7.1</span> Model</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">[ param ] </span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">WT = 70 , BMI = 23, KA = 1</span></span>
@@ -559,14 +556,14 @@ div.tocify {
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;ebe&quot;</span>, code, <span class="at">capture =</span> <span class="st">&quot;CL,V,cp&quot;</span>)</span></code></pre></div>
 <pre><code>## Building ebe ... done.</code></pre>
 </div>
-<div id="simulate" class="section level2" number="7.3">
-<h2 number="7.3"><span class="header-section-number">7.3</span> Simulate</h2>
+<div id="simulate" class="section level2" number="7.2">
+<h2 number="7.2"><span class="header-section-number">7.2</span> Simulate</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, data, <span class="at">end =</span> <span class="dv">72</span>) </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, <span class="st">&quot;CL,V,cp&quot;</span>)</span></code></pre></div>
 <p><img src="simulate-ebe_files/figure-html/unnamed-chunk-9-1.png" width="768" /></p>
 </div>
-<div id="check" class="section level2" number="7.4">
-<h2 number="7.4"><span class="header-section-number">7.4</span> Check</h2>
+<div id="check" class="section level2" number="7.3">
+<h2 number="7.3"><span class="header-section-number">7.3</span> Check</h2>
 <p>Verify that the <code>CL</code> and <code>V</code> in the output match the <code>CLI</code> and <code>VI</code> in the input</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
 <pre><code>##   ID time amt cmt evid       CLI       VI
@@ -581,8 +578,8 @@ div.tocify {
 ## 2     2 1.29   65.1    74
 ## 3     3 0.909  36.5    74</code></pre>
 </div>
-<div id="random-simulation" class="section level2" number="7.5">
-<h2 number="7.5"><span class="header-section-number">7.5</span> Random simulation</h2>
+<div id="random-simulation" class="section level2" number="7.4">
+<h2 number="7.4"><span class="header-section-number">7.4</span> Random simulation</h2>
 <p>Now, if we drop the EBE from the data, we get our random basic random simulation</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  data, </span>
