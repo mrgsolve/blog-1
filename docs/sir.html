@@ -13,8 +13,8 @@
 
 <title>Tidy workflow for simulating dynamics in R</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -457,10 +457,10 @@ div.tocify {
 
 
 <div id="background" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Background</h1>
+<h1><span class="header-section-number">1</span> Background</h1>
 </div>
 <div id="write-the-model" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Write the model</h1>
+<h1><span class="header-section-number">2</span> Write the model</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -480,12 +480,12 @@ div.tocify {
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
 </div>
 <div id="compile-and-load" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Compile and load</h1>
+<h1><span class="header-section-number">3</span> Compile and load</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;sir&quot;</span>, model,  <span class="at">end =</span> <span class="dv">30</span>, <span class="at">delta =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">120</span>)</span></code></pre></div>
 <pre><code>## Building sir ... done.</code></pre>
 </div>
 <div id="simulate" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Simulate</h1>
+<h1><span class="header-section-number">4</span> Simulate</h1>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>() <span class="sc">%&gt;%</span> <span class="fu">plot</span>(<span class="at">scales =</span> <span class="st">&quot;same&quot;</span>)</span></code></pre></div>
 <p><img src="sir_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">output=</span><span class="st">&quot;df&quot;</span>)</span>
@@ -494,7 +494,7 @@ div.tocify {
 <p><img src="sir_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="challenge" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Challenge</h1>
+<h1><span class="header-section-number">5</span> Challenge</h1>
 <p>Explore the dynamics of the system for different values of the beta and b parameters by simulating and plotting trajectories as time series and in phase space (e.g., I vs. S). How the beta, B, and R0 related to the type of trajectories you get?</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wf_sweep</span>(Beta, <span class="at">cv =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>

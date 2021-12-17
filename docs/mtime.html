@@ -13,8 +13,8 @@
 
 <title>mtime</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -457,12 +457,12 @@ div.tocify {
 
 
 <div id="introduction" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>This is just a short post on a simplified implementation of modeled events in mrgsolve.</p>
 <p>I previously posted <a href="2018-modeled-interventions.html">here</a> about modeling interventions in mrgsolve. All that still works fine. But I found myself wanting a more straightforward implementation of the mtime functionality you get in NONMEM.</p>
 </div>
 <div id="example-with-single-mtime" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Example with single mtime</h1>
+<h1><span class="header-section-number">2</span> Example with single mtime</h1>
 <p>For example, we might wish a rate constant to change at some time that is not found in a record in the input data set. We can make this happen from the model code itself. In addition to using <code>mevent</code> you can now use <code>mtime</code> to make this happen. <code>mtime</code> is just a simpler subset of the <code>mevent</code> functionality.</p>
 <p>Let’s make KA change at 2.1 hours (<code>change_t</code> parameter in the example below).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[ param ]</span>
@@ -493,7 +493,7 @@ div.tocify {
 <p>You won’t see the message that we actually stumbled on <code>2.1</code> hours in the simulation even though it was not in the lineup when the simulation started.</p>
 </div>
 <div id="example-with-several-mtimes" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Example with several mtimes</h1>
+<h1><span class="header-section-number">3</span> Example with several mtimes</h1>
 <p>We could keep track of several mtimes like this</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>[ set ] end<span class="ot">=</span><span class="dv">8</span>, delta<span class="ot">=</span><span class="fl">0.1</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>

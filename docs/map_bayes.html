@@ -13,8 +13,8 @@
 
 <title>Generate MAP Bayes Parameter Estimates</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -463,13 +463,13 @@ div.tocify {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <div id="about" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> About</h1>
+<h1><span class="header-section-number">1</span> About</h1>
 <p>This tutorial illustrates how to do MAP Bayes estimation with <code>mrgsolve</code>.<br />
 The setup was adapted from an existing project, where only a single individual was considered. With some additional <code>R</code> coding, it could be expanded to consider multiple individuals in a single run.</p>
 <p>This document shows how to simulate some data and then re-estimate the MAP Bayes estimates. For clarity, just the optimization piece has been included in a separate doc <a href="map_bayes_example.html">map_bayes_example.html</a>.</p>
 </div>
 <div id="one-compartment-model-keep-it-simple-for-now" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> One compartment model, keep it simple for now</h1>
+<h1><span class="header-section-number">2</span> One compartment model, keep it simple for now</h1>
 <ul>
 <li><p>The model specification code below is for a one-compartment model, where <code>mrgsolve</code> will calculate the amount in <code>CENT</code> from closed-form equations</p></li>
 <li><p>For now, <code>$OMEGA</code> and <code>$SIGMA</code> are filled with zeros; we’ll update it later</p></li>
@@ -504,7 +504,7 @@ The setup was adapted from an existing project, where only a single individual w
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;map&quot;</span>, code)</span></code></pre></div>
 </div>
 <div id="first-simulate-some-data" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> First, simulate some data</h1>
+<h1><span class="header-section-number">3</span> First, simulate some data</h1>
 <p><code>$OMEGA</code> and <code>$SIGMA</code>;</p>
 <ul>
 <li>The result may look better or worse depending on what we choose here</li>
@@ -545,7 +545,7 @@ The setup was adapted from an existing project, where only a single individual w
 . 4:   1 24.0    0   0   0  1.375 0.5196 -0.2728</code></pre>
 </div>
 <div id="create-input-for-optimization" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Create input for optimization</h1>
+<h1><span class="header-section-number">4</span> Create input for optimization</h1>
 <ul>
 <li>Using the simulated data as the starting point here</li>
 <li>Set <code>DV</code> to <code>NA</code> for the dosing record</li>
@@ -558,7 +558,7 @@ The setup was adapted from an existing project, where only a single individual w
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> sim <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>ET1, <span class="sc">-</span>ET2)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
-<pre><code>. # A tibble: 4 x 6
+<pre><code>. # A tibble: 4 × 6
 .      ID  time  evid   amt   cmt    DV
 .   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 . 1     1   0       1   750     1 NA   
@@ -567,7 +567,7 @@ The setup was adapted from an existing project, where only a single individual w
 . 4     1  24       0     0     0  1.37</code></pre>
 </div>
 <div id="optimize" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Optimize</h1>
+<h1><span class="header-section-number">5</span> Optimize</h1>
 <p>This function takes in a set of proposed <span class="math inline">\(\eta\)</span>s along with the observed data vector, the data set and a model object and returns the value of the EBE objective function</p>
 <ul>
 <li><p>When we do the estimation, the fixed effects and random effect variances are fixed.</p></li>
@@ -583,7 +583,7 @@ The setup was adapted from an existing project, where only a single individual w
 <li><code>pred</code> if <code>TRUE</code>, just return predicted values</li>
 </ul>
 <div id="what-is-this-function-doing" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> What is this function doing?</h2>
+<h2><span class="header-section-number">5.1</span> What is this function doing?</h2>
 <ol style="list-style-type: decimal">
 <li>get the matrix for residual error</li>
 <li>Make sure <code>eta</code> is a list</li>
@@ -612,7 +612,7 @@ The setup was adapted from an existing project, where only a single individual w
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="initial-estimate" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> Initial estimate</h2>
+<h2><span class="header-section-number">5.2</span> Initial estimate</h2>
 <ul>
 <li>Note again that we are optimizing the etas here</li>
 </ul>
@@ -634,14 +634,14 @@ The setup was adapted from an existing project, where only a single individual w
 <pre><code>. [1]  0.4995400 -0.3274858</code></pre>
 <p>Here are the simulated values</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(sim,<span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(ET1, ET2)</span></code></pre></div>
-<pre><code>. # A tibble: 1 x 2
+<pre><code>. # A tibble: 1 × 2
 .     ET1    ET2
 .   &lt;dbl&gt;  &lt;dbl&gt;
 . 1 0.520 -0.273</code></pre>
 </div>
 </div>
 <div id="look-at-the-result" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Look at the result</h1>
+<h1><span class="header-section-number">6</span> Look at the result</h1>
 <p>A data set and model to get predictions; this will give us a smooth prediction line</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(evid<span class="sc">==</span><span class="dv">1</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pmod <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">end=</span><span class="dv">24</span>, <span class="at">delta=</span><span class="fl">0.1</span>) </span></code></pre></div>

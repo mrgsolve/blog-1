@@ -13,8 +13,8 @@
 
 <title>Recover non-numeric data columns from data/idata sets</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -457,13 +457,13 @@ div.tocify {
 
 
 <div id="introduction" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>We frequently want to access in the simulated output data items that were present in input data sets. For example, if we have multiple studies represented in the data, we’d like to simulate all studies and then summarize or plot the results by study. We need to study number in the simulated output to do that.</p>
 <p>For a long time, mrgsolve has had a <code>carry_out</code> feature, where input data columns can be selected and those input data automatically copied to the simulated (output) data. However, this has been limited to numeric data items.</p>
 <p>Starting with mrgsolve version <code>0.10.4</code>, users can bring non-numeric data items from input data to output. This feature is called <code>recover</code>.</p>
 </div>
 <div id="example---event-objects" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Example - event objects</h1>
+<h1><span class="header-section-number">2</span> Example - event objects</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -520,7 +520,7 @@ div.tocify {
 <p><img src="recover_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="example---data-set" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Example - data set</h1>
+<h1><span class="header-section-number">3</span> Example - data set</h1>
 <p>There is no real change if I’m using <code>recover</code> with a data set</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
 <pre><code>.    C NUM ID SUBJ TIME SEQ CMT EVID AMT      DV   AGE    WT   CRCL ALB   BMI
@@ -590,7 +590,7 @@ div.tocify {
 <p><img src="recover_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 <div id="what-is-the-difference-carry_out-recover" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> What is the difference: carry_out / recover</h1>
+<h1><span class="header-section-number">4</span> What is the difference: carry_out / recover</h1>
 <p>There should not be a difference in the simulation result whether you use <code>carry_out</code> or <code>recover</code> (outside of the fact that <code>recover</code> takes any type of data).</p>
 <p>There will be a very minor performance hit for using <code>recover</code> because it has to join the input data on to the simulated data. But this should be imperceptible in the vast majority of cases. Of course, when every microsecond of simulation time counts, think carefully about what you are doing and consider more efficient alternatives. Remember that features like <code>carry_out</code> and <code>recover</code> are convenience features to make you life easier. They always increase the overall simulation time to some degree or another. So when benchmarking mrgsolve, you should always consider if <code>carry_out</code> or <code>recover</code> are being used or not.</p>
 <p><code>recover</code> depends on <code>carry_out</code> functionality to work: under the hood, we label the input data rows with an index number, <code>carry_out</code> that index, and then use that index to join input to output data. So <code>carry_out</code> won’t go away. But I’m guessing that recover will be fine for most applications.</p>

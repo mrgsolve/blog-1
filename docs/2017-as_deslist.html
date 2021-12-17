@@ -13,8 +13,8 @@
 
 <title>Flexible, heterogeneous simulation designs in a population</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -460,15 +460,15 @@ div.tocify {
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <div id="assign-designs-to-individuals" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Assign designs to individuals</h1>
+<h1><span class="header-section-number">1</span> Assign designs to individuals</h1>
 <p>To illustrate, let’s make a population of 4 individuals, all with different simulation <strong>end</strong> times.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">end=</span><span class="fu">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</span></code></pre></div>
-<pre><code>. Warning: `data_frame()` is deprecated as of tibble 1.1.0.
+<pre><code>. Warning: `data_frame()` was deprecated in tibble 1.1.0.
 . Please use `tibble()` instead.
 . This warning is displayed once every 8 hours.
-. Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+. Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>des</span></code></pre></div>
-<pre><code>. # A tibble: 4 x 2
+<pre><code>. # A tibble: 4 × 2
 .      ID   end
 .   &lt;int&gt; &lt;dbl&gt;
 . 1     1    24
@@ -498,7 +498,7 @@ div.tocify {
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">select</span>(des,ID)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>idata</span></code></pre></div>
-<pre><code>. # A tibble: 4 x 1
+<pre><code>. # A tibble: 4 × 1
 .      ID
 .   &lt;int&gt;
 . 1     1
@@ -519,7 +519,7 @@ div.tocify {
 And it can’t be emphasized enough here that you <strong>MUST</strong> use an <code>idata_set</code> for this to work and <code>idata_set</code> must contain a valid <code>descol</code>.</p>
 </div>
 <div id="assign-designs-to-treatment-arms-or-groups" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Assign designs to treatment arms or groups</h1>
+<h1><span class="header-section-number">2</span> Assign designs to treatment arms or groups</h1>
 <p>Now, let’s simulate a trial with 5 patients in each of 4 treatment arms. In this trial, arm 1 lasts 24 hours, arm 2 last 48 hours … etc. But every patient with the arm 1 indicator will get simulated for 24 hours, every patient with arm 2 indicator will get simulated for 48 hours and so on.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">expand.idata</span>(<span class="at">ARM=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -556,7 +556,7 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 </div>
 <div id="list-cols-and-additional-times" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> <code>list-cols</code> and <code>additional</code> times</h1>
+<h1><span class="header-section-number">3</span> <code>list-cols</code> and <code>additional</code> times</h1>
 <p>Hopefully it’s clear that columns named <code>start</code>, <code>end</code>, and <code>delta</code> in the the input data frame passed to <code>as_deslist</code> are just numeric values that form the time grid object (see <code>?tgrid</code>).</p>
 <p>What about <code>add</code>, the vector of ad-hoc times for the simulation? These, too, can be accommodated with a <code>list-col</code> column in the input data frame. Note that <code>list-cols</code> are only really supported in specialized <code>tibble</code> type data frames.</p>
 <p>These are random times for IDs 1 and 2</p>
@@ -571,7 +571,7 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 <p><strong>Note</strong>: When we simulate with <code>end &lt; 0</code>, <code>mrgsolve</code> knows to ignore <code>start/end/delta</code> and only use the times in <code>add</code> for observations.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">add=</span><span class="fu">list</span>(t1,t2))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>des</span></code></pre></div>
-<pre><code>. # A tibble: 2 x 3
+<pre><code>. # A tibble: 2 × 3
 .      ID   end add       
 .   &lt;int&gt; &lt;dbl&gt; &lt;list&gt;    
 . 1     1    -1 &lt;dbl [13]&gt;

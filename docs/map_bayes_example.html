@@ -13,8 +13,8 @@
 
 <title>MAP Bayes example</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -463,11 +463,11 @@ div.tocify {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <div id="about" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> About</h1>
+<h1><span class="header-section-number">1</span> About</h1>
 <p>This is a shortened version of <a href="map_bayes.html">map_bayes.html</a>, showing only the estimation step.</p>
 </div>
 <div id="the-model" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> The model</h1>
+<h1><span class="header-section-number">2</span> The model</h1>
 <p>We code up a one-compartment model, with fixed TVCL and TVV. We have <code>ETA1</code> and <code>ETA2</code> as parameters in the model so that we can update them as the optimizer proceeds. Our goal is to find the values of <code>ETA</code> that are most consistent with the data.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">$SET request=&quot;&quot;</span></span>
@@ -497,7 +497,7 @@ div.tocify {
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;map_bayes_data.RDS&quot;</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
-<pre><code>. # A tibble: 4 x 6
+<pre><code>. # A tibble: 4 × 6
 .      ID  time  evid   amt   cmt    DV
 .   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 . 1     1   0       1   750     1 NA   
@@ -506,7 +506,7 @@ div.tocify {
 . 4     1  24       0     0     0  1.37</code></pre>
 </div>
 <div id="optimize" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Optimize</h1>
+<h1><span class="header-section-number">3</span> Optimize</h1>
 <p>This function takes in a set of proposed <span class="math inline">\(\eta\)</span>s along with the observed data vector, the data set and a model object and returns the value of the EBE objective function</p>
 <ul>
 <li><p>When we do the estimation, the fixed effects and random effect variances are fixed.</p></li>
@@ -522,7 +522,7 @@ div.tocify {
 <li><code>pred</code> if <code>TRUE</code>, just return predicted values</li>
 </ul>
 <div id="what-is-this-function-doing" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> What is this function doing?</h2>
+<h2><span class="header-section-number">3.1</span> What is this function doing?</h2>
 <ol style="list-style-type: decimal">
 <li>get the matrix for residual error</li>
 <li>Make sure <code>eta</code> is a list</li>
@@ -551,7 +551,7 @@ div.tocify {
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="initial-estimate" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Initial estimate</h2>
+<h2><span class="header-section-number">3.2</span> Initial estimate</h2>
 <ul>
 <li>Note again that we are optimizing the etas here</li>
 </ul>
@@ -574,7 +574,7 @@ div.tocify {
 </div>
 </div>
 <div id="look-at-the-result" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Look at the result</h1>
+<h1><span class="header-section-number">4</span> Look at the result</h1>
 <p>A data set and model to get predictions; this will give us a smooth prediction line</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(evid<span class="sc">==</span><span class="dv">1</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pmod <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">end=</span><span class="dv">24</span>, <span class="at">delta=</span><span class="fl">0.1</span>) </span></code></pre></div>

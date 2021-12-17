@@ -13,8 +13,8 @@
 
 <title>Rmarkdown model specification</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -457,15 +457,15 @@ div.tocify {
 
 
 <div id="introduction" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>I was an Emacs user for a long time and thought I’d never give it up. But like a lot of other people, Rstudio grew on me and I use it for all my R, C++ and Rcpp work. It just works well.</p>
 </div>
 <div id="the-problem" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> The problem</h1>
+<h1><span class="header-section-number">2</span> The problem</h1>
 <p>When I write mrgsolve models, I typically save the code to a file with <code>.cpp</code> extension (e.g. <code>pkmodel.cpp</code>) so that I get nice syntax highlighting that Rstudio provides. One thing that bugs me about this setup is that Rstudio naturally thinks <strong>all</strong> the code in <code>pkmodel.cpp</code> is C++ code. But for mrgsolve models, only part of the code is C++. Other parts are R or just other syntax that we made up. This means the auto-formatting that Rstudio does doesn’t always work that great.</p>
 </div>
 <div id="some-solutions" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Some solutions</h1>
+<h1><span class="header-section-number">3</span> Some solutions</h1>
 <p>There are a couple of ways to make this less-irritating. First, you can use brackets for code blocks like this</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[ PARAM] CL <span class="ot">=</span> <span class="dv">1</span>, V <span class="ot">=</span> <span class="dv">20</span></span></code></pre></div>
 <p>rather than this</p>
@@ -473,7 +473,7 @@ div.tocify {
 <p>I think this helps a bit. You could also save your model to <code>pkmodel.txt</code> rather than <code>pkmodel.cpp</code>. You will lose all of the C++ conveniences but Rstudio won’t try to auto-format your code. This might not be a great solution either.</p>
 </div>
 <div id="rmarkdown-model-specification" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Rmarkdown model specification</h1>
+<h1><span class="header-section-number">4</span> Rmarkdown model specification</h1>
 <p>Another way to deal with this is to write your model in Rmarkdown format. This is new in version <code>0.9.1</code> and will probably need some tweaking. But I’m generally happy with the way it’s working so far.</p>
 <p>The models run the same regardless of how you code them. But in the Rmarkdown input format, writing the code might be a little more natural. Also, consistent the the Rmarkdown / literate programming philosophy, you can document your model right as you code the model, but with structured markdown input.</p>
 <p>For example you can now load this model</p>

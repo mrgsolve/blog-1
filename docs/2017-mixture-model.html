@@ -13,8 +13,8 @@
 
 <title>Mixture model example</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -458,7 +458,7 @@ div.tocify {
 
 <p>In NONMEM, <code>$MIXTURE</code> will allow you to estimate mixture models, where individuals are classified in to two or more populations with a certain probability. It is straightforward to simulate from models like these in your <code>mrgsolve</code> model code.</p>
 <div id="two-populations" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Two Populations</h1>
+<h1><span class="header-section-number">1</span> Two Populations</h1>
 <p>Let’s imagine there were two populations in the mixture model, with the second having smaller clearance than the first. In this example, we will develop some code for a simple model and then extend it to implement the mixture model component.</p>
 <p>A simple model might be:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
@@ -486,7 +486,7 @@ div.tocify {
 <p><img src="2017-mixture-model_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The profile in pink was for <code>POP==2</code> or the lower clearance profile and blue was for <code>POP==1</code>.</p>
 <div id="modify-the-model-to-simulate-a-population-mixture" class="section level2" number="1.1">
-<h2 number="1.1"><span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</h2>
+<h2><span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</h2>
 <p>In the get-started example model, we hard-coded <code>POP</code> as a parameter and we had to supply the value of <code>POP</code> in the input data set (in this case, it was via <code>idata</code>).</p>
 <p>For the mixture model, we want <code>POP</code> to be simulated and we want the simulated value to be 1 with a probability of, say, 0.8 and 2 with a probability of 0.2.</p>
 <p>To make this happen, we need to simulate a binary variate for each individual. Random numbers are easy to simulate with <code>mrgsolve</code> when you use <code>$PLUGIN</code>.</p>
@@ -559,7 +559,7 @@ div.tocify {
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time<span class="sc">==</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(POP) <span class="sc">%&gt;%</span> </span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N=</span><span class="fu">n</span>(), <span class="at">Median =</span> <span class="fu">median</span>(CLi))</span></code></pre></div>
-<pre><code>. # A tibble: 2 x 3
+<pre><code>. # A tibble: 2 × 3
 .     POP     N Median
 .   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
 . 1     1  8023  1.00 
@@ -567,7 +567,7 @@ div.tocify {
 </div>
 </div>
 <div id="three-or-more-populations" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Three (or more) Populations</h1>
+<h1><span class="header-section-number">2</span> Three (or more) Populations</h1>
 <p>There are probably several ways to simulate three populations. Here is one way. We’ll drop the PK model for now and focus on generating <code>POP</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM p1 = 0.33, p2 = 0.6</span></span>
@@ -606,7 +606,7 @@ div.tocify {
 . 6  6    0   2 0.72355739</code></pre>
 <p>And check that the population is properly configured</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>out <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> <span class="fu">count</span>(POP) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">p =</span> n<span class="sc">/</span><span class="fu">nrow</span>(out))</span></code></pre></div>
-<pre><code>. # A tibble: 3 x 3
+<pre><code>. # A tibble: 3 × 3
 .     POP     n      p
 .   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
 . 1     1  3225 0.322 

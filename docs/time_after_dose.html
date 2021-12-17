@@ -13,8 +13,8 @@
 
 <title>Time after dose (TAD)</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -457,7 +457,7 @@ div.tocify {
 
 
 <div id="tad-calculated-as-runtime-argument" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> TAD calculated as runtime argument</h1>
+<h1><span class="header-section-number">1</span> TAD calculated as runtime argument</h1>
 <p>For a while, you’ve been able to get time after dose in your simulated output</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -485,22 +485,22 @@ div.tocify {
 <p>This is convenient because you can choose the output at run time, we give you the negative numbers prior to the first dose etc. This sort of calculation is possible because we let mrgsolve know ahead of time that we want this calculation done and mrgsolve makes an extra pass through the records to find when is the first dose for each individual.</p>
 </div>
 <div id="tad-calculated-in-the-model" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> TAD calculated in the model</h1>
+<h1><span class="header-section-number">2</span> TAD calculated in the model</h1>
 <p>Sometimes you would like to work with time after dose in your model. This isn’t super-complicated to do but does require some programming and setup and all of that. As of mrgsolve 0.9.1, there is a special function to do these calculations for you.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">&quot;time_after_dose.txt&quot;</span>,<span class="at">req =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p>Looking at the <code>[MAIN]</code> block:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"></code></pre></div>
 <p>When you call <code>self.tad()</code> you will get the time after dose. It’s important that this gets called on every record … specifically every dosing record. It will not work properly if it is not called every record and there is no check at this time to make sure you follow that rule. So please follow the rule.</p>
 <p>To see an example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>[ param ] CL = <span class="dv">1</span>, V = <span class="dv">20</span>, KA = <span class="dv">1</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">20</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>[ pkmodel ] cmt = <span class="st">&quot;GUT,CENT&quot;</span>, depot = TRUE</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> pkmodel <span class="op">]</span> cmt <span class="op">=</span> <span class="st">&quot;GUT,CENT&quot;</span><span class="op">,</span> depot <span class="op">=</span> TRUE</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>[ main ] </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>capture tadose = self.tad();</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>capture tadose <span class="op">=</span> self<span class="op">.</span>tad<span class="op">();</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>[ table]</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>capture CP  = CENT/V;</span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> table<span class="op">]</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>capture CP  <span class="op">=</span> CENT<span class="op">/</span>V<span class="op">;</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">4</span>, <span class="at">addl =</span> <span class="dv">3</span>, <span class="at">time =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mrgsim</span>(<span class="at">tad =</span> <span class="cn">TRUE</span>, <span class="at">add =</span> <span class="fu">c</span>(<span class="fl">3.888</span>,<span class="fl">5.91</span>)) <span class="sc">%&gt;%</span> </span>

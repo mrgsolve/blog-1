@@ -13,8 +13,8 @@
 
 <title>Generating input data sets for mrgsolve</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -459,16 +459,16 @@ div.tocify {
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <div id="input-data-sets" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Input data sets</h1>
+<h1><span class="header-section-number">1</span> Input data sets</h1>
 <p>An important mechanism for creating robust, complex simulations is the input data set. Input data sets specify the population of individuals to simulate, including the number of individuals, each individual’s dosing interventions, each individual’s covariate values etc. The input data set is just a plain old <code>R</code> <code>data.frame</code>, but with some expectations about which columns are present and expectations for how to handle columns for certain names. For example, every input data set has to have an <code>ID</code>, <code>time</code>, and <code>cmt</code> column. Note that either lower case names (like <code>time</code> and <code>cmt</code>) are acceptable as are upper case names (like <code>TIME</code> and <code>CMT</code>). But users are not to mix upper and lower case names (like <code>time</code> and <code>CMT</code>) for certain column names related to dosing events. The help topic <code>?data_set</code> discusses more about what the expectations are for input data sets.</p>
 <hr>
 </div>
 <div id="functions-to-generate-input-data-sets" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Functions to generate input data sets</h1>
+<h1><span class="header-section-number">2</span> Functions to generate input data sets</h1>
 <code>mrgsolve</code> provides several functions and workflows to help you put together the right input data set for your simulation. The main point of this blog post is to review some of these functions to help you better organize your <code>mrgsolve</code> simulations. Some functions are very simple and you might not find a function to do <strong>exactly</strong> what you want to do. But we’ve found these functions to be helpful to accomplish tasks that we found ourselves repeating over and over … and thus these tasks were formalized in a function. Just keep in mind that input data sets are just <code>data.frames</code> … you can use any code or any function (even your own!) to do tasks similar to what these functions are doing.
 <hr>
 <div id="expand.ev" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> <code>expand.ev</code></h2>
+<h2><span class="header-section-number">2.1</span> <code>expand.ev</code></h2>
 <p><code>expand.ev</code> is like <code>expand.grid</code>: it creates a single <code>data.frame</code> with all combinations of it’s vector arguments. It’s pretty simple but convenient to have. For example,</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>), <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
@@ -493,7 +493,7 @@ div.tocify {
 <hr>
 </div>
 <div id="as_data_set" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> <code>as_data_set</code></h2>
+<h2><span class="header-section-number">2.2</span> <code>as_data_set</code></h2>
 <p>This function allows you to combine several event objects into a single data sets. An example works best to illustrate.</p>
 <p>First, create three event objects. Let’s try one <code>ID</code> at 100 mg, two <code>IDs</code> at 200 mg, and 3 <code>IDs</code> at 300 mg.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ID=</span><span class="dv">1</span>)</span>
@@ -574,7 +574,7 @@ div.tocify {
 <hr>
 </div>
 <div id="as.data.frame.ev" class="section level2" number="2.3">
-<h2 number="2.3"><span class="header-section-number">2.3</span> <code>as.data.frame.ev</code></h2>
+<h2><span class="header-section-number">2.3</span> <code>as.data.frame.ev</code></h2>
 <p>Just a quick reminder here that you can easily convert between a single event object and a <code>data.frame</code></p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(e3)</span></code></pre></div>
 <pre><code>.   ID time amt cmt evid ii addl
@@ -597,13 +597,13 @@ div.tocify {
 <hr>
 </div>
 <div id="assign_ev" class="section level2" number="2.4">
-<h2 number="2.4"><span class="header-section-number">2.4</span> <code>assign_ev</code></h2>
+<h2><span class="header-section-number">2.4</span> <code>assign_ev</code></h2>
 <p>This function assigns an intervention in the form of an event object to individuals in an <code>idata_set</code> according to a grouping column.</p>
 <p>To illustrate, make a simple <code>idata_set</code></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">ID=</span><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">arm=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>))</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>idata</span></code></pre></div>
-<pre><code>. # A tibble: 6 x 2
+<pre><code>. # A tibble: 6 × 2
 .      ID   arm
 .   &lt;int&gt; &lt;dbl&gt;
 . 1     4     1
@@ -634,7 +634,7 @@ div.tocify {
 <hr>
 </div>
 <div id="ev_days" class="section level2" number="2.5">
-<h2 number="2.5"><span class="header-section-number">2.5</span> <code>ev_days</code></h2>
+<h2><span class="header-section-number">2.5</span> <code>ev_days</code></h2>
 <p>This is a recently-added function (hint: you might need to install the latest version from GitHub to use this) that lets you schedule certain events on certain days of the week, repeating in a weekly cycle.</p>
 <p>For example, to schedule 250 mg doses every Monday, Wednesday, and Friday for a month, you can do</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ev_days</span>(<span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">250</span>, <span class="at">ID=</span><span class="dv">1</span>), <span class="at">days=</span><span class="st">&quot;m,w,f&quot;</span>, <span class="at">addl=</span><span class="dv">3</span>)</span>
@@ -676,7 +676,7 @@ You can use this as an event object or just coerce to <code>data.frame</code> to
 </div>
 </div>
 <div id="filter-input-data-set-inline" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Filter input data set inline</h1>
+<h1><span class="header-section-number">3</span> Filter input data set inline</h1>
 <p>Remember, when you pass in your input data set via <code>data_set</code>, you can filter in line:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>))</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">data_set</span>(data, amt<span class="sc">==</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> <span class="fu">Req</span>(GUT,CP) <span class="sc">%&gt;%</span> mrgsim</span></code></pre></div>
