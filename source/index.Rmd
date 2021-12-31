@@ -31,17 +31,17 @@ knitr::opts_chunk$set(cache=TRUE)
 mrgsolve is free, open-source software
 mrgsolve is distributed as a package for R and utilizes an ODE-solver from 
 ODEPACK which is freely-available in the public domain.  We develop mrgsolve 
-on [<gre>github</gre>](http://www.github.com/metrumresearchgroup/mrgsolve), with input and 
+on [github](http://www.github.com/metrumresearchgroup/mrgsolve), with input and 
 contributions from the pharmacometrics modeling and simulation community.  
 
 
 The purpose of the blog is to explore new ideas and new features. Posts
 are organized by time and some of the content may be no longer applicable. 
-Once new ideas become standard features, look to the [<gre>vignettes</gre>](https://mrgsolve.github.io/vignettes) page for stable, 
+Once new ideas become standard features, look to the [vignettes](https://mrgsolve.github.io/vignettes) page for stable, 
 documented functionality.  There may be content overlap in the 
 blog and vignettes repos. Feel free to comment on any of the 
-content or report other issues in the [<gre>issue tracker</gre>](https://github.com/mrgsolve/blog/issues).  The source code 
-for all posts can be found [<gre>here</gre>](https://github.com/mrgsolve/blog/).
+content or report other issues in the [issue tracker](https://github.com/mrgsolve/blog/issues).  The source code 
+for all posts can be found [here](https://github.com/mrgsolve/blog/).
 
 <hr></hr>
 
