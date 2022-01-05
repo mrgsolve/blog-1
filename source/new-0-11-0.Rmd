@@ -16,33 +16,6 @@ This blog post introduces some new features / new behavior with mrgsolve
 versions `0.11.0` and `0.11.1`. 
 
 
-# Resimulate a single ETA or EPS
-
-Up to version `0.11.0`, calling `simeta()` or `simeps()` would resimulate every 
-`ETA()` or `EPS()` values. There was no way to just resimulate a single 
-`ETA()` or `EPS()`.
-
-Starting with `0.11.0`, you can now pass an integer specifying which 
-`ETA()` or `EPS()` to resimulate.
-
-For example, this code will resimulate `ETA(1)` (only) while leaving the 
-other `ETAs` alone:
-
-```{c, eval = FALSE}
-[ param ] tvbase = 70
-
-[ omega ] 1 1
-
-[ main ] 
-double base = tvbase + ETA(1); 
-while(base < 50 || base > 90) {
-  simeta(1); 
-  base = tvbase + ETA(1);
-}
-```
-
-
-
 # Dynamic capture
 
 This is one of my favorite new features. I've written about it before, but as 

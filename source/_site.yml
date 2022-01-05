@@ -25,7 +25,7 @@ output:
       highlight: pygments
       css: [css/styles.css, css/colors.css]
       toc: true
-      toc_float: true
+      toc_float: false
       number_sections: true
       include:
         in_header:

@@ -2,7 +2,6 @@
 title: "New in 0.10.7"
 ---
 
-
 ```{r,include = FALSE,message=FALSE,warning=FALSE}
 library(tidyverse)
 library(mrgsolve)

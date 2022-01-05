@@ -29,7 +29,7 @@ h1 {
 }
 
 .row {
-  font-size: 14pt;
+  font-size: 13pt;
 }
 body{ /* Normal  */
     font-family: Helvetica, arial, sans-serif;
@@ -50,8 +50,6 @@ code {
   line-height: 1.45;
   background-color: #f6f8fa;
   border-radius: 5px;
-  color: black;
-  font-family:  Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 pre {
@@ -68,7 +66,6 @@ pre {
   margin-bottom: 18px;
   padding-top: 12px;
   padding-bottom: 12px;
-  color: black;
 }
 
 pre:not([class]) {
