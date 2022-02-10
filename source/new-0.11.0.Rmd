@@ -6,7 +6,7 @@ title: "New in 0.11.0 and 0.11.1"
 ```{r setup, include = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(mrgsolve)
-knitr::opts_chunk$set(comment = '.')
+knitr::opts_chunk$set(comment = '.', cache=TRUE, autodep=TRUE)
 ```
 
 
@@ -156,7 +156,7 @@ change how that path is interpreted.
 The current default behavior is to interpret the path relative to the 
 current working directory:
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -165,7 +165,7 @@ project = "../model/nonmem"
 This is equivalent to invoking the new `root` argument and setting it to 
 `"working"`:
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -176,7 +176,7 @@ root = "working"
 which tells mrgsolve to interpret the path relative to wherever the 
 model code is located:
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -202,7 +202,7 @@ relative to your `Rstudio` project root. So, if all my models were in the
 regardless of the working directory and regardless of where the `cpp` file 
 is located. 
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = here::here("model/nonmem")
@@ -224,7 +224,7 @@ table in the `.ext` file to import from when there are multiple.
 
 To select the 2nd table:
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -234,7 +234,7 @@ index = 2
 
 The default is to select the `last` table:
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -293,7 +293,7 @@ you the ability to easily initialize this matrix.
 In the example, we used the `@as_object` directive. The other way to do it would
 be to create the object in `$ENV` and then use `@object`:
 
-```{r, eval = FALSE}
+```{c, eval = FALSE}
 $ENV
 foo <- matrix(0, nrow = 30, ncol = 30)
 

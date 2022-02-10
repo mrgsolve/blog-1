@@ -524,7 +524,7 @@ $(document).ready(function () {
 <div id="root-path" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Root path</h2>
 <p>The current default behavior is to interpret the path relative to the current working directory:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span></code></pre></div>
 <p>This is equivalent to invoking the new <code>root</code> argument and setting it to <code>"working"</code>:</p>
@@ -591,10 +591,10 @@ $(document).ready(function () {
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
 <p>We didn’t run the code because the screen would fill up, but you can try it. You will see that <code>$OMEGA</code> is a 30 x 30 matrix and it was easy to code. Obviously, you’ll have to update this with all the elements but we have given you the ability to easily initialize this matrix.</p>
 <p>In the example, we used the <code>@as_object</code> directive. The other way to do it would be to create the object in <code>$ENV</code> and then use <code>@object</code>:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ENV</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">30</span>, <span class="at">ncol =</span> <span class="dv">30</span>)</span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="er">$</span>ENV</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>foo <span class="op">&lt;-</span> matrix<span class="op">(</span><span class="dv">0</span><span class="op">,</span> nrow <span class="op">=</span> <span class="dv">30</span><span class="op">,</span> ncol <span class="op">=</span> <span class="dv">30</span><span class="op">)</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>OMEGA <span class="sc">@</span>object foo</span></code></pre></div>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="er">$</span>OMEGA <span class="er">@</span>object foo</span></code></pre></div>
 <p>With this approach, use <code>@object</code> and then name the object that you want to use to populate the block.</p>
 <p>Other blocks that you can use this programmatic initialization:</p>
 <ul>

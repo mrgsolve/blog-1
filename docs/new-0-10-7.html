@@ -564,7 +564,7 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;pk1&quot;</span>)</span></code></pre></div>
 <pre><code>. Loading model from cache.</code></pre>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mrgsolve<span class="sc">:::</span><span class="fu">unloadso.mrgmod</span>(mod)</span></code></pre></div>
-<pre><code>. unloaded pk1-so-e21b2221ef4a.so</code></pre>
+<pre><code>. unloaded pk1-so-2fe31ccfab94.so</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>mrgsolve<span class="sc">:::</span><span class="fu">funset</span>(mod)</span></code></pre></div>
 <pre><code>. $symbols
 .                  name loaded
@@ -574,8 +574,8 @@ $(document).ready(function () {
 . 4 _model_pk1_config__  FALSE
 . 
 . $shlib
-.               package     version compiled
-. 1 pk1-so-e21b2221ef4a 0.11.2.9000     TRUE</code></pre>
+.               package    version compiled
+. 1 pk1-so-2fe31ccfab94 1.0.0.9000     TRUE</code></pre>
 <p>We can still simulate from this model; mrgsolve will determine that the model isn’t loaded and it will try to load it for you.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod)</span></code></pre></div>
 <pre><code>. Model:  pk1 

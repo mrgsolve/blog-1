@@ -6,7 +6,7 @@ title: "New in 0.10.0 and 0.10.1"
 ```{r,include = FALSE,message=FALSE,warning=FALSE}
 library(tidyverse)
 library(mrgsolve)
-knitr::opts_chunk$set(comment = '.', warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(comment = '.', warning = FALSE, message = FALSE, cache=TRUE, autodep=TRUE)
 ```
 
 

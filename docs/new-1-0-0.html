@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>New in version 1.0.0</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92528248-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-92528248-1');
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="css/colors.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><div class = mrgg>mrgsolve::blog</div></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="https://mrgsolve.github.io/vignettes">Vignettes</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/blog">Blog</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io/learn.html">Learn</a>
+</li>
+<li>
+  <a href="https://github.com/mrgsolve/blog">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://mrgsolve.github.io/user_guide">UserGuide</a>
+</li>
+<li>
+  <a href="https://mrgsolve.github.io">mrgsolve.github.io</a>
+</li>
+<li>
+  <a href="https://github.com/metrumresearchgroup/mrgsolve">
+    <span class="fa fa-code fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">New in version 1.0.0</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#use-thetan-to-refer-to-thetan"><span class="toc-section-number">1</span> Use THETA(n) to refer to THETAn</a></li>
+<li><a href="#new-plugin-called-autodec"><span class="toc-section-number">2</span> New plugin called <code>autodec</code></a></li>
+<li><a href="#new-plugin-called-nm-vars"><span class="toc-section-number">3</span> New plugin called <code>nm-vars</code></a></li>
+<li><a href="#compartment"><span class="toc-section-number">4</span> Compartment</a></li>
+<li><a href="#new-model-in-modlib-nm-like"><span class="toc-section-number">5</span> New model in <code>modlib</code>: <code>nm-like</code></a></li>
+<li><a href="#audit"><span class="toc-section-number">6</span> Audit</a></li>
+<li><a href="#new-time-spacer-for-event-sequences"><span class="toc-section-number">7</span> New time spacer for event sequences</a></li>
+<li><a href="#collapse-matrices"><span class="toc-section-number">8</span> Collapse matrices</a></li>
+<li><a href="#deprecated-simetan-and-simepsn"><span class="toc-section-number">9</span> Deprecated simeta(n) and simeps(n)</a></li>
+</ul>
+</div>
+
+<p>There are a bunch of new features out now in the mrgsolve 1.0.0 release. Most of these are related to model syntax (what / how you write your model in the <code>.mod</code> or <code>.cpp</code> file) rather than model functionality.</p>
+<div id="use-thetan-to-refer-to-thetan" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Use THETA(n) to refer to THETAn</h1>
+<p>All models will be able to use <code>THETA(n)</code> to refer to <code>THETAn</code>. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmxml <span class="op">]</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> CL <span class="op">=</span> THETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span> <span class="fl">0.75</span><span class="op">);</span></span></code></pre></div>
+<p>You’ll notice that we referred to a nonmem run with <code>[ nmxml ]</code> so this syntax is meant be one small step toward making it easier to translate your model from the nonmem control stream to mrgsolve format. This is pretty simple, but will mean less time removing parentheses when copying over model code.</p>
+</div>
+<div id="new-plugin-called-autodec" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> New plugin called <code>autodec</code></h1>
+<p>Plugins are extra functionality that you can invoke when coding your model. For example, plugins exist for calculating time after dose, adding Rcpp functionality to your model etc and <a href="https://mrgsolve.org/user_guide/model-specification.html#block-plugin">more</a>.</p>
+<p>One new plugin is called <code>autodec</code>. This plugin will automatically declare C++ variables for you. For example, I can code the snipped from the previous block using <code>autodec</code> plugin and mrgsolve will discover that <code>CL</code> needs to be declared:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> plugin <span class="op">]</span> autodec</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmxml <span class="op">]</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>CL <span class="op">=</span> THETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span> <span class="fl">0.75</span><span class="op">);</span></span></code></pre></div>
+<p>The motivation behind this feature is to make it easier to code models with lots of variables when all your variables are simple double precision floating point numbers.</p>
+</div>
+<div id="new-plugin-called-nm-vars" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> New plugin called <code>nm-vars</code></h1>
+<p>This plugin provided a nonmem-like syntax for <em>certain model elements</em>, including</p>
+<ul>
+<li><code>Fn</code>, <code>Dn</code>, <code>Rn</code>, and <code>ALAGn</code></li>
+<li><code>A(n)</code>, <code>A_0(n)</code> and <code>DADT(n)</code></li>
+<li><code>T</code> (used for <code>SOLVERTIME</code> in <code>$ODE</code>)</li>
+</ul>
+<p>So your mrgsolve model translated from nonmem might look like this</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">see</span>(<span class="fu">modlib</span>(<span class="st">&quot;nm-like&quot;</span>))</span></code></pre></div>
+<pre><code>## Loading model from cache.</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>$PROB Model written with some nonmem<span class="op">-</span>like syntax features</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>$PLUGIN nm<span class="op">-</span>vars autodec</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>$PARAM</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>THETA1 <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> THETA2 <span class="op">=</span> <span class="dv">21</span><span class="op">,</span> THETA3 <span class="op">=</span> <span class="fl">1.3</span><span class="op">,</span> WT <span class="op">=</span> <span class="dv">70</span><span class="op">,</span> F1I <span class="op">=</span> <span class="fl">0.5</span><span class="op">,</span> D2I <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>KIN <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> KOUT <span class="op">=</span> <span class="fl">0.1</span><span class="op">,</span> IC50 <span class="op">=</span> <span class="dv">10</span><span class="op">,</span> IMAX <span class="op">=</span> <span class="fl">0.9</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>$CMT @number <span class="dv">3</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>$PK</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>CL <span class="op">=</span> THETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span> <span class="fl">0.75</span><span class="op">);</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>V  <span class="op">=</span> THETA<span class="op">(</span><span class="dv">2</span><span class="op">);</span> </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>KA <span class="op">=</span> THETA<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>F1 <span class="op">=</span> F1I<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>D2 <span class="op">=</span> D2I<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>A_0<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">=</span> KIN <span class="op">/</span> KOUT<span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>$DES </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>CP <span class="op">=</span> A<span class="op">(</span><span class="dv">2</span><span class="op">)/</span>V<span class="op">;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>INH <span class="op">=</span> IMAX<span class="op">*</span>CP<span class="op">/(</span>IC50 <span class="op">+</span> CP<span class="op">);</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>DADT<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">=</span> <span class="op">-</span>KA<span class="op">*</span>A<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>DADT<span class="op">(</span><span class="dv">2</span><span class="op">)</span> <span class="op">=</span>  KA<span class="op">*</span>A<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span>CL<span class="op">/</span>V<span class="op">)*</span>A<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>DADT<span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">=</span>  KIN <span class="op">*</span> <span class="op">(</span><span class="dv">1</span><span class="op">-</span>INH<span class="op">)</span> <span class="op">-</span> KOUT <span class="op">*</span> A<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>CP <span class="op">=</span> A<span class="op">(</span><span class="dv">2</span><span class="op">)/</span>V<span class="op">;</span></span></code></pre></div>
+<p>where I updated the internal model <code>1005</code> to reflect use of both <code>autodec</code> and <code>nm-vars</code> plugins.</p>
+<p>Notice that <strong>not all nonmem syntax is supported</strong>; just select data structures that use <code>A</code> and <code>DADT</code> to refer to compartments and differential equations. Also notice that we still require <code>;</code> at the end of each line and we still need to use <code>pow(base, exponent)</code> to calculate exponent of some number.</p>
+</div>
+<div id="compartment" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Compartment</h1>
+<p>The <code>$CMT</code> block has two new options: <code>@number</code> and <code>@prefix</code> that let you quickly specify a numbered series of compartments in the model similar to nonmem. The default <code>@prefix</code> is <code>A</code> so that this code</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$CMT @number <span class="dv">3</span></span></code></pre></div>
+<p>will put compartments <code>A1</code>, <code>A2</code>, <code>A3</code> into your model.</p>
+</div>
+<div id="new-model-in-modlib-nm-like" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> New model in <code>modlib</code>: <code>nm-like</code></h1>
+<p>You can see a model coded with these new syntax features in the internal model library; the model is called <code>nm-like</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;nm-like&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">see</span>(mod)</span></code></pre></div>
+<pre><code>## 
+## Model file:  nm-like.cpp 
+## $PROB Model written with some nonmem-like syntax features
+## 
+## $PLUGIN nm-vars autodec
+## 
+## $PARAM
+## THETA1 = 1, THETA2 = 21, THETA3 = 1.3, WT = 70, F1I = 0.5, D2I = 2
+## KIN = 100, KOUT = 0.1, IC50 = 10, IMAX = 0.9
+## 
+## $CMT @number 3
+## 
+## $PK
+## CL = THETA(1) * pow(WT/70, 0.75); 
+## V  = THETA(2); 
+## KA = THETA(3);
+## 
+## F1 = F1I;
+## D2 = D2I;
+## A_0(3) = KIN / KOUT;
+## 
+## $DES 
+## CP = A(2)/V;
+## INH = IMAX*CP/(IC50 + CP);
+##   
+## DADT(1) = -KA*A(1);
+## DADT(2) =  KA*A(1) - (CL/V)*A(2);
+## DADT(3) =  KIN * (1-INH) - KOUT * A(3);
+## 
+## $ERROR
+## CP = A(2)/V;</code></pre>
+<p>Here, I’ve coded the <code>THETA</code>s in a parameter block; these would ordinarily come into the model via <code>$NMXML</code> or <code>$NMEXT</code>, which automatically import these parameters and estimates. But note that we can still refer to <code>THETA(1)</code> and others … this resolves to <code>THETA1</code> regardless.</p>
+</div>
+<div id="audit" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Audit</h1>
+<p>When mrgsolve loads your model, it checks the <code>$ODE</code> block to make sure you have differential equations for every compartment in your model. A long time ago, I started calling this check <code>audit</code> and it was something that was on by default but could be turned off via the call to <code>mread()</code>.</p>
+<p>Starting with version 1.0.0, <code>audit</code> can be controlled at the <code>$ODE</code> block level like this</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span> @audit</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">...</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span> <span class="op">...</span></span></code></pre></div>
+<p>to explicitly tell mrgsolve to audit the equations or</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span> @<span class="op">!</span>audit</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">...</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span> <span class="op">...</span></span></code></pre></div>
+<p>to disable the audit. The audit is on by default and should only be turned off when you have written some special construct in <code>[ ode ]</code> to code the differential equations (e.g. odes are written programmatically).</p>
+</div>
+<div id="new-time-spacer-for-event-sequences" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> New time spacer for event sequences</h1>
+<p>The new feature is an <code>ii</code> spacer for sequences of event objects.</p>
+<p>Using <a href="https://mrgsolve.org/user_guide/event-chapter.html">event objects</a>, we can create complicated dosing regimens from simpler ones. For example, we might have a week of 50 mg dosing followed by a week of 100 mg dosing and then up to 200 mg dosing. We can accomplish that with an event sequence</p>
+<p>First create the individual pieces</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">50</span>,  <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">6</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">6</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">200</span>, <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">6</span>)</span></code></pre></div>
+<p>Then put them in a sequence</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">ev_seq</span>(a, b, c)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
+<pre><code>## Events:
+##   time amt ii addl cmt evid
+## 1    0  50 24    6   1    1
+## 2  168 100 24    6   1    1
+## 3  336 200 24    6   1    1</code></pre>
+<p>When they are sequenced, you’ll see that the second piece (<code>b</code>) starts one dosing interval after the last dose in the first piece (<code>a</code>).</p>
+<p>We can put a 24 hour spacer between <code>a</code> and <code>b</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(a, <span class="at">wait =</span> <span class="dv">24</span>, b)</span></code></pre></div>
+<pre><code>## Events:
+##   time amt ii addl cmt evid
+## 1    0  50 24    6   1    1
+## 2  192 100 24    6   1    1</code></pre>
+<p>Here, the last dose in <code>a</code> is given, we wait one dosing interval (24 hours) then wait another 24 hours (via <code>wait</code>) and then start <code>b</code>.</p>
+<p>Rather than using <code>wait</code>, we can use <code>ii</code> to specify the amount of time from the last dose in <code>a</code> to the first dose in <code>b</code>. So if we want to wait 3 days between the last dose in <code>a</code> and the first dose in <code>b</code></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ev_seq</span>(a, <span class="at">ii =</span> <span class="dv">3</span><span class="sc">*</span><span class="dv">24</span>, b)</span></code></pre></div>
+<pre><code>## Events:
+##   time amt ii addl cmt evid
+## 1    0  50 24    6   1    1
+## 2  216 100 24    6   1    1</code></pre>
+<p>Notice that this same behavior can be achieved with <code>wait</code> but using <code>ii</code> might be easier to interpret in some cases.</p>
+</div>
+<div id="collapse-matrices" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Collapse matrices</h1>
+<p>Sometimes in your model, you have multiple OMEGA or SIGMA blocks like this</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA  @name first</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">1 2 3</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA @name second</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">4</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;collapse&quot;</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
+<pre><code>## $first
+##     [,1] [,2] [,3]
+## 1:     1    0    0
+## 2:     0    2    0
+## 3:     0    0    3
+## 
+## $second
+##     [,1]
+## 4:     4</code></pre>
+<p>If I want to update these values but I only have a 4x4 matrix</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mat</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]  0.1  0.0  0.0  0.0
+## [2,]  0.0  0.2  0.0  0.0
+## [3,]  0.0  0.0  0.3  0.0
+## [4,]  0.0  0.0  0.0  0.4</code></pre>
+<p>I can’t do it; mrgsolve wants a 3x3 matrix for the first slot and 1x1 matrix for the second.</p>
+<p>A new function will collapse the model matrix into larger matrices</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">collapse_omega</span>(mod)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
+<pre><code>## $...
+##     [,1] [,2] [,3] [,4]
+## 1:     1    0    0    0
+## 2:     0    2    0    0
+## 3:     0    0    3    0
+## 4:     0    0    0    4</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">update</span>(mod, <span class="at">omat =</span> mat)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
+<pre><code>## $...
+##     [,1] [,2] [,3] [,4]
+## 1:     1    0    0    0
+## 2:     0    2    0    0
+## 3:     0    0    3    0
+## 4:     0    0    0    4</code></pre>
+<p>You can’t split matrices up into smaller chunks, but if there are more than two blocks, you can select which blocks to join</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA  @name first</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">1 2 3</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA @name second</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">4</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA @name third</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="st">5 6 7 8</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;collapse2&quot;</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
+<pre><code>## $first
+##     [,1] [,2] [,3]
+## 1:     1    0    0
+## 2:     0    2    0
+## 3:     0    0    3
+## 
+## $second
+##     [,1]
+## 4:     4
+## 
+## $third
+##     [,1] [,2] [,3] [,4]
+## 5:     5    0    0    0
+## 6:     0    6    0    0
+## 7:     0    0    7    0
+## 8:     0    0    0    8</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">collapse_omega</span>(mod, <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="cn">NA</span>), <span class="at">name =</span> <span class="st">&quot;remainder&quot;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
+<pre><code>## $first
+##     [,1] [,2] [,3]
+## 1:     1    0    0
+## 2:     0    2    0
+## 3:     0    0    3
+## 
+## $remainder
+##     [,1] [,2] [,3] [,4] [,5]
+## 4:     4    0    0    0    0
+## 5:     0    5    0    0    0
+## 6:     0    0    6    0    0
+## 7:     0    0    0    7    0
+## 8:     0    0    0    0    8</code></pre>
+</div>
+<div id="deprecated-simetan-and-simepsn" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Deprecated simeta(n) and simeps(n)</h1>
+<p>We recently rolled out a feature where the user could call <code>simeta()</code> and pass an integer that would indicate a single <code>ETA()</code> to update, leaving the others alone. This proved to be more than a little dangerous when <code>$OMEGA</code> had off-diagonal elements. We will be deprecating this feature starting with version 1.0.0. When you load a model that contains <code>simeta(n)</code> or <code>simeps(n)</code>, there will be a warning about the syntax. The warning includes some code you can write to silence the warning, but this will be temporary. In a future release, we will always warn when this syntax us used and eventually generate an error. It is recommended to always use <code>simeta()</code> or <code>simeps()</code> when re-simulating random effects.</p>
+</div>
+
+<hr>
+<p>
+  mrgsolve: <a href="https://mrgsolve.github.io">mrgsolve.github.io</a> | 
+  metrum research group: <a href="https://metrumrg.com">metrumrg.com</a></p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

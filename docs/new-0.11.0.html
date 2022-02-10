@@ -540,16 +540,16 @@ $(document).ready(function () {
 <div id="root-path" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Root path</h2>
 <p>The current default behavior is to interpret the path relative to the current working directory:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span></code></pre></div>
 <p>This is equivalent to invoking the new <code>root</code> argument and setting it to <code>"working"</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;working&quot;</span></span></code></pre></div>
 <p><strong>I am encouraging you</strong> to start setting this <code>root</code> argument to <code>"cppfile"</code> which tells mrgsolve to interpret the path relative to wherever the model code is located:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span></code></pre></div>
@@ -557,7 +557,7 @@ $(document).ready(function () {
 <p>Note that you can always specify an absolute path here and in that case, it doesn’t matter what you use for the <code>root</code> argument (see the discussion on <code>here()</code> in the following section).</p>
 <p><strong>With here()</strong></p>
 <p>Some are also using the <code>here::here()</code> function. This is totally independent of any <code>mrgsolve</code> functionality, but <code>here()</code> will return the absolute path relative to your <code>Rstudio</code> project root. So, if all my models were in the <code>model/nonmem</code> directory, I can always get the absolute path using <code>here()</code> regardless of the working directory and regardless of where the <code>cpp</code> file is located.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb30"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> here<span class="op">::</span>here<span class="op">(</span><span class="st">&quot;model/nonmem&quot;</span><span class="op">)</span></span></code></pre></div>
 <p>Note here that the argument / options here are evaluated by the R interpreter so that the <code>here()</code> call resolves to the correct project directory.</p>
@@ -571,13 +571,13 @@ $(document).ready(function () {
 <li>see the <code>?nmext</code> help topic for more info on this and other argument / options for the <code>nmxml</code> block</li>
 </ul>
 <p>To select the 2nd table:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">2</span> </span></code></pre></div>
 <p>The default is to select the <code>last</code> table:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span>
@@ -607,10 +607,10 @@ $(document).ready(function () {
 <span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
 <p>We didn’t run the code because the screen would fill up, but you can try it. You will see that <code>$OMEGA</code> is a 30 x 30 matrix and it was easy to code. Obviously, you’ll have to update this with all the elements but we have given you the ability to easily initialize this matrix.</p>
 <p>In the example, we used the <code>@as_object</code> directive. The other way to do it would be to create the object in <code>$ENV</code> and then use <code>@object</code>:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ENV</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">30</span>, <span class="at">ncol =</span> <span class="dv">30</span>)</span>
+<div class="sourceCode" id="cb38"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>$ENV</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>foo <span class="op">&lt;-</span> matrix<span class="op">(</span><span class="dv">0</span><span class="op">,</span> nrow <span class="op">=</span> <span class="dv">30</span><span class="op">,</span> ncol <span class="op">=</span> <span class="dv">30</span><span class="op">)</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>OMEGA <span class="sc">@</span>object foo</span></code></pre></div>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>$OMEGA @object foo</span></code></pre></div>
 <p>With this approach, use <code>@object</code> and then name the object that you want to use to populate the block.</p>
 <p>Other blocks that you can use this programmatic initialization:</p>
 <ul>

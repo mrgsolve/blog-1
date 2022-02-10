@@ -6,7 +6,7 @@ title: "New in 0.11.0 and 0.11.1"
 ```{r setup, include = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(mrgsolve)
-knitr::opts_chunk$set(comment = '.')
+knitr::opts_chunk$set(comment = '.', cache=TRUE, autodep=TRUE)
 ```
 
 
@@ -129,7 +129,7 @@ change how that path is interpreted.
 The current default behavior is to interpret the path relative to the 
 current working directory:
 
-```{cpp, eval = FALSE}
+```{c, eval = FALSE}
 [ nmext ] 
 run = 1001
 project = "../model/nonmem"
@@ -266,7 +266,7 @@ you the ability to easily initialize this matrix.
 In the example, we used the `@as_object` directive. The other way to do it would
 be to create the object in `$ENV` and then use `@object`:
 
-```{r, eval = FALSE}
+```{cpp, eval = FALSE}
 $ENV
 foo <- matrix(0, nrow = 30, ncol = 30)
 
