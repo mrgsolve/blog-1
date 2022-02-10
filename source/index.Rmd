@@ -45,7 +45,6 @@ for all posts can be found [here](https://github.com/mrgsolve/blog/).
 
 <hr></hr>
 
-# Posts
 
 ## 2022
   - [New in version 1.0.0](new-1-0-1.html)
