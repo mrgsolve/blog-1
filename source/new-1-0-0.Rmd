@@ -3,7 +3,8 @@ title: "New in version 1.0.0"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache=TRUE, autodep=TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE, autodep=TRUE, comment = '.', message=FALSE, 
+                      warning = FALSE)
 library(mrgsolve)
 library(tidyverse)
 ```
