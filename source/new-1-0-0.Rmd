@@ -77,9 +77,6 @@ see(modlib("nm-like"))
 
 ```
 
-where I updated the internal model `1005` to reflect use of both `autodec` and 
-`nm-vars` plugins. 
-
 Notice that __not all nonmem syntax is supported__; just select data structures
 that use `A` and `DADT` to refer to compartments and differential equations.
 Also notice that we still require `;` at the end of each line and we still 
