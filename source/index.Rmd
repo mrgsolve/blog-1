@@ -25,7 +25,7 @@ knitr::opts_chunk$set(cache=TRUE)
 <div class="row" style="padding-top: 30px; width: 90%">
 <!--div class="col-sm-6"-->
 
-# **mrgsolve <gre>Blog</gre>** <img src="images/MRG-Solve-Hex.png" align="right" width="200px"></img>
+# **mrgsolve <gre>Blog</gre>** <img src="images/MRG-Solve-Hex.png" align="right" width="150px"></img>
 
 
 mrgsolve is free, open-source software
