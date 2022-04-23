@@ -385,28 +385,63 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#user-interrupt"><span class="toc-section-number">1</span> User interrupt</a></li>
-<li><a href="#stopping-a-model-early"><span class="toc-section-number">2</span> Stopping a model early</a></li>
-<li><a href="#setting-a-maximum-run-time"><span class="toc-section-number">3</span> Setting a maximum run time</a></li>
+<li><a href="#user-interrupt" id="toc-user-interrupt"><span
+class="toc-section-number">1</span> User interrupt</a></li>
+<li><a href="#stopping-a-model-early"
+id="toc-stopping-a-model-early"><span
+class="toc-section-number">2</span> Stopping a model early</a></li>
+<li><a href="#setting-a-maximum-run-time"
+id="toc-setting-a-maximum-run-time"><span
+class="toc-section-number">3</span> Setting a maximum run time</a></li>
 </ul>
 </div>
 
-<p>Sometimes you have a simulation that is running longer than it needs to run or longer than you want it to run. Some examples include</p>
+<p>Sometimes you have a simulation that is running longer than it needs
+to run or longer than you want it to run. Some examples include</p>
 <ul>
-<li>you create a large input data set and send it off for simulation, but you discovered an error in the code while the simulation was running</li>
-<li>maybe the simulation is running longer than you thought it would and you want to kill it to take a closer look</li>
-<li>you have run the system until some critical event happened (the patient was cured!) and you really don’t need to simulate that last 5 year of treatment</li>
-<li>you want to let a simulation run for 3 minutes maximum; if it is not done by then, just give up and move on</li>
+<li>you create a large input data set and send it off for simulation,
+but you discovered an error in the code while the simulation was
+running</li>
+<li>maybe the simulation is running longer than you thought it would and
+you want to kill it to take a closer look</li>
+<li>you have run the system until some critical event happened (the
+patient was cured!) and you really don’t need to simulate that last 5
+year of treatment</li>
+<li>you want to let a simulation run for 3 minutes maximum; if it is not
+done by then, just give up and move on</li>
 </ul>
-<p>This blog post is about stopping those runs and most of the time, this requires writing a bit of code into the model.</p>
+<p>This blog post is about stopping those runs and most of the time,
+this requires writing a bit of code into the model.</p>
 <div id="user-interrupt" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> User interrupt</h1>
-<p>When mrgsolve is simulating a data set, it stops every so often to check for the user interrupt signal (Control-C or Esc). So if you have some regrets after starting a simulation, hit Control-C or Esc a bunch of times and that will eventually stop the simulation.</p>
-<p>mrgsolve has to stop to check for user interrupt; we don’t want to stop to frequently so as to hurt performance, but we don’t want to stop too infrequently either - that would make you have to wait too long to stop the simulation. By default, mrgsolve counts the records that is processes and stops every<code>256</code> records to look for the interrupt. This default value can be checked or modified as the <code>interrupt</code> argument to <code>mrgsim()</code> and friends. If you have both observations and records in your data set, this check interval will roughly correspond to every <code>256</code> output records. I say <code>roughly</code> because mrgsolve also counts some records that aren’t in your data set but still get implemented (like turning off an infusion). You might want it to look more frequently if you have a model that is very difficult to solve or if you have long spans of time between records. You might want to check less often if the model is very easy to solve. You can set <code>interrupt</code> to a negative number to have is avoid checking at all. Most of the time, it is not necessary to change the check interval.</p>
+<p>When mrgsolve is simulating a data set, it stops every so often to
+check for the user interrupt signal (Control-C or Esc). So if you have
+some regrets after starting a simulation, hit Control-C or Esc a bunch
+of times and that will eventually stop the simulation.</p>
+<p>mrgsolve has to stop to check for user interrupt; we don’t want to
+stop to frequently so as to hurt performance, but we don’t want to stop
+too infrequently either - that would make you have to wait too long to
+stop the simulation. By default, mrgsolve counts the records that is
+processes and stops every<code>256</code> records to look for the
+interrupt. This default value can be checked or modified as the
+<code>interrupt</code> argument to <code>mrgsim()</code> and friends. If
+you have both observations and records in your data set, this check
+interval will roughly correspond to every <code>256</code> output
+records. I say <code>roughly</code> because mrgsolve also counts some
+records that aren’t in your data set but still get implemented (like
+turning off an infusion). You might want it to look more frequently if
+you have a model that is very difficult to solve or if you have long
+spans of time between records. You might want to check less often if the
+model is very easy to solve. You can set <code>interrupt</code> to a
+negative number to have is avoid checking at all. Most of the time, it
+is not necessary to change the check interval.</p>
 </div>
 <div id="stopping-a-model-early" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Stopping a model early</h1>
-<p>mrgsolve has some <code>C++</code> functions that you can write into your model that will stop the simulation once some condition is met. The functions are</p>
+<h1><span class="header-section-number">2</span> Stopping a model
+early</h1>
+<p>mrgsolve has some <code>C++</code> functions that you can write into
+your model that will stop the simulation once some condition is met. The
+functions are</p>
 <ul>
 <li><code>self.stop()</code></li>
 <li><code>self.stop_id()</code></li>
@@ -415,7 +450,9 @@ $(document).ready(function () {
 <p>We’ll walk through each of them.</p>
 <p>To stop the simulation and throw an error, use</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span>stop<span class="op">();</span></span></code></pre></div>
-<p>This can be called in <code>$MAIN</code> or <code>$TABLE</code> and it will just stop the simulation with an error message. You can catch this condition by wrapping the simulation call in <code>try()</code></p>
+<p>This can be called in <code>$MAIN</code> or <code>$TABLE</code> and
+it will just stop the simulation with an error message. You can catch
+this condition by wrapping the simulation call in <code>try()</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">mrsim</span>(model, data))</span></code></pre></div>
 <p>and then check to see if the simulation failed</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">inherits</span>(output, <span class="st">&quot;try-error&quot;</span>)) {</span>
@@ -423,35 +460,60 @@ $(document).ready(function () {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># keep going  </span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>If you want to just stop simulating the <em>current individual</em>, you can use</p>
+<p>If you want to just stop simulating the <em>current individual</em>,
+you can use</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span>stop_id<span class="op">();</span></span></code></pre></div>
 <p>or</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span>stop_id_cf<span class="op">();</span></span></code></pre></div>
-<p>Both of these will stop <em>simulating</em> the current subject and then move on to the next subject. The difference in behavior comes from what gets filled in for the remaining records for that subject.</p>
+<p>Both of these will stop <em>simulating</em> the current subject and
+then move on to the next subject. The difference in behavior comes from
+what gets filled in for the remaining records for that subject.</p>
 <ul>
-<li><code>self.stop_id()</code> fills in the remaining rows with <code>NA_real_</code> so that an easy way to find the stopping point is to select records where <code>ID</code> is not <code>NA</code></li>
-<li><code>self.stop_id_cf()</code> fills in the remaining rows with the last simulated value; this approach might be useful in more limited circumstances, but available if needed</li>
+<li><code>self.stop_id()</code> fills in the remaining rows with
+<code>NA_real_</code> so that an easy way to find the stopping point is
+to select records where <code>ID</code> is not <code>NA</code></li>
+<li><code>self.stop_id_cf()</code> fills in the remaining rows with the
+last simulated value; this approach might be useful in more limited
+circumstances, but available if needed</li>
 </ul>
 </div>
 <div id="setting-a-maximum-run-time" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Setting a maximum run time</h1>
-<p>It is possible to limit the simulation time for an individual or for the entire problem. This isn’t handled automatically by mrgsolve, but we’ll show you how to write a small bit of code to do this in a very flexible way.</p>
-<p>Recall that the <code>$PREAMBLE</code> block gets called <em>once</em> at the start of the problem.</p>
+<h1><span class="header-section-number">3</span> Setting a maximum run
+time</h1>
+<p>It is possible to limit the simulation time for an individual or for
+the entire problem. This isn’t handled automatically by mrgsolve, but
+we’ll show you how to write a small bit of code to do this in a very
+flexible way.</p>
+<p>Recall that the <code>$PREAMBLE</code> block gets called
+<em>once</em> at the start of the problem.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$GLOBAL</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;time.h&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>$PREAMBLE</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="dt">time_t</span> tstart <span class="op">=</span> time<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span></code></pre></div>
-<p>In <code>$PREAMBLE</code>, I got the current time with <code>time(0)</code> and saved it to <code>tstart</code> The units for <code>start</code> are <code>seconds</code>. Also note that we had to <code>#include</code> the header file (<code>&lt;time.h&gt;</code>) to get that function.</p>
-<p>Now, we’ll write some code to check the elapsed time in <code>$TABLE</code> and set a maximum run duration in <code>$PARAM</code></p>
+<p>In <code>$PREAMBLE</code>, I got the current time with
+<code>time(0)</code> and saved it to <code>tstart</code> The units for
+<code>start</code> are <code>seconds</code>. Also note that we had to
+<code>#include</code> the header file (<code>&lt;time.h&gt;</code>) to
+get that function.</p>
+<p>Now, we’ll write some code to check the elapsed time in
+<code>$TABLE</code> and set a maximum run duration in
+<code>$PARAM</code></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>$PARAM MAXTIME <span class="op">=</span> <span class="dv">180</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>$TABLE</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(</span> <span class="op">(</span>tstart <span class="op">-</span> time<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">)</span> <span class="op">&gt;</span> MAXTIME<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  self<span class="op">.</span>stop_id<span class="op">();</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p>So once the run time exceeds <code>MAXTIME</code> (180 seconds), we will stop the run graciously using <code>self.stop_id()</code>. You could make a case for using <code>self.stop()</code> here too, but you get the picture: you can determine (1) when to check the duration (2) what is the maximum duration (3) what to do when the maximum duration is exceeded, etc. The behavior is really up to you with a little bit of coding.</p>
-<p>I like this pattern and have plans to write a <code>[ plugin ]</code> that will make coding this a little easier. Stay tuned.</p>
+<p>So once the run time exceeds <code>MAXTIME</code> (180 seconds), we
+will stop the run graciously using <code>self.stop_id()</code>. You
+could make a case for using <code>self.stop()</code> here too, but you
+get the picture: you can determine (1) when to check the duration (2)
+what is the maximum duration (3) what to do when the maximum duration is
+exceeded, etc. The behavior is really up to you with a little bit of
+coding.</p>
+<p>I like this pattern and have plans to write a <code>[ plugin ]</code>
+that will make coding this a little easier. Stay tuned.</p>
 </div>
 
 <hr>

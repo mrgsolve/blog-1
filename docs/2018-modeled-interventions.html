@@ -385,24 +385,45 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#status"><span class="toc-section-number">2</span> Status</a></li>
-<li><a href="#example-time-varying-ka"><span class="toc-section-number">3</span> Example: time-varying KA</a></li>
-<li><a href="#example-modeled-dosing-events"><span class="toc-section-number">4</span> Example: modeled dosing events</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#status" id="toc-status"><span
+class="toc-section-number">2</span> Status</a></li>
+<li><a href="#example-time-varying-ka"
+id="toc-example-time-varying-ka"><span
+class="toc-section-number">3</span> Example: time-varying KA</a></li>
+<li><a href="#example-modeled-dosing-events"
+id="toc-example-modeled-dosing-events"><span
+class="toc-section-number">4</span> Example: modeled dosing
+events</a></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>This post is to introduce modeled interventions in mrgsolve. The main use case is to force mrgsolve to advance the system to a specific time so that some aspect of the system can change at that time. This is similar to the <code>MTIME</code> functionality that NONMEM provides. Doses (bolus or infusions) can also be implemented as a modeled event. These events are “modeled” because they originate from code in the <code>$MAIN</code> block, not the input data set, so that the events can be reactive to model parameters or the state of the model itself.</p>
+<p>This post is to introduce modeled interventions in mrgsolve. The main
+use case is to force mrgsolve to advance the system to a specific time
+so that some aspect of the system can change at that time. This is
+similar to the <code>MTIME</code> functionality that NONMEM provides.
+Doses (bolus or infusions) can also be implemented as a modeled event.
+These events are “modeled” because they originate from code in the
+<code>$MAIN</code> block, not the input data set, so that the events can
+be reactive to model parameters or the state of the model itself.</p>
 </div>
 <div id="status" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Status</h1>
-<p>At the time of this post, this functionality is only in a development branch on the mrgsolve GitHub. But we’ve been working on and revising this concept for a while now, so hopefully it is more or less stable with a reasonable interface. That said, specifics or syntax may change before this gets rolled out to CRAN.</p>
+<p>At the time of this post, this functionality is only in a development
+branch on the mrgsolve GitHub. But we’ve been working on and revising
+this concept for a while now, so hopefully it is more or less stable
+with a reasonable interface. That said, specifics or syntax may change
+before this gets rolled out to CRAN.</p>
 </div>
 <div id="example-time-varying-ka" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Example: time-varying KA</h1>
-<p>One common use case for modeled events are a time-varying model parameter such as an absorption rate constant. The model with <strong>constant</strong> <code>KA</code> looks like this</p>
+<h1><span class="header-section-number">3</span> Example: time-varying
+KA</h1>
+<p>One common use case for modeled events are a time-varying model
+parameter such as an absorption rate constant. The model with
+<strong>constant</strong> <code>KA</code> looks like this</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, KA1 = 0.1, KA2 = 0.5, KA3 = 5</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -421,7 +442,12 @@ $(document).ready(function () {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(CENT<span class="sc">+</span>KA<span class="sc">~</span>time)</span></code></pre></div>
 <pre><code>. Building mevent0 ... done.</code></pre>
 <p><img src="2018-modeled-interventions_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-<p>For the model with <strong>time-varying</strong> parameter, we want <code>KA</code> to start with a lower value at the time of the oral dose and then increase at some time after the dose. And we want that to happen for every dose. We model the time after the dose when we want KA to change and force the simulation to stop at that time so we can make the required changes.</p>
+<p>For the model with <strong>time-varying</strong> parameter, we want
+<code>KA</code> to start with a lower value at the time of the oral dose
+and then increase at some time after the dose. And we want that to
+happen for every dose. We model the time after the dose when we want KA
+to change and force the simulation to stop at that time so we can make
+the required changes.</p>
 <p>The model with time-varying <code>KA</code> might look like this</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, KA1 = 0.1, KA2 = 0.5, KA3 = 5</span></span>
@@ -445,8 +471,17 @@ $(document).ready(function () {
 <li>time</li>
 <li>evid</li>
 </ol>
-<p>Whenever we see a dose (<code>EVID==1</code>), we set <code>KA</code> to the initial (slower) <code>KA</code> value and register a model event that in this case happens two hours later. We use <code>EVID=33</code> for that change point event. This is a arbitrary choice for <code>EVID</code> (it could be [almost] anything). The idea here is that, when we see <code>EVID==33</code> come along, we change the <code>KA</code> to the faster value.</p>
-<p>We don’t have plans to offer indicators like <code>MPAST</code> or <code>MTDIFF</code> as NONMEM does. But we can achieve similar behavior by tagging the event and then looking for that tag again down the road.</p>
+<p>Whenever we see a dose (<code>EVID==1</code>), we set <code>KA</code>
+to the initial (slower) <code>KA</code> value and register a model event
+that in this case happens two hours later. We use <code>EVID=33</code>
+for that change point event. This is a arbitrary choice for
+<code>EVID</code> (it could be [almost] anything). The idea here is
+that, when we see <code>EVID==33</code> come along, we change the
+<code>KA</code> to the faster value.</p>
+<p>We don’t have plans to offer indicators like <code>MPAST</code> or
+<code>MTDIFF</code> as NONMEM does. But we can achieve similar behavior
+by tagging the event and then looking for that tag again down the
+road.</p>
 <p>The simulation looks like this</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;mevent&quot;</span>, code)</span></code></pre></div>
 <pre><code>. Building mevent ... done.</code></pre>
@@ -455,7 +490,9 @@ $(document).ready(function () {
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mrgsim</span>(<span class="at">end =</span> <span class="dv">24</span>, <span class="at">delta =</span> <span class="fl">0.1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(CENT<span class="sc">+</span>KA<span class="sc">~</span>time)</span></code></pre></div>
 <p><img src="2018-modeled-interventions_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-<p>We can refine this even more with an additional intervention time for an intermediate value so that <code>KA</code> changes twice as the dose is absorbed</p>
+<p>We can refine this even more with an additional intervention time for
+an intermediate value so that <code>KA</code> changes twice as the dose
+is absorbed</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, KA1 = 0.1, KA2 = 0.5, KA3 = 5</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -475,7 +512,8 @@ $(document).ready(function () {
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="st">if(EVID==34) KA = KA3;</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span> </span></code></pre></div>
-<p>We use a separate <code>EVID</code> (34) here to distinguish the second change from the first change (with <code>EVID 33</code>).</p>
+<p>We use a separate <code>EVID</code> (34) here to distinguish the
+second change from the first change (with <code>EVID 33</code>).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;mevent2&quot;</span>, code)</span></code></pre></div>
 <pre><code>. Building mevent2 ... done.</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> </span>
@@ -490,7 +528,8 @@ $(document).ready(function () {
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mrgsim</span>(<span class="at">end =</span> <span class="dv">120</span>, <span class="at">delta =</span> <span class="fl">0.1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(CENT<span class="sc">+</span>KA<span class="sc">~</span>time)</span></code></pre></div>
 <p><img src="2018-modeled-interventions_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-<p>And we can model this so that the change point is a function of a model parameter</p>
+<p>And we can model this so that the change point is a function of a
+model parameter</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, KA1 = 0.1, KA2 = 0.5, KA3 = 5</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">MTIME1 = 2</span></span>
@@ -521,10 +560,18 @@ $(document).ready(function () {
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(CENT<span class="sc">+</span>KA<span class="sc">~</span>time)</span></code></pre></div>
 <p><img src="2018-modeled-interventions_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
 </div>
-<div id="example-modeled-dosing-events" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Example: modeled dosing events</h1>
-<p>In the previous example, we used the <code>mevent</code> call to to force the simulation to stop at the time we wanted a model parameter to change. This was accomplished by an event object with <code>EVID=2</code>, which forces the solver to stop, reset, and then keep going with the new model parameters.</p>
-<p>We can also use this event mechanism to implement actual doses. Now at the change point, we add some mass to one of the compartments. An example model for q12 hour dosing might look like:</p>
+<div id="example-modeled-dosing-events" class="section level1"
+number="4">
+<h1><span class="header-section-number">4</span> Example: modeled dosing
+events</h1>
+<p>In the previous example, we used the <code>mevent</code> call to to
+force the simulation to stop at the time we wanted a model parameter to
+change. This was accomplished by an event object with
+<code>EVID=2</code>, which forces the solver to stop, reset, and then
+keep going with the new model parameters.</p>
+<p>We can also use this event mechanism to implement actual doses. Now
+at the change point, we add some mass to one of the compartments. An
+example model for q12 hour dosing might look like:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, KA = 2</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -544,7 +591,11 @@ $(document).ready(function () {
 <pre><code>. Building mevent4 ... done.</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span>  <span class="fu">mrgsim</span>(<span class="at">end =</span> <span class="dv">240</span>, <span class="at">delta =</span> <span class="fl">0.2</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>(CENT<span class="sc">~</span>time)</span></code></pre></div>
 <p><img src="2018-modeled-interventions_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto auto auto 0;" /></p>
-<p>So here, we simulated without the data set and implemented the dosing from within the model. This isn’t the way you should be implementing dosing like this on a regular basis, but it shows how you can trigger doses from within the model based on what has gone on up to that point in the simulation.</p>
+<p>So here, we simulated without the data set and implemented the dosing
+from within the model. This isn’t the way you should be implementing
+dosing like this on a regular basis, but it shows how you can trigger
+doses from within the model based on what has gone on up to that point
+in the simulation.</p>
 </div>
 
 <hr>

@@ -1,13 +1,13 @@
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
-    background-color: darkslateblue;
+    background-color: #097f5f;
 }
 
 gre {
-  color: green;
+  color: #097f5f;
 }
 
 .mrgg {
-  color: darkslateblue;
+  color: #097f5f;
 }
 .spacer {
   min-height: 150px;
@@ -17,7 +17,7 @@ gre {
 }
 
 a {
-  color: darkslateblue;
+  color: #097f5f;
 }
 
 .red {
@@ -100,7 +100,7 @@ kbd {
   color: #ffffff;
   text-decoration: none;
   outline: 0;
-  background-color: darkslateblue;
+  background-color: #097f5f;
 }
 .dropdown-menu>li>a,
 .navbar-default .navbar-nav .open .dropdown-menu>li>a{

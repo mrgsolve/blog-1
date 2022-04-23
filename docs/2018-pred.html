@@ -385,19 +385,28 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#example-model"><span class="toc-section-number">2</span> Example model</a></li>
-<li><a href="#pkpd-model"><span class="toc-section-number">3</span> PK/PD Model</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#example-model" id="toc-example-model"><span
+class="toc-section-number">2</span> Example model</a></li>
+<li><a href="#pkpd-model" id="toc-pkpd-model"><span
+class="toc-section-number">3</span> PK/PD Model</a></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>This post introduces a new formal code block for writing models where there are no compartments. The block is named after the analogous NONMEM block called <code>$PRED</code>. This functionality has always been possible with mrgsolve, but only now is there a code block dedicated to these models. Also, a relaxed set of data set constraints have been put in place when these types of models are invoked.</p>
+<p>This post introduces a new formal code block for writing models where
+there are no compartments. The block is named after the analogous NONMEM
+block called <code>$PRED</code>. This functionality has always been
+possible with mrgsolve, but only now is there a code block dedicated to
+these models. Also, a relaxed set of data set constraints have been put
+in place when these types of models are invoked.</p>
 </div>
 <div id="example-model" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Example model</h1>
-<p>As a most-basic model, we look at the <code>pred1</code> model in <code>modlib()</code></p>
+<p>As a most-basic model, we look at the <code>pred1</code> model in
+<code>modlib()</code></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread_cache</span>(<span class="st">&quot;pred1&quot;</span>, <span class="fu">modlib</span>())</span></code></pre></div>
@@ -410,9 +419,18 @@ $(document).ready(function () {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> beta0i <span class="op">=</span> beta0 <span class="op">+</span> ETA<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> beta1i <span class="op">=</span> beta1<span class="op">*</span>exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>capture Y <span class="op">=</span> beta0i <span class="op">+</span> beta1i<span class="op">*</span>B<span class="op">;</span></span></code></pre></div>
-<p>This is a random-intercept, random slope linear model. Like other models in mrgsolve, you can write parameters (<code>$PARAM</code>), and random effects (<code>$OMEGA</code>). But the model is actually written in <code>$PRED</code>.</p>
-<p>When mrgsolve finds <code>$PRED</code>, it will generate an error if it also finds <code>$MAIN</code>, <code>$TABLE</code>, or <code>$ODE</code>. However, the code that gets entered into <code>$PRED</code> would function exactly as if you put it in <code>$TABLE</code>.</p>
-<p>In the example model, the response is a function of the parameter <code>B</code>, so we’ll generate an input data set with some values of <code>B</code></p>
+<p>This is a random-intercept, random slope linear model. Like other
+models in mrgsolve, you can write parameters (<code>$PARAM</code>), and
+random effects (<code>$OMEGA</code>). But the model is actually written
+in <code>$PRED</code>.</p>
+<p>When mrgsolve finds <code>$PRED</code>, it will generate an error if
+it also finds <code>$MAIN</code>, <code>$TABLE</code>, or
+<code>$ODE</code>. However, the code that gets entered into
+<code>$PRED</code> would function exactly as if you put it in
+<code>$TABLE</code>.</p>
+<p>In the example model, the response is a function of the parameter
+<code>B</code>, so we’ll generate an input data set with some values of
+<code>B</code></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ID =</span> <span class="dv">1</span>, <span class="at">B =</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>,<span class="dv">2</span>)))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -453,12 +471,16 @@ $(document).ready(function () {
 </div>
 <div id="pkpd-model" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> PK/PD Model</h1>
-<p>Here is an implementation of a PK/PD model using <code>$PRED</code></p>
+<p>Here is an implementation of a PK/PD model using
+<code>$PRED</code></p>
 <p>In this model</p>
 <ul>
-<li>Calculate <code>CL</code> as a function of <code>WT</code> and a random effect</li>
-<li>Derive <code>AUC</code> from <code>CL</code> and <code>DOSE</code></li>
-<li>The response (<code>Y</code>) is a calculated from <code>AUC</code> and the Emax model parameters</li>
+<li>Calculate <code>CL</code> as a function of <code>WT</code> and a
+random effect</li>
+<li>Derive <code>AUC</code> from <code>CL</code> and
+<code>DOSE</code></li>
+<li>The response (<code>Y</code>) is a calculated from <code>AUC</code>
+and the Emax model parameters</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM TVCL = 1, WT = 70, AUC50 = 20, DOSE = 100, E0 = 35, EMAX = 2.4</span></span>
@@ -496,7 +518,8 @@ $(document).ready(function () {
 . 4  4    0 170.78136  110  23.68354  80.29131
 . 5  5    0 248.18054  200 331.10229 108.81926
 . 6  6    0  51.22012   30 251.58373 116.09649</code></pre>
-<p>Plot the response (<code>Y</code>) versus <code>AUC</code>, colored by dose</p>
+<p>Plot the response (<code>Y</code>) versus <code>AUC</code>, colored
+by dose</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(out, <span class="fu">aes</span>(AUC,Y,<span class="at">col =</span><span class="fu">factor</span>(DOSE))) <span class="sc">+</span> </span>

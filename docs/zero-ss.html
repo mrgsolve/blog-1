@@ -385,15 +385,21 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#example"><span class="toc-section-number">2</span> Example</a></li>
-<li><a href="#notes"><span class="toc-section-number">3</span> Notes</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#example" id="toc-example"><span
+class="toc-section-number">2</span> Example</a></li>
+<li><a href="#notes" id="toc-notes"><span
+class="toc-section-number">3</span> Notes</a></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>Starting with version 0.10.0 (released October, 2019), mrgsolve can implement dosing records calling for a zero-order infusion at steady state. To do this, set <code>rate</code> to a non-zero value, <code>amt</code> to zero, and <code>ss</code> to 1.</p>
+<p>Starting with version 0.10.0 (released October, 2019), mrgsolve can
+implement dosing records calling for a zero-order infusion at steady
+state. To do this, set <code>rate</code> to a non-zero value,
+<code>amt</code> to zero, and <code>ss</code> to 1.</p>
 </div>
 <div id="example" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Example</h1>
@@ -411,7 +417,8 @@ $(document).ready(function () {
 <pre><code>. Events:
 .   time amt rate cmt evid ss
 . 1    0   0  100   2    1  1</code></pre>
-<p>With <code>CL</code> set to 2, we expect the system to start out at 50</p>
+<p>With <code>CL</code> set to 2, we expect the system to start out at
+50</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim</span>(mod,dose,<span class="at">recsort =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code></pre></div>
 <p><img src="zero-ss_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>

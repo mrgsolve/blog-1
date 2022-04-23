@@ -379,20 +379,33 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Resimulate random effect variates on demand</h1>
+<h1 class="title toc-ignore">Resimulate random effect variates on
+demand</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#simeta-example"><span class="toc-section-number">1</span> <code>simeta</code> example</a>
+<li><a href="#simeta-example" id="toc-simeta-example"><span
+class="toc-section-number">1</span> <code>simeta</code> example</a>
 <ul>
-<li><a href="#simulate-without-simeta"><span class="toc-section-number">1.0.1</span> Simulate without <code>simeta</code></a></li>
-<li><a href="#simulate-with-simeta"><span class="toc-section-number">1.0.2</span> Simulate with <code>simeta</code></a></li>
-<li><a href="#simeps-example"><span class="toc-section-number">1.1</span> <code>simeps</code> example</a>
+<li><a href="#simulate-without-simeta"
+id="toc-simulate-without-simeta"><span
+class="toc-section-number">1.0.1</span> Simulate without
+<code>simeta</code></a></li>
+<li><a href="#simulate-with-simeta" id="toc-simulate-with-simeta"><span
+class="toc-section-number">1.0.2</span> Simulate with
+<code>simeta</code></a></li>
+<li><a href="#simeps-example" id="toc-simeps-example"><span
+class="toc-section-number">1.1</span> <code>simeps</code> example</a>
 <ul>
-<li><a href="#simulate-without-simeps"><span class="toc-section-number">1.1.1</span> Simulate without <code>simeps</code></a></li>
-<li><a href="#simulate-with-simeps"><span class="toc-section-number">1.1.2</span> Simulate with <code>simeps</code></a></li>
+<li><a href="#simulate-without-simeps"
+id="toc-simulate-without-simeps"><span
+class="toc-section-number">1.1.1</span> Simulate without
+<code>simeps</code></a></li>
+<li><a href="#simulate-with-simeps" id="toc-simulate-with-simeps"><span
+class="toc-section-number">1.1.2</span> Simulate with
+<code>simeps</code></a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -402,14 +415,24 @@ $(document).ready(function () {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <div id="simeta-example" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> <code>simeta</code> example</h1>
+<h1><span class="header-section-number">1</span> <code>simeta</code>
+example</h1>
 <ul>
-<li>In this example, we want to simulate a patient-specific baseline response that is between 80 and 120.</li>
-<li>In the code, we start a loop that calls <code>simeta</code> with no arguments until the baseline is between the specified bounds</li>
-<li>For this example, we only calculate <code>BASE</code> when <code>NEWIND &lt;=1</code> … or whenever we are working on the first record of an individual. This ensures that we don’t re-simulate <code>BASE</code> at every simulation record.</li>
-<li>We have also implemented a counter (<code>i</code>) that ensures we only try to resimulate 100 times. If a value for <code>BASE</code> cannot be generated in 100 tries, we give up.<br />
+<li>In this example, we want to simulate a patient-specific baseline
+response that is between 80 and 120.</li>
+<li>In the code, we start a loop that calls <code>simeta</code> with no
+arguments until the baseline is between the specified bounds</li>
+<li>For this example, we only calculate <code>BASE</code> when
+<code>NEWIND &lt;=1</code> … or whenever we are working on the first
+record of an individual. This ensures that we don’t re-simulate
+<code>BASE</code> at every simulation record.</li>
+<li>We have also implemented a counter (<code>i</code>) that ensures we
+only try to resimulate 100 times. If a value for <code>BASE</code>
+cannot be generated in 100 tries, we give up.<br />
 </li>
-<li>You probably won’t need to implement <code>FLAG</code> for your problem. I am only using <code>FLAG</code> here so we can selectively call the <code>simeta</code> code to demonstrate how it is working.</li>
+<li>You probably won’t need to implement <code>FLAG</code> for your
+problem. I am only using <code>FLAG</code> here so we can selectively
+call the <code>simeta</code> code to demonstrate how it is working.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM TVBASE = 100, FLAG = 0</span></span>
@@ -446,7 +469,8 @@ $(document).ready(function () {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;simeta&quot;</span>,  code)</span></code></pre></div>
 <div id="simulate-without-simeta" class="section level3" number="1.0.1">
-<h3><span class="header-section-number">1.0.1</span> Simulate without <code>simeta</code></h3>
+<h3><span class="header-section-number">1.0.1</span> Simulate without
+<code>simeta</code></h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">nid=</span><span class="dv">100</span>, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)</span>
@@ -468,10 +492,13 @@ $(document).ready(function () {
 .  Mean   :158.53  
 .  3rd Qu.:198.08  
 .  Max.   :739.21</code></pre>
-<p>When we simulate with <code>FLAG=0</code>, the <code>simeta</code> code <strong>isn’t</strong> called and we <code>BASE</code> values all over the place.</p>
+<p>When we simulate with <code>FLAG=0</code>, the <code>simeta</code>
+code <strong>isn’t</strong> called and we <code>BASE</code> values all
+over the place.</p>
 </div>
 <div id="simulate-with-simeta" class="section level3" number="1.0.2">
-<h3><span class="header-section-number">1.0.2</span> Simulate with <code>simeta</code></h3>
+<h3><span class="header-section-number">1.0.2</span> Simulate with
+<code>simeta</code></h3>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">nid=</span><span class="dv">100</span>, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">param=</span><span class="fu">list</span>(<span class="at">FLAG=</span><span class="dv">1</span>))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)</span>
@@ -493,13 +520,19 @@ $(document).ready(function () {
 .  Mean   : 98.37  
 .  3rd Qu.:108.52  
 .  Max.   :119.58</code></pre>
-<p>When we simulate with <code>FLAG=1</code>, the <code>simeta</code> code <strong>is</strong> called and we <code>BASE</code> values within the specified bounds.</p>
+<p>When we simulate with <code>FLAG=1</code>, the <code>simeta</code>
+code <strong>is</strong> called and we <code>BASE</code> values within
+the specified bounds.</p>
 </div>
 <div id="simeps-example" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> <code>simeps</code> example</h2>
+<h2><span class="header-section-number">1.1</span> <code>simeps</code>
+example</h2>
 <ul>
-<li>In this example, we want to re-simulate the residual error variate to make sure we have a concentration that is positive.</li>
-<li>We set up a loop that looks like the <code>simeta</code> example, but we work in <code>$TABLE</code> this time because we are calculating <code>CP</code>.</li>
+<li>In this example, we want to re-simulate the residual error variate
+to make sure we have a concentration that is positive.</li>
+<li>We set up a loop that looks like the <code>simeta</code> example,
+but we work in <code>$TABLE</code> this time because we are calculating
+<code>CP</code>.</li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM CL = 1, V = 20, FLAG=0</span></span>
@@ -525,7 +558,8 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;simeps&quot;</span>, code)</span></code></pre></div>
 <pre><code>. Building simeps ... done.</code></pre>
 <div id="simulate-without-simeps" class="section level3" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Simulate without <code>simeps</code></h3>
+<h3><span class="header-section-number">1.1.1</span> Simulate without
+<code>simeps</code></h3>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">end=</span><span class="dv">48</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)</span>
@@ -540,10 +574,12 @@ $(document).ready(function () {
 .  Mean   :1   Mean   :23.52   Mean   : 37.47   Mean   : 3.2181  
 .  3rd Qu.:1   3rd Qu.:35.75   3rd Qu.: 54.21   3rd Qu.: 7.3496  
 .  Max.   :1   Max.   :48.00   Max.   :100.00   Max.   :13.4523</code></pre>
-<p><strong>Negative</strong> concentrations are simulated when we <strong>don’t</strong> call the <code>simeps</code> loop.</p>
+<p><strong>Negative</strong> concentrations are simulated when we
+<strong>don’t</strong> call the <code>simeps</code> loop.</p>
 </div>
 <div id="simulate-with-simeps" class="section level3" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> Simulate with <code>simeps</code></h3>
+<h3><span class="header-section-number">1.1.2</span> Simulate with
+<code>simeps</code></h3>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">end=</span><span class="dv">48</span>, <span class="at">param=</span><span class="fu">list</span>(<span class="at">FLAG=</span><span class="dv">1</span>))</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  sum <span class="ot">&lt;-</span> <span class="fu">summary</span>(out)</span>

@@ -385,14 +385,22 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#about"><span class="toc-section-number">1</span> About</a></li>
-<li><a href="#the-model"><span class="toc-section-number">2</span> The model</a></li>
-<li><a href="#optimize"><span class="toc-section-number">3</span> Optimize</a>
+<li><a href="#about" id="toc-about"><span
+class="toc-section-number">1</span> About</a></li>
+<li><a href="#the-model" id="toc-the-model"><span
+class="toc-section-number">2</span> The model</a></li>
+<li><a href="#optimize" id="toc-optimize"><span
+class="toc-section-number">3</span> Optimize</a>
 <ul>
-<li><a href="#what-is-this-function-doing"><span class="toc-section-number">3.1</span> What is this function doing?</a></li>
-<li><a href="#initial-estimate"><span class="toc-section-number">3.2</span> Initial estimate</a></li>
+<li><a href="#what-is-this-function-doing"
+id="toc-what-is-this-function-doing"><span
+class="toc-section-number">3.1</span> What is this function
+doing?</a></li>
+<li><a href="#initial-estimate" id="toc-initial-estimate"><span
+class="toc-section-number">3.2</span> Initial estimate</a></li>
 </ul></li>
-<li><a href="#look-at-the-result"><span class="toc-section-number">4</span> Look at the result</a></li>
+<li><a href="#look-at-the-result" id="toc-look-at-the-result"><span
+class="toc-section-number">4</span> Look at the result</a></li>
 </ul>
 </div>
 
@@ -404,11 +412,17 @@ $(document).ready(function () {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <div id="about" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> About</h1>
-<p>This is a shortened version of <a href="map_bayes.html">map_bayes.html</a>, showing only the estimation step.</p>
+<p>This is a shortened version of <a
+href="map_bayes.html">map_bayes.html</a>, showing only the estimation
+step.</p>
 </div>
 <div id="the-model" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> The model</h1>
-<p>We code up a one-compartment model, with fixed TVCL and TVV. We have <code>ETA1</code> and <code>ETA2</code> as parameters in the model so that we can update them as the optimizer proceeds. Our goal is to find the values of <code>ETA</code> that are most consistent with the data.</p>
+<p>We code up a one-compartment model, with fixed TVCL and TVV. We have
+<code>ETA1</code> and <code>ETA2</code> as parameters in the model so
+that we can update them as the optimizer proceeds. Our goal is to find
+the values of <code>ETA</code> that are most consistent with the
+data.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">$SET request=&quot;&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -429,11 +443,16 @@ $(document).ready(function () {
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;map&quot;</span>, code)</span></code></pre></div>
-<p>We also have the <code>OMEGA</code> and <code>SIGMA</code> matrices from the population model estimation step.</p>
+<p>We also have the <code>OMEGA</code> and <code>SIGMA</code> matrices
+from the population model estimation step.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>omega <span class="ot">&lt;-</span> <span class="fu">cmat</span>(<span class="fl">0.23</span>,<span class="sc">-</span><span class="fl">0.78</span>, <span class="fl">0.62</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>omega.inv <span class="ot">&lt;-</span> <span class="fu">solve</span>(omega)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fl">0.0032</span>)</span></code></pre></div>
-<p>Read in the data set. Notice that <code>DV</code> has value <code>NA</code> for dosing records. When calculating the joint likelihood of all the data, we will remove the missing values (dosing records don’t have observations that contribute to the likelihood value).</p>
+<p>Read in the data set. Notice that <code>DV</code> has value
+<code>NA</code> for dosing records. When calculating the joint
+likelihood of all the data, we will remove the missing values (dosing
+records don’t have observations that contribute to the likelihood
+value).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;map_bayes_data.RDS&quot;</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
@@ -447,10 +466,15 @@ $(document).ready(function () {
 </div>
 <div id="optimize" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Optimize</h1>
-<p>This function takes in a set of proposed <span class="math inline">\(\eta\)</span>s along with the observed data vector, the data set and a model object and returns the value of the EBE objective function</p>
+<p>This function takes in a set of proposed <span
+class="math inline">\(\eta\)</span>s along with the observed data
+vector, the data set and a model object and returns the value of the EBE
+objective function</p>
 <ul>
-<li><p>When we do the estimation, the fixed effects and random effect variances are fixed.</p></li>
-<li><p>The estimates are the <span class="math inline">\(\eta\)</span> for clearance and volume</p></li>
+<li><p>When we do the estimation, the fixed effects and random effect
+variances are fixed.</p></li>
+<li><p>The estimates are the <span class="math inline">\(\eta\)</span>
+for clearance and volume</p></li>
 </ul>
 <p>Arguments:</p>
 <ul>
@@ -459,20 +483,30 @@ $(document).ready(function () {
 <li><code>d</code> the data set</li>
 <li><code>m</code> the model object</li>
 <li><code>dvcol</code> the predicted data column name</li>
-<li><code>pred</code> if <code>TRUE</code>, just return predicted values</li>
+<li><code>pred</code> if <code>TRUE</code>, just return predicted
+values</li>
 </ul>
-<div id="what-is-this-function-doing" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> What is this function doing?</h2>
+<div id="what-is-this-function-doing" class="section level2"
+number="3.1">
+<h2><span class="header-section-number">3.1</span> What is this function
+doing?</h2>
 <ol style="list-style-type: decimal">
 <li>get the matrix for residual error</li>
 <li>Make sure <code>eta</code> is a list</li>
-<li>Make sure <code>eta</code> is properly named (i.e. <code>ETA1</code> and <code>ETA2</code>)</li>
+<li>Make sure <code>eta</code> is properly named (i.e. <code>ETA1</code>
+and <code>ETA2</code>)</li>
 <li>Copy <code>eta</code> into a matrix that is one row</li>
-<li>Update the model object (<code>m</code>) with the current values of <code>ETA1</code> and <code>ETA2</code></li>
-<li>Simulate from data set <code>d</code> and save output to <code>out</code> object</li>
-<li>If we are just requesting predictions (<code>if(pred)</code>) return the simulated data</li>
-<li>The final lines calculate the EBE objective function; see <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/">this paper</a> for reference</li>
-<li>Notice that the function returns a single value (a number); the optimizer will minimize this value</li>
+<li>Update the model object (<code>m</code>) with the current values of
+<code>ETA1</code> and <code>ETA2</code></li>
+<li>Simulate from data set <code>d</code> and save output to
+<code>out</code> object</li>
+<li>If we are just requesting predictions (<code>if(pred)</code>) return
+the simulated data</li>
+<li>The final lines calculate the EBE objective function; see <a
+href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/">this
+paper</a> for reference</li>
+<li>Notice that the function returns a single value (a number); the
+optimizer will minimize this value</li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mapbayes <span class="ot">&lt;-</span> <span class="cf">function</span>(eta,d,ycol,m,<span class="at">dvcol=</span>ycol,<span class="at">pred=</span><span class="cn">FALSE</span>) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -499,7 +533,8 @@ $(document).ready(function () {
 <p>Fit the data</p>
 <ul>
 <li><code>newuoa</code> is from the <code>nloptr</code> package</li>
-<li>Other optimizers (via <code>optim</code>) could probably also be used</li>
+<li>Other optimizers (via <code>optim</code>) could probably also be
+used</li>
 </ul>
 <p>Arguments to <code>newuoa</code></p>
 <ul>
@@ -515,7 +550,8 @@ $(document).ready(function () {
 </div>
 <div id="look-at-the-result" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Look at the result</h1>
-<p>A data set and model to get predictions; this will give us a smooth prediction line</p>
+<p>A data set and model to get predictions; this will give us a smooth
+prediction line</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(evid<span class="sc">==</span><span class="dv">1</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pmod <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">end=</span><span class="dv">24</span>, <span class="at">delta=</span><span class="fl">0.1</span>) </span></code></pre></div>
 <p>Predicted line based on final estimates</p>

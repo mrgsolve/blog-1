@@ -385,34 +385,72 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#use-thetan-to-refer-to-thetan"><span class="toc-section-number">1</span> Use THETA(n) to refer to THETAn</a></li>
-<li><a href="#new-plugin-called-autodec"><span class="toc-section-number">2</span> New plugin called <code>autodec</code></a></li>
-<li><a href="#new-plugin-called-nm-vars"><span class="toc-section-number">3</span> New plugin called <code>nm-vars</code></a></li>
-<li><a href="#compartment"><span class="toc-section-number">4</span> Compartment</a></li>
-<li><a href="#new-model-in-modlib-nm-like"><span class="toc-section-number">5</span> New model in <code>modlib</code>: <code>nm-like</code></a></li>
-<li><a href="#audit"><span class="toc-section-number">6</span> Audit</a></li>
-<li><a href="#new-time-spacer-for-event-sequences"><span class="toc-section-number">7</span> New time spacer for event sequences</a></li>
-<li><a href="#collapse-matrices"><span class="toc-section-number">8</span> Collapse matrices</a></li>
-<li><a href="#deprecated-simetan-and-simepsn"><span class="toc-section-number">9</span> Deprecated simeta(n) and simeps(n)</a></li>
+<li><a href="#use-thetan-to-refer-to-thetan"
+id="toc-use-thetan-to-refer-to-thetan"><span
+class="toc-section-number">1</span> Use THETA(n) to refer to
+THETAn</a></li>
+<li><a href="#new-plugin-called-autodec"
+id="toc-new-plugin-called-autodec"><span
+class="toc-section-number">2</span> New plugin called
+<code>autodec</code></a></li>
+<li><a href="#new-plugin-called-nm-vars"
+id="toc-new-plugin-called-nm-vars"><span
+class="toc-section-number">3</span> New plugin called
+<code>nm-vars</code></a></li>
+<li><a href="#compartment" id="toc-compartment"><span
+class="toc-section-number">4</span> Compartment</a></li>
+<li><a href="#new-model-in-modlib-nm-like"
+id="toc-new-model-in-modlib-nm-like"><span
+class="toc-section-number">5</span> New model in <code>modlib</code>:
+<code>nm-like</code></a></li>
+<li><a href="#audit" id="toc-audit"><span
+class="toc-section-number">6</span> Audit</a></li>
+<li><a href="#new-time-spacer-for-event-sequences"
+id="toc-new-time-spacer-for-event-sequences"><span
+class="toc-section-number">7</span> New time spacer for event
+sequences</a></li>
+<li><a href="#collapse-matrices" id="toc-collapse-matrices"><span
+class="toc-section-number">8</span> Collapse matrices</a></li>
+<li><a href="#deprecated-simetan-and-simepsn"
+id="toc-deprecated-simetan-and-simepsn"><span
+class="toc-section-number">9</span> Deprecated simeta(n) and
+simeps(n)</a></li>
 </ul>
 </div>
 
-<p>There are a bunch of new features out now in the mrgsolve 1.0.0 release. Most of these are related to model syntax (what / how you write your model in the <code>.mod</code> or <code>.cpp</code> file) rather than model functionality.</p>
-<div id="use-thetan-to-refer-to-thetan" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Use THETA(n) to refer to THETAn</h1>
-<p>All models will be able to use <code>THETA(n)</code> to refer to <code>THETAn</code>. For example:</p>
+<p>There are a bunch of new features out now in the mrgsolve 1.0.0
+release. Most of these are related to model syntax (what / how you write
+your model in the <code>.mod</code> or <code>.cpp</code> file) rather
+than model functionality.</p>
+<div id="use-thetan-to-refer-to-thetan" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Use THETA(n) to refer
+to THETAn</h1>
+<p>All models will be able to use <code>THETA(n)</code> to refer to
+<code>THETAn</code>. For example:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmxml <span class="op">]</span> </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> CL <span class="op">=</span> THETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span> <span class="fl">0.75</span><span class="op">);</span></span></code></pre></div>
-<p>You’ll notice that we referred to a nonmem run with <code>[ nmxml ]</code> so this syntax is meant be one small step toward making it easier to translate your model from the nonmem control stream to mrgsolve format. This is pretty simple, but will mean less time removing parentheses when copying over model code.</p>
+<p>You’ll notice that we referred to a nonmem run with
+<code>[ nmxml ]</code> so this syntax is meant be one small step toward
+making it easier to translate your model from the nonmem control stream
+to mrgsolve format. This is pretty simple, but will mean less time
+removing parentheses when copying over model code.</p>
 </div>
 <div id="new-plugin-called-autodec" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> New plugin called <code>autodec</code></h1>
-<p>Plugins are extra functionality that you can invoke when coding your model. For example, plugins exist for calculating time after dose, adding Rcpp functionality to your model etc and <a href="https://mrgsolve.org/user_guide/model-specification.html#block-plugin">more</a>.</p>
-<p>One new plugin is called <code>autodec</code>. This plugin will automatically declare C++ variables for you. For example, I can code the snipped from the previous block using <code>autodec</code> plugin and mrgsolve will discover that <code>CL</code> needs to be declared:</p>
+<h1><span class="header-section-number">2</span> New plugin called
+<code>autodec</code></h1>
+<p>Plugins are extra functionality that you can invoke when coding your
+model. For example, plugins exist for calculating time after dose,
+adding Rcpp functionality to your model etc and <a
+href="https://mrgsolve.org/user_guide/model-specification.html#block-plugin">more</a>.</p>
+<p>One new plugin is called <code>autodec</code>. This plugin will
+automatically declare C++ variables for you. For example, I can code the
+snipped from the previous block using <code>autodec</code> plugin and
+mrgsolve will discover that <code>CL</code> needs to be declared:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> plugin <span class="op">]</span> autodec</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmxml <span class="op">]</span> </span>
@@ -421,17 +459,24 @@ $(document).ready(function () {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>CL <span class="op">=</span> THETA<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span> <span class="fl">0.75</span><span class="op">);</span></span></code></pre></div>
-<p>The motivation behind this feature is to make it easier to code models with lots of variables when all your variables are simple double precision floating point numbers.</p>
+<p>The motivation behind this feature is to make it easier to code
+models with lots of variables when all your variables are simple double
+precision floating point numbers.</p>
 </div>
 <div id="new-plugin-called-nm-vars" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> New plugin called <code>nm-vars</code></h1>
-<p>This plugin provided a nonmem-like syntax for <em>certain model elements</em>, including</p>
+<h1><span class="header-section-number">3</span> New plugin called
+<code>nm-vars</code></h1>
+<p>This plugin provided a nonmem-like syntax for <em>certain model
+elements</em>, including</p>
 <ul>
-<li><code>Fn</code>, <code>Dn</code>, <code>Rn</code>, and <code>ALAGn</code></li>
+<li><code>Fn</code>, <code>Dn</code>, <code>Rn</code>, and
+<code>ALAGn</code></li>
 <li><code>A(n)</code>, <code>A_0(n)</code> and <code>DADT(n)</code></li>
-<li><code>T</code> (used for <code>SOLVERTIME</code> in <code>$ODE</code>)</li>
+<li><code>T</code> (used for <code>SOLVERTIME</code> in
+<code>$ODE</code>)</li>
 </ul>
-<p>So your mrgsolve model translated from nonmem might look like this</p>
+<p>So your mrgsolve model translated from nonmem might look like
+this</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">see</span>(<span class="fu">modlib</span>(<span class="st">&quot;nm-like&quot;</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$PROB Model written with some nonmem<span class="op">-</span>like syntax features</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -462,17 +507,28 @@ $(document).ready(function () {
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>$ERROR</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>CP <span class="op">=</span> A<span class="op">(</span><span class="dv">2</span><span class="op">)/</span>V<span class="op">;</span></span></code></pre></div>
-<p>Notice that <strong>not all nonmem syntax is supported</strong>; just select data structures that use <code>A</code> and <code>DADT</code> to refer to compartments and differential equations. Also notice that we still require <code>;</code> at the end of each line and we still need to use <code>pow(base, exponent)</code> to calculate exponent of some number.</p>
+<p>Notice that <strong>not all nonmem syntax is supported</strong>; just
+select data structures that use <code>A</code> and <code>DADT</code> to
+refer to compartments and differential equations. Also notice that we
+still require <code>;</code> at the end of each line and we still need
+to use <code>pow(base, exponent)</code> to calculate exponent of some
+number.</p>
 </div>
 <div id="compartment" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Compartment</h1>
-<p>The <code>$CMT</code> block has two new options: <code>@number</code> and <code>@prefix</code> that let you quickly specify a numbered series of compartments in the model similar to nonmem. The default <code>@prefix</code> is <code>A</code> so that this code</p>
+<p>The <code>$CMT</code> block has two new options: <code>@number</code>
+and <code>@prefix</code> that let you quickly specify a numbered series
+of compartments in the model similar to nonmem. The default
+<code>@prefix</code> is <code>A</code> so that this code</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>$CMT @number <span class="dv">3</span></span></code></pre></div>
-<p>will put compartments <code>A1</code>, <code>A2</code>, <code>A3</code> into your model.</p>
+<p>will put compartments <code>A1</code>, <code>A2</code>,
+<code>A3</code> into your model.</p>
 </div>
 <div id="new-model-in-modlib-nm-like" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> New model in <code>modlib</code>: <code>nm-like</code></h1>
-<p>You can see a model coded with these new syntax features in the internal model library; the model is called <code>nm-like</code></p>
+<h1><span class="header-section-number">5</span> New model in
+<code>modlib</code>: <code>nm-like</code></h1>
+<p>You can see a model coded with these new syntax features in the
+internal model library; the model is called <code>nm-like</code></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;nm-like&quot;</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">see</span>(mod)</span></code></pre></div>
 <pre><code>. 
@@ -506,12 +562,21 @@ $(document).ready(function () {
 . 
 . $ERROR
 . CP = A(2)/V;</code></pre>
-<p>Here, I’ve coded the <code>THETA</code>s in a parameter block; these would ordinarily come into the model via <code>$NMXML</code> or <code>$NMEXT</code>, which automatically import these parameters and estimates. But note that we can still refer to <code>THETA(1)</code> and others … this resolves to <code>THETA1</code> regardless.</p>
+<p>Here, I’ve coded the <code>THETA</code>s in a parameter block; these
+would ordinarily come into the model via <code>$NMXML</code> or
+<code>$NMEXT</code>, which automatically import these parameters and
+estimates. But note that we can still refer to <code>THETA(1)</code> and
+others … this resolves to <code>THETA1</code> regardless.</p>
 </div>
 <div id="audit" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Audit</h1>
-<p>When mrgsolve loads your model, it checks the <code>$ODE</code> block to make sure you have differential equations for every compartment in your model. A long time ago, I started calling this check <code>audit</code> and it was something that was on by default but could be turned off via the call to <code>mread()</code>.</p>
-<p>Starting with version 1.0.0, <code>audit</code> can be controlled at the <code>$ODE</code> block level like this</p>
+<p>When mrgsolve loads your model, it checks the <code>$ODE</code> block
+to make sure you have differential equations for every compartment in
+your model. A long time ago, I started calling this check
+<code>audit</code> and it was something that was on by default but could
+be turned off via the call to <code>mread()</code>.</p>
+<p>Starting with version 1.0.0, <code>audit</code> can be controlled at
+the <code>$ODE</code> block level like this</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> ode <span class="op">]</span> @audit</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">...</span></span>
@@ -521,12 +586,23 @@ $(document).ready(function () {
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dxdt_A1 <span class="op">=</span> <span class="op">...</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dxdt_A2 <span class="op">=</span> <span class="op">...</span></span></code></pre></div>
-<p>to disable the audit. The audit is on by default and should only be turned off when you have written some special construct in <code>[ ode ]</code> to code the differential equations (e.g. odes are written programmatically).</p>
+<p>to disable the audit. The audit is on by default and should only be
+turned off when you have written some special construct in
+<code>[ ode ]</code> to code the differential equations (e.g. odes are
+written programmatically).</p>
 </div>
-<div id="new-time-spacer-for-event-sequences" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> New time spacer for event sequences</h1>
-<p>The new feature is an <code>ii</code> spacer for sequences of event objects.</p>
-<p>Using <a href="https://mrgsolve.org/user_guide/event-chapter.html">event objects</a>, we can create complicated dosing regimens from simpler ones. For example, we might have a week of 50 mg dosing followed by a week of 100 mg dosing and then up to 200 mg dosing. We can accomplish that with an event sequence</p>
+<div id="new-time-spacer-for-event-sequences" class="section level1"
+number="7">
+<h1><span class="header-section-number">7</span> New time spacer for
+event sequences</h1>
+<p>The new feature is an <code>ii</code> spacer for sequences of event
+objects.</p>
+<p>Using <a
+href="https://mrgsolve.org/user_guide/event-chapter.html">event
+objects</a>, we can create complicated dosing regimens from simpler
+ones. For example, we might have a week of 50 mg dosing followed by a
+week of 100 mg dosing and then up to 200 mg dosing. We can accomplish
+that with an event sequence</p>
 <p>First create the individual pieces</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">50</span>,  <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">6</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">addl =</span> <span class="dv">6</span>)</span>
@@ -539,25 +615,36 @@ $(document).ready(function () {
 . 1    0  50 24    6   1    1
 . 2  168 100 24    6   1    1
 . 3  336 200 24    6   1    1</code></pre>
-<p>When they are sequenced, you’ll see that the second piece (<code>b</code>) starts one dosing interval after the last dose in the first piece (<code>a</code>).</p>
-<p>We can put a 24 hour spacer between <code>a</code> and <code>b</code></p>
+<p>When they are sequenced, you’ll see that the second piece
+(<code>b</code>) starts one dosing interval after the last dose in the
+first piece (<code>a</code>).</p>
+<p>We can put a 24 hour spacer between <code>a</code> and
+<code>b</code></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(a, <span class="at">wait =</span> <span class="dv">24</span>, b)</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0  50 24    6   1    1
 . 2  192 100 24    6   1    1</code></pre>
-<p>Here, the last dose in <code>a</code> is given, we wait one dosing interval (24 hours) then wait another 24 hours (via <code>wait</code>) and then start <code>b</code>.</p>
-<p>Rather than using <code>wait</code>, we can use <code>ii</code> to specify the amount of time from the last dose in <code>a</code> to the first dose in <code>b</code>. So if we want to wait 3 days between the last dose in <code>a</code> and the first dose in <code>b</code></p>
+<p>Here, the last dose in <code>a</code> is given, we wait one dosing
+interval (24 hours) then wait another 24 hours (via <code>wait</code>)
+and then start <code>b</code>.</p>
+<p>Rather than using <code>wait</code>, we can use <code>ii</code> to
+specify the amount of time from the last dose in <code>a</code> to the
+first dose in <code>b</code>. So if we want to wait 3 days between the
+last dose in <code>a</code> and the first dose in <code>b</code></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ev_seq</span>(a, <span class="at">ii =</span> <span class="dv">3</span><span class="sc">*</span><span class="dv">24</span>, b)</span></code></pre></div>
 <pre><code>. Events:
 .   time amt ii addl cmt evid
 . 1    0  50 24    6   1    1
 . 2  216 100 24    6   1    1</code></pre>
-<p>Notice that this same behavior can be achieved with <code>wait</code> but using <code>ii</code> might be easier to interpret in some cases.</p>
+<p>Notice that this same behavior can be achieved with <code>wait</code>
+but using <code>ii</code> might be easier to interpret in some
+cases.</p>
 </div>
 <div id="collapse-matrices" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> Collapse matrices</h1>
-<p>Sometimes in your model, you have multiple OMEGA or SIGMA blocks like this</p>
+<p>Sometimes in your model, you have multiple OMEGA or SIGMA blocks like
+this</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA  @name first</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">1 2 3</span></span>
@@ -584,8 +671,10 @@ $(document).ready(function () {
 . [2,]  0.0  0.2  0.0  0.0
 . [3,]  0.0  0.0  0.3  0.0
 . [4,]  0.0  0.0  0.0  0.4</code></pre>
-<p>I can’t do it; mrgsolve wants a 3x3 matrix for the first slot and 1x1 matrix for the second.</p>
-<p>A new function will collapse the model matrix into larger matrices</p>
+<p>I can’t do it; mrgsolve wants a 3x3 matrix for the first slot and 1x1
+matrix for the second.</p>
+<p>A new function will collapse the model matrix into larger
+matrices</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">collapse_omega</span>(mod)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
 <pre><code>. $...
@@ -602,7 +691,8 @@ $(document).ready(function () {
 . 2:     0    2    0    0
 . 3:     0    0    3    0
 . 4:     0    0    0    4</code></pre>
-<p>You can’t split matrices up into smaller chunks, but if there are more than two blocks, you can select which blocks to join</p>
+<p>You can’t split matrices up into smaller chunks, but if there are
+more than two blocks, you can select which blocks to join</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA  @name first</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="st">1 2 3</span></span>
@@ -648,9 +738,22 @@ $(document).ready(function () {
 . 7:     0    0    0    7    0
 . 8:     0    0    0    0    8</code></pre>
 </div>
-<div id="deprecated-simetan-and-simepsn" class="section level1" number="9">
-<h1><span class="header-section-number">9</span> Deprecated simeta(n) and simeps(n)</h1>
-<p>We recently rolled out a feature where the user could call <code>simeta()</code> and pass an integer that would indicate a single <code>ETA()</code> to update, leaving the others alone. This proved to be more than a little dangerous when <code>$OMEGA</code> had off-diagonal elements. We will be deprecating this feature starting with version 1.0.0. When you load a model that contains <code>simeta(n)</code> or <code>simeps(n)</code>, there will be a warning about the syntax. The warning includes some code you can write to silence the warning, but this will be temporary. In a future release, we will always warn when this syntax us used and eventually generate an error. It is recommended to always use <code>simeta()</code> or <code>simeps()</code> when re-simulating random effects.</p>
+<div id="deprecated-simetan-and-simepsn" class="section level1"
+number="9">
+<h1><span class="header-section-number">9</span> Deprecated simeta(n)
+and simeps(n)</h1>
+<p>We recently rolled out a feature where the user could call
+<code>simeta()</code> and pass an integer that would indicate a single
+<code>ETA()</code> to update, leaving the others alone. This proved to
+be more than a little dangerous when <code>$OMEGA</code> had
+off-diagonal elements. We will be deprecating this feature starting with
+version 1.0.0. When you load a model that contains
+<code>simeta(n)</code> or <code>simeps(n)</code>, there will be a
+warning about the syntax. The warning includes some code you can write
+to silence the warning, but this will be temporary. In a future release,
+we will always warn when this syntax us used and eventually generate an
+error. It is recommended to always use <code>simeta()</code> or
+<code>simeps()</code> when re-simulating random effects.</p>
 </div>
 
 <hr>

@@ -385,14 +385,22 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#tad-calculated-as-runtime-argument"><span class="toc-section-number">1</span> TAD calculated as runtime argument</a></li>
-<li><a href="#tad-calculated-in-the-model"><span class="toc-section-number">2</span> TAD calculated in the model</a></li>
+<li><a href="#tad-calculated-as-runtime-argument"
+id="toc-tad-calculated-as-runtime-argument"><span
+class="toc-section-number">1</span> TAD calculated as runtime
+argument</a></li>
+<li><a href="#tad-calculated-in-the-model"
+id="toc-tad-calculated-in-the-model"><span
+class="toc-section-number">2</span> TAD calculated in the model</a></li>
 </ul>
 </div>
 
-<div id="tad-calculated-as-runtime-argument" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> TAD calculated as runtime argument</h1>
-<p>For a while, you’ve been able to get time after dose in your simulated output</p>
+<div id="tad-calculated-as-runtime-argument" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> TAD calculated as
+runtime argument</h1>
+<p>For a while, you’ve been able to get time after dose in your
+simulated output</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -416,15 +424,27 @@ $(document).ready(function () {
 ##  8     1  5     3     4.27
 ##  9     1  5.91  3.91  4.22
 ## 10     1  6     0     4.21</code></pre>
-<p>This is convenient because you can choose the output at run time, we give you the negative numbers prior to the first dose etc. This sort of calculation is possible because we let mrgsolve know ahead of time that we want this calculation done and mrgsolve makes an extra pass through the records to find when is the first dose for each individual.</p>
+<p>This is convenient because you can choose the output at run time, we
+give you the negative numbers prior to the first dose etc. This sort of
+calculation is possible because we let mrgsolve know ahead of time that
+we want this calculation done and mrgsolve makes an extra pass through
+the records to find when is the first dose for each individual.</p>
 </div>
 <div id="tad-calculated-in-the-model" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> TAD calculated in the model</h1>
-<p>Sometimes you would like to work with time after dose in your model. This isn’t super-complicated to do but does require some programming and setup and all of that. As of mrgsolve 0.9.1, there is a special function to do these calculations for you.</p>
+<h1><span class="header-section-number">2</span> TAD calculated in the
+model</h1>
+<p>Sometimes you would like to work with time after dose in your model.
+This isn’t super-complicated to do but does require some programming and
+setup and all of that. As of mrgsolve 0.9.1, there is a special function
+to do these calculations for you.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mread</span>(<span class="st">&quot;time_after_dose.txt&quot;</span>,<span class="at">req =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p>Looking at the <code>[MAIN]</code> block:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"></code></pre></div>
-<p>When you call <code>self.tad()</code> you will get the time after dose. It’s important that this gets called on every record … specifically every dosing record. It will not work properly if it is not called every record and there is no check at this time to make sure you follow that rule. So please follow the rule.</p>
+<p>When you call <code>self.tad()</code> you will get the time after
+dose. It’s important that this gets called on every record …
+specifically every dosing record. It will not work properly if it is not
+called every record and there is no check at this time to make sure you
+follow that rule. So please follow the rule.</p>
 <p>To see an example:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> CL <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> V <span class="op">=</span> <span class="dv">20</span><span class="op">,</span> KA <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -453,12 +473,18 @@ $(document).ready(function () {
 ##  8     1  5     3      3     4.27
 ##  9     1  5.91  3.91   3.91  4.22
 ## 10     1  6     0      0     4.21</code></pre>
-<p>You will notice two differences between <code>tad</code> (output requested at run time) and <code>tadose</code> (values calculated in the model itself) in the output listing above:</p>
+<p>You will notice two differences between <code>tad</code> (output
+requested at run time) and <code>tadose</code> (values calculated in the
+model itself) in the output listing above:</p>
 <ol style="list-style-type: decimal">
 <li><code>tadose</code> is -1 before the first dose</li>
-<li>specifically, <code>tadose</code> is -1 at the 2 hour observation record that occurs that the same time as the dose, but happens before the dose in record order</li>
+<li>specifically, <code>tadose</code> is -1 at the 2 hour observation
+record that occurs that the same time as the dose, but happens before
+the dose in record order</li>
 </ol>
-<p>The main point if this is that you can easily obtain time after dose in the problem (model) itself to use as you program the model and also output the number into the simulated output.</p>
+<p>The main point if this is that you can easily obtain time after dose
+in the problem (model) itself to use as you program the model and also
+output the number into the simulated output.</p>
 </div>
 
 <hr>

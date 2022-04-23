@@ -385,16 +385,31 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#about"><span class="toc-section-number">1</span> About</a></li>
-<li><a href="#one-compartment-model-keep-it-simple-for-now"><span class="toc-section-number">2</span> One compartment model, keep it simple for now</a></li>
-<li><a href="#first-simulate-some-data"><span class="toc-section-number">3</span> First, simulate some data</a></li>
-<li><a href="#create-input-for-optimization"><span class="toc-section-number">4</span> Create input for optimization</a></li>
-<li><a href="#optimize"><span class="toc-section-number">5</span> Optimize</a>
+<li><a href="#about" id="toc-about"><span
+class="toc-section-number">1</span> About</a></li>
+<li><a href="#one-compartment-model-keep-it-simple-for-now"
+id="toc-one-compartment-model-keep-it-simple-for-now"><span
+class="toc-section-number">2</span> One compartment model, keep it
+simple for now</a></li>
+<li><a href="#first-simulate-some-data"
+id="toc-first-simulate-some-data"><span
+class="toc-section-number">3</span> First, simulate some data</a></li>
+<li><a href="#create-input-for-optimization"
+id="toc-create-input-for-optimization"><span
+class="toc-section-number">4</span> Create input for
+optimization</a></li>
+<li><a href="#optimize" id="toc-optimize"><span
+class="toc-section-number">5</span> Optimize</a>
 <ul>
-<li><a href="#what-is-this-function-doing"><span class="toc-section-number">5.1</span> What is this function doing?</a></li>
-<li><a href="#initial-estimate"><span class="toc-section-number">5.2</span> Initial estimate</a></li>
+<li><a href="#what-is-this-function-doing"
+id="toc-what-is-this-function-doing"><span
+class="toc-section-number">5.1</span> What is this function
+doing?</a></li>
+<li><a href="#initial-estimate" id="toc-initial-estimate"><span
+class="toc-section-number">5.2</span> Initial estimate</a></li>
 </ul></li>
-<li><a href="#look-at-the-result"><span class="toc-section-number">6</span> Look at the result</a></li>
+<li><a href="#look-at-the-result" id="toc-look-at-the-result"><span
+class="toc-section-number">6</span> Look at the result</a></li>
 </ul>
 </div>
 
@@ -406,19 +421,46 @@ $(document).ready(function () {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <div id="about" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> About</h1>
-<p>This tutorial illustrates how to do MAP Bayes estimation with <code>mrgsolve</code>.<br />
-The setup was adapted from an existing project, where only a single individual was considered. With some additional <code>R</code> coding, it could be expanded to consider multiple individuals in a single run.</p>
-<p>This document shows how to simulate some data and then re-estimate the MAP Bayes estimates. For clarity, just the optimization piece has been included in a separate doc <a href="map_bayes_example.html">map_bayes_example.html</a>.</p>
+<p>This tutorial illustrates how to do MAP Bayes estimation with
+<code>mrgsolve</code>.<br />
+The setup was adapted from an existing project, where only a single
+individual was considered. With some additional <code>R</code> coding,
+it could be expanded to consider multiple individuals in a single
+run.</p>
+<p>This document shows how to simulate some data and then re-estimate
+the MAP Bayes estimates. For clarity, just the optimization piece has
+been included in a separate doc <a
+href="map_bayes_example.html">map_bayes_example.html</a>.</p>
 </div>
-<div id="one-compartment-model-keep-it-simple-for-now" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> One compartment model, keep it simple for now</h1>
+<div id="one-compartment-model-keep-it-simple-for-now"
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> One compartment model,
+keep it simple for now</h1>
 <ul>
-<li><p>The model specification code below is for a one-compartment model, where <code>mrgsolve</code> will calculate the amount in <code>CENT</code> from closed-form equations</p></li>
-<li><p>For now, <code>$OMEGA</code> and <code>$SIGMA</code> are filled with zeros; we’ll update it later</p></li>
-<li><p>The control stream is set up so that we can either simulate the etas or pass them in. <code>ETA(1)</code> and <code>ETA(2)</code> are the etas that <code>mrgsolve</code> will draw from <code>$OMEGA</code>. <code>ETA1</code> and <code>ETA2</code> are fixed and known at the time of time of the simulation. The optimizer will search for values of <code>ETA1</code> and <code>ETA2</code> that optimize the objective function. Note that <code>ETA1</code> and <code>ETA2</code> must be in the parameter list for this to work</p></li>
-<li><p>We do a trick where <code>CL=TVCL*exp(ETA1+ETA(1));</code> The assumption is that either <code>ETA1</code> (simulating) is zero or <code>ETA(1)</code> is zero (estimating)</p></li>
-<li><p>We table out <code>ETA(1)</code> and <code>ETA(2)</code> so we can know the true (simulated) values (but not both zero and not both non-zero)</p></li>
-<li><p><code>DV</code> is output as a function of <code>EPS(1)</code>; this will be zero until we add in values for <code>$SIGMA</code>. But when we’re estimating, we need to make sure that <code>EPS(1)</code> is zero; the prediction shouldn’t have any randomness in it (just the individual prediction based on known etas)</p></li>
+<li><p>The model specification code below is for a one-compartment
+model, where <code>mrgsolve</code> will calculate the amount in
+<code>CENT</code> from closed-form equations</p></li>
+<li><p>For now, <code>$OMEGA</code> and <code>$SIGMA</code> are filled
+with zeros; we’ll update it later</p></li>
+<li><p>The control stream is set up so that we can either simulate the
+etas or pass them in. <code>ETA(1)</code> and <code>ETA(2)</code> are
+the etas that <code>mrgsolve</code> will draw from <code>$OMEGA</code>.
+<code>ETA1</code> and <code>ETA2</code> are fixed and known at the time
+of time of the simulation. The optimizer will search for values of
+<code>ETA1</code> and <code>ETA2</code> that optimize the objective
+function. Note that <code>ETA1</code> and <code>ETA2</code> must be in
+the parameter list for this to work</p></li>
+<li><p>We do a trick where <code>CL=TVCL*exp(ETA1+ETA(1));</code> The
+assumption is that either <code>ETA1</code> (simulating) is zero or
+<code>ETA(1)</code> is zero (estimating)</p></li>
+<li><p>We table out <code>ETA(1)</code> and <code>ETA(2)</code> so we
+can know the true (simulated) values (but not both zero and not both
+non-zero)</p></li>
+<li><p><code>DV</code> is output as a function of <code>EPS(1)</code>;
+this will be zero until we add in values for <code>$SIGMA</code>. But
+when we’re estimating, we need to make sure that <code>EPS(1)</code> is
+zero; the prediction shouldn’t have any randomness in it (just the
+individual prediction based on known etas)</p></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">$SET request=&quot;&quot;</span></span>
@@ -446,12 +488,15 @@ The setup was adapted from an existing project, where only a single individual w
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;map&quot;</span>, code)</span></code></pre></div>
 </div>
 <div id="first-simulate-some-data" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> First, simulate some data</h1>
+<h1><span class="header-section-number">3</span> First, simulate some
+data</h1>
 <p><code>$OMEGA</code> and <code>$SIGMA</code>;</p>
 <ul>
-<li>The result may look better or worse depending on what we choose here</li>
+<li>The result may look better or worse depending on what we choose
+here</li>
 <li>These will be used to both simulate and fit the data</li>
-<li>The <code>cmat</code> call makes a <code>2x2</code> matrix where the off-diagonal is a correlation (<code>?cmat</code>).</li>
+<li>The <code>cmat</code> call makes a <code>2x2</code> matrix where the
+off-diagonal is a correlation (<code>?cmat</code>).</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>omega <span class="ot">&lt;-</span> <span class="fu">cmat</span>(<span class="fl">0.23</span>,<span class="sc">-</span><span class="fl">0.78</span>, <span class="fl">0.62</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>omega.inv <span class="ot">&lt;-</span> <span class="fu">solve</span>(omega)</span>
@@ -462,9 +507,13 @@ The setup was adapted from an existing project, where only a single individual w
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sampl <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="dv">12</span>,<span class="dv">24</span>)</span></code></pre></div>
 <p>Simulate</p>
 <ul>
-<li>Here, we’re populating <code>$OMEGA</code> and <code>$SIGMA</code> so that the simulated data will be random</li>
-<li>It is important to <code>carry.out</code> all of the items that we will need in the estimation data set (doses, evid, etc)</li>
-<li>Using <code>end=-1</code> with <code>add=sampl</code> makes sure that we only get observation records at the times listed in <code>sampl</code></li>
+<li>Here, we’re populating <code>$OMEGA</code> and <code>$SIGMA</code>
+so that the simulated data will be random</li>
+<li>It is important to <code>carry.out</code> all of the items that we
+will need in the estimation data set (doses, evid, etc)</li>
+<li>Using <code>end=-1</code> with <code>add=sampl</code> makes sure
+that we only get observation records at the times listed in
+<code>sampl</code></li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1012</span>) </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> </span>
@@ -486,8 +535,10 @@ The setup was adapted from an existing project, where only a single individual w
 . 3:   1 12.0    0   0   0  6.932 0.5196 -0.2728
 . 4:   1 24.0    0   0   0  1.375 0.5196 -0.2728</code></pre>
 </div>
-<div id="create-input-for-optimization" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Create input for optimization</h1>
+<div id="create-input-for-optimization" class="section level1"
+number="4">
+<h1><span class="header-section-number">4</span> Create input for
+optimization</h1>
 <ul>
 <li>Using the simulated data as the starting point here</li>
 <li>Set <code>DV</code> to <code>NA</code> for the dosing record</li>
@@ -495,7 +546,8 @@ The setup was adapted from an existing project, where only a single individual w
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">mutate</span>(sim, <span class="at">DV =</span> <span class="fu">ifelse</span>(evid<span class="sc">==</span><span class="dv">1</span>, <span class="cn">NA_real_</span>, DV))</span></code></pre></div>
 <p>Create a data set to use in the optimization</p>
 <ul>
-<li>We need to drop <code>ET1</code> and <code>ET2</code> since they are in the parameter list</li>
+<li>We need to drop <code>ET1</code> and <code>ET2</code> since they are
+in the parameter list</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> sim <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>ET1, <span class="sc">-</span>ET2)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -510,10 +562,15 @@ The setup was adapted from an existing project, where only a single individual w
 </div>
 <div id="optimize" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Optimize</h1>
-<p>This function takes in a set of proposed <span class="math inline">\(\eta\)</span>s along with the observed data vector, the data set and a model object and returns the value of the EBE objective function</p>
+<p>This function takes in a set of proposed <span
+class="math inline">\(\eta\)</span>s along with the observed data
+vector, the data set and a model object and returns the value of the EBE
+objective function</p>
 <ul>
-<li><p>When we do the estimation, the fixed effects and random effect variances are fixed.</p></li>
-<li><p>The estimates are the <span class="math inline">\(\eta\)</span> for clearance and volume</p></li>
+<li><p>When we do the estimation, the fixed effects and random effect
+variances are fixed.</p></li>
+<li><p>The estimates are the <span class="math inline">\(\eta\)</span>
+for clearance and volume</p></li>
 </ul>
 <p>Arguments:</p>
 <ul>
@@ -522,20 +579,30 @@ The setup was adapted from an existing project, where only a single individual w
 <li><code>d</code> the data set</li>
 <li><code>m</code> the model object</li>
 <li><code>dvcol</code> the predicted data column name</li>
-<li><code>pred</code> if <code>TRUE</code>, just return predicted values</li>
+<li><code>pred</code> if <code>TRUE</code>, just return predicted
+values</li>
 </ul>
-<div id="what-is-this-function-doing" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> What is this function doing?</h2>
+<div id="what-is-this-function-doing" class="section level2"
+number="5.1">
+<h2><span class="header-section-number">5.1</span> What is this function
+doing?</h2>
 <ol style="list-style-type: decimal">
 <li>get the matrix for residual error</li>
 <li>Make sure <code>eta</code> is a list</li>
-<li>Make sure <code>eta</code> is properly named (i.e. <code>ETA1</code> and <code>ETA2</code>)</li>
+<li>Make sure <code>eta</code> is properly named (i.e. <code>ETA1</code>
+and <code>ETA2</code>)</li>
 <li>Copy <code>eta</code> into a matrix that is one row</li>
-<li>Update the model object (<code>m</code>) with the current values of <code>ETA1</code> and <code>ETA2</code></li>
-<li>Simulate from data set <code>d</code> and save output to <code>out</code> object</li>
-<li>If we are just requesting predictions (<code>if(pred)</code>) return the simulated data</li>
-<li>The final lines calculate the EBE objective function; see <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/">this paper</a> for reference</li>
-<li>Notice that the function returns a single value (a number); the optimizer will minimize this value</li>
+<li>Update the model object (<code>m</code>) with the current values of
+<code>ETA1</code> and <code>ETA2</code></li>
+<li>Simulate from data set <code>d</code> and save output to
+<code>out</code> object</li>
+<li>If we are just requesting predictions (<code>if(pred)</code>) return
+the simulated data</li>
+<li>The final lines calculate the EBE objective function; see <a
+href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3339294/">this
+paper</a> for reference</li>
+<li>Notice that the function returns a single value (a number); the
+optimizer will minimize this value</li>
 </ol>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mapbayes <span class="ot">&lt;-</span> <span class="cf">function</span>(eta,d,ycol,m,dvcol,<span class="at">pred=</span><span class="cn">FALSE</span>) {</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -562,7 +629,8 @@ The setup was adapted from an existing project, where only a single individual w
 <p>Fit the data</p>
 <ul>
 <li><code>newuoa</code> is from the <code>minqa</code> package</li>
-<li>Other optimizers (via <code>optim</code>) could probably also be used</li>
+<li>Other optimizers (via <code>optim</code>) could probably also be
+used</li>
 </ul>
 <p>Arguments to <code>newuoa</code></p>
 <ul>
@@ -584,7 +652,8 @@ The setup was adapted from an existing project, where only a single individual w
 </div>
 <div id="look-at-the-result" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Look at the result</h1>
-<p>A data set and model to get predictions; this will give us a smooth prediction line</p>
+<p>A data set and model to get predictions; this will give us a smooth
+prediction line</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pdata <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(evid<span class="sc">==</span><span class="dv">1</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pmod <span class="ot">&lt;-</span> mod <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">end=</span><span class="dv">24</span>, <span class="at">delta=</span><span class="fl">0.1</span>) </span></code></pre></div>
 <p>Predicted line based on final estimates</p>

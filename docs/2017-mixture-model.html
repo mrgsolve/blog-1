@@ -385,18 +385,30 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#two-populations"><span class="toc-section-number">1</span> Two Populations</a>
+<li><a href="#two-populations" id="toc-two-populations"><span
+class="toc-section-number">1</span> Two Populations</a>
 <ul>
-<li><a href="#modify-the-model-to-simulate-a-population-mixture"><span class="toc-section-number">1.1</span> Modify the model to simulate a population mixture</a></li>
+<li><a href="#modify-the-model-to-simulate-a-population-mixture"
+id="toc-modify-the-model-to-simulate-a-population-mixture"><span
+class="toc-section-number">1.1</span> Modify the model to simulate a
+population mixture</a></li>
 </ul></li>
-<li><a href="#three-or-more-populations"><span class="toc-section-number">2</span> Three (or more) Populations</a></li>
+<li><a href="#three-or-more-populations"
+id="toc-three-or-more-populations"><span
+class="toc-section-number">2</span> Three (or more) Populations</a></li>
 </ul>
 </div>
 
-<p>In NONMEM, <code>$MIXTURE</code> will allow you to estimate mixture models, where individuals are classified in to two or more populations with a certain probability. It is straightforward to simulate from models like these in your <code>mrgsolve</code> model code.</p>
+<p>In NONMEM, <code>$MIXTURE</code> will allow you to estimate mixture
+models, where individuals are classified in to two or more populations
+with a certain probability. It is straightforward to simulate from
+models like these in your <code>mrgsolve</code> model code.</p>
 <div id="two-populations" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Two Populations</h1>
-<p>Let’s imagine there were two populations in the mixture model, with the second having smaller clearance than the first. In this example, we will develop some code for a simple model and then extend it to implement the mixture model component.</p>
+<p>Let’s imagine there were two populations in the mixture model, with
+the second having smaller clearance than the first. In this example, we
+will develop some code for a simple model and then extend it to
+implement the mixture model component.</p>
 <p>A simple model might be:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -411,7 +423,9 @@ $(document).ready(function () {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">if(POP==2) CL = TVCL * THETA1;</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
-<p>In this model, we created a parameter for the population indicator (<code>POP</code>) and if <code>POP</code> is 2 then clearance is lower than it would be otherwise.</p>
+<p>In this model, we created a parameter for the population indicator
+(<code>POP</code>) and if <code>POP</code> is 2 then clearance is lower
+than it would be otherwise.</p>
 <p>Compile this model and run</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;A&quot;</span>, code) <span class="sc">%&gt;%</span> <span class="fu">update</span>(<span class="at">end=</span><span class="dv">72</span>, <span class="at">delta=</span><span class="fl">0.1</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -421,12 +435,21 @@ $(document).ready(function () {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">mrgsim</span>(<span class="at">idata=</span>idata,<span class="at">events=</span>e) <span class="sc">%&gt;%</span> plot</span></code></pre></div>
 <p><img src="2017-mixture-model_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>The profile in pink was for <code>POP==2</code> or the lower clearance profile and blue was for <code>POP==1</code>.</p>
-<div id="modify-the-model-to-simulate-a-population-mixture" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Modify the model to simulate a population mixture</h2>
-<p>In the get-started example model, we hard-coded <code>POP</code> as a parameter and we had to supply the value of <code>POP</code> in the input data set (in this case, it was via <code>idata</code>).</p>
-<p>For the mixture model, we want <code>POP</code> to be simulated and we want the simulated value to be 1 with a probability of, say, 0.8 and 2 with a probability of 0.2.</p>
-<p>To make this happen, we need to simulate a binary variate for each individual. Random numbers are easy to simulate with <code>mrgsolve</code> when you use <code>$PLUGIN</code>.</p>
+<p>The profile in pink was for <code>POP==2</code> or the lower
+clearance profile and blue was for <code>POP==1</code>.</p>
+<div id="modify-the-model-to-simulate-a-population-mixture"
+class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Modify the model to
+simulate a population mixture</h2>
+<p>In the get-started example model, we hard-coded <code>POP</code> as a
+parameter and we had to supply the value of <code>POP</code> in the
+input data set (in this case, it was via <code>idata</code>).</p>
+<p>For the mixture model, we want <code>POP</code> to be simulated and
+we want the simulated value to be 1 with a probability of, say, 0.8 and
+2 with a probability of 0.2.</p>
+<p>To make this happen, we need to simulate a binary variate for each
+individual. Random numbers are easy to simulate with
+<code>mrgsolve</code> when you use <code>$PLUGIN</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PLUGIN Rcpp</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -439,7 +462,10 @@ $(document).ready(function () {
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;B&quot;</span>, code)</span></code></pre></div>
-<p>Here, we invoked the <code>Rcpp</code> plugin that allows us to call <code>R::binom(1,0.8)</code>. <code>R::binom</code> is just like the regular <code>R</code> version, but it only draws one variate (<code>n=1</code>).</p>
+<p>Here, we invoked the <code>Rcpp</code> plugin that allows us to call
+<code>R::binom(1,0.8)</code>. <code>R::binom</code> is just like the
+regular <code>R</code> version, but it only draws one variate
+(<code>n=1</code>).</p>
 <p>Let’s test it out</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">222</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mrgsim</span>(mod, <span class="at">nid=</span><span class="dv">10000</span>, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>)</span>
@@ -452,10 +478,14 @@ $(document).ready(function () {
 . 4  4    0   1
 . 5  5    0   2
 . 6  6    0   2</code></pre>
-<p>Here, we’ve got 20% of the people in the population with <code>POP</code> of 2:</p>
+<p>Here, we’ve got 20% of the people in the population with
+<code>POP</code> of 2:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(out<span class="sc">$</span>POP<span class="sc">==</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>. [1] 0.1973</code></pre>
-<p>Now, let’s modify the model again to incorporate our random <code>POP</code> calculation with the PK model. I have also included a home-brewed <code>ETA</code> using <code>R::rnorm</code> as another example and to make the summary a little more interesting.</p>
+<p>Now, let’s modify the model again to incorporate our random
+<code>POP</code> calculation with the PK model. I have also included a
+home-brewed <code>ETA</code> using <code>R::rnorm</code> as another
+example and to make the summary a little more interesting.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PLUGIN Rcpp</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -504,8 +534,11 @@ $(document).ready(function () {
 </div>
 </div>
 <div id="three-or-more-populations" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Three (or more) Populations</h1>
-<p>There are probably several ways to simulate three populations. Here is one way. We’ll drop the PK model for now and focus on generating <code>POP</code>.</p>
+<h1><span class="header-section-number">2</span> Three (or more)
+Populations</h1>
+<p>There are probably several ways to simulate three populations. Here
+is one way. We’ll drop the PK model for now and focus on generating
+<code>POP</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM p1 = 0.33, p2 = 0.6</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -524,8 +557,10 @@ $(document).ready(function () {
 <p>Here’s what we did</p>
 <ul>
 <li>Code mixture probabilities in <code>$PARAM</code></li>
-<li>Draw a variate (<code>mixv</code>) from <code>uniform(0,1)</code></li>
-<li>Determine <code>POP</code> based on the probabilities and <code>mixv</code></li>
+<li>Draw a variate (<code>mixv</code>) from
+<code>uniform(0,1)</code></li>
+<li>Determine <code>POP</code> based on the probabilities and
+<code>mixv</code></li>
 <li>Remember: you must use <code>$PLUGIN</code> for this to work</li>
 </ul>
 <p>Now, let’s compile and test it out</p>
@@ -549,8 +584,11 @@ $(document).ready(function () {
 . 1     1  3225 0.322 
 . 2     2  6053 0.605 
 . 3     3   722 0.0722</code></pre>
-<p>And we get back the 33% in population 1, 60% in population 2, and the remaining 7% in population 3.</p>
-<p>As a final note: remember to call <code>set.seed()</code> prior to simulating anything random with <code>mrgsovle</code> in order for the results to be reproducible.</p>
+<p>And we get back the 33% in population 1, 60% in population 2, and the
+remaining 7% in population 3.</p>
+<p>As a final note: remember to call <code>set.seed()</code> prior to
+simulating anything random with <code>mrgsovle</code> in order for the
+results to be reproducible.</p>
 </div>
 
 <hr>

@@ -385,19 +385,41 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#short-answer"><span class="toc-section-number">1</span> Short answer</a>
+<li><a href="#short-answer" id="toc-short-answer"><span
+class="toc-section-number">1</span> Short answer</a>
 <ul>
-<li><a href="#set-initials-in-main"><span class="toc-section-number">1.1</span> Set initials in <code>$MAIN</code></a></li>
-<li><a href="#set-initials-in-the-init-list"><span class="toc-section-number">1.2</span> Set initials in the <code>init</code> list</a></li>
-<li><a href="#dont-use-initial-conditions-as-a-dosing-mechanism"><span class="toc-section-number">1.3</span> Don’t use initial conditions as a dosing mechanism</a></li>
+<li><a href="#set-initials-in-main" id="toc-set-initials-in-main"><span
+class="toc-section-number">1.1</span> Set initials in
+<code>$MAIN</code></a></li>
+<li><a href="#set-initials-in-the-init-list"
+id="toc-set-initials-in-the-init-list"><span
+class="toc-section-number">1.2</span> Set initials in the
+<code>init</code> list</a></li>
+<li><a href="#dont-use-initial-conditions-as-a-dosing-mechanism"
+id="toc-dont-use-initial-conditions-as-a-dosing-mechanism"><span
+class="toc-section-number">1.3</span> Don’t use initial conditions as a
+dosing mechanism</a></li>
 </ul></li>
-<li><a href="#long-answer"><span class="toc-section-number">2</span> Long answer</a>
+<li><a href="#long-answer" id="toc-long-answer"><span
+class="toc-section-number">2</span> Long answer</a>
 <ul>
-<li><a href="#make-a-model-only-to-examine-init-behavior"><span class="toc-section-number">2.1</span> Make a model only to examine <code>init</code> behavior</a></li>
-<li><a href="#example-pkpd-model-with-initial-condition"><span class="toc-section-number">2.2</span> Example PK/PD model with initial condition</a></li>
-<li><a href="#calling-init-will-let-you-check-to-see-what-is-going-on"><span class="toc-section-number">2.3</span> Calling <code>init</code> will let you check to see what is going on</a></li>
+<li><a href="#make-a-model-only-to-examine-init-behavior"
+id="toc-make-a-model-only-to-examine-init-behavior"><span
+class="toc-section-number">2.1</span> Make a model only to examine
+<code>init</code> behavior</a></li>
+<li><a href="#example-pkpd-model-with-initial-condition"
+id="toc-example-pkpd-model-with-initial-condition"><span
+class="toc-section-number">2.2</span> Example PK/PD model with initial
+condition</a></li>
+<li><a href="#calling-init-will-let-you-check-to-see-what-is-going-on"
+id="toc-calling-init-will-let-you-check-to-see-what-is-going-on"><span
+class="toc-section-number">2.3</span> Calling <code>init</code> will let
+you check to see what is going on</a></li>
 </ul></li>
-<li><a href="#set-initial-conditions-via-idata"><span class="toc-section-number">3</span> Set initial conditions via <code>idata</code></a></li>
+<li><a href="#set-initial-conditions-via-idata"
+id="toc-set-initial-conditions-via-idata"><span
+class="toc-section-number">3</span> Set initial conditions via
+<code>idata</code></a></li>
 </ul>
 </div>
 
@@ -405,10 +427,15 @@ $(document).ready(function () {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc =</span> <span class="st">&quot;build&quot;</span>)</span></code></pre></div>
 <div id="short-answer" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Short answer</h1>
-<p>There are two commonly-used ways to set initial conditions: in <code>$MAIN</code> and in the initial condition list.</p>
+<p>There are two commonly-used ways to set initial conditions: in
+<code>$MAIN</code> and in the initial condition list.</p>
 <div id="set-initials-in-main" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Set initials in <code>$MAIN</code></h2>
-<p>For a compartment called <code>CMT</code>, there is a variable available to you called <code>CMT_0</code> that you can use to set the initial condition of that compartment in <code>$MAIN</code>. For example:</p>
+<h2><span class="header-section-number">1.1</span> Set initials in
+<code>$MAIN</code></h2>
+<p>For a compartment called <code>CMT</code>, there is a variable
+available to you called <code>CMT_0</code> that you can use to set the
+initial condition of that compartment in <code>$MAIN</code>. For
+example:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM KIN = 200, KOUT = 50</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -417,15 +444,31 @@ $(document).ready(function () {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">$MAIN</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">RESP_0 = KIN/KOUT;</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
-<p>This is the most commonly-used way to set initial conditions: the initial condition for the <code>RESP</code> compartment is set equal to <code>KIN</code> divided by <code>KOUT</code>. If you had a parameter called <code>BASE</code>, you could also write <code>RESP_0 = BASE;</code>. In these examples, we’re using data items from <code>$PARAM</code>. But the initial condition could be set to any numeric value in the model, including individual parameters derived from parameters, covariates, and random effects. Note that you should never declare <code>RESP_0</code> (e.g. <code>double RESP_0</code>): it just appears for you to use.</p>
+<p>This is the most commonly-used way to set initial conditions: the
+initial condition for the <code>RESP</code> compartment is set equal to
+<code>KIN</code> divided by <code>KOUT</code>. If you had a parameter
+called <code>BASE</code>, you could also write
+<code>RESP_0 = BASE;</code>. In these examples, we’re using data items
+from <code>$PARAM</code>. But the initial condition could be set to any
+numeric value in the model, including individual parameters derived from
+parameters, covariates, and random effects. Note that you should never
+declare <code>RESP_0</code> (e.g. <code>double RESP_0</code>): it just
+appears for you to use.</p>
 </div>
-<div id="set-initials-in-the-init-list" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Set initials in the <code>init</code> list</h2>
-<p>You can also set initial conditions in the initials list. Most commonly, this means declaring compartments with <code>$INIT</code> rather than <code>$CMT</code>. For example</p>
+<div id="set-initials-in-the-init-list" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> Set initials in the
+<code>init</code> list</h2>
+<p>You can also set initial conditions in the initials list. Most
+commonly, this means declaring compartments with <code>$INIT</code>
+rather than <code>$CMT</code>. For example</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">$INIT RESP = 4</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
-<p>This method gets us the same result as the previous example, however the initial condition now is not a derived value, but it is coded as a number. Alternatively, you could declare a compartment via <code>$CMT</code> and update later (see next).</p>
+<p>This method gets us the same result as the previous example, however
+the initial condition now is not a derived value, but it is coded as a
+number. Alternatively, you could declare a compartment via
+<code>$CMT</code> and update later (see next).</p>
 <p>We can update this value later like this</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;init_up&quot;</span>, code)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -439,43 +482,70 @@ $(document).ready(function () {
 .  Model initial conditions (N=1):
 .  name       value . name    value
 .  RESP (1)   8     | . ...   .</code></pre>
-<p>This method is commonly used to set initial conditions in large QSP models where the compartment starts out as some known or assumed steady state value.</p>
+<p>This method is commonly used to set initial conditions in large QSP
+models where the compartment starts out as some known or assumed steady
+state value.</p>
 </div>
-<div id="dont-use-initial-conditions-as-a-dosing-mechanism" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Don’t use initial conditions as a dosing mechanism</h2>
-<p>Using an initial condition to put a starting dose in a compartment is not recommended. Always use a dosing event for that.</p>
+<div id="dont-use-initial-conditions-as-a-dosing-mechanism"
+class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Don’t use initial
+conditions as a dosing mechanism</h2>
+<p>Using an initial condition to put a starting dose in a compartment is
+not recommended. Always use a dosing event for that.</p>
 </div>
 </div>
 <div id="long-answer" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Long answer</h1>
-<p>The following is from a wiki post I did on the topic. It’s pedantic. But hopefully helpful to learn what <code>mrgsolve</code> is doing for those who want to know.</p>
+<p>The following is from a wiki post I did on the topic. It’s pedantic.
+But hopefully helpful to learn what <code>mrgsolve</code> is doing for
+those who want to know.</p>
 <ul>
-<li><code>mrgsolve</code> keeps a base list of compartments and initial conditions that you can update <strong>either</strong> from <code>R</code> or from inside the model specification
+<li><code>mrgsolve</code> keeps a base list of compartments and initial
+conditions that you can update <strong>either</strong> from
+<code>R</code> or from inside the model specification
 <ul>
-<li>When you use <code>$CMT</code>, the value in that base list is assumed to be 0 for every compartment</li>
-<li><code>mrgsolve</code> will by default use the values in that base list when starting the problem</li>
-<li>When only the base list is available, every individual will get the same initial condition</li>
+<li>When you use <code>$CMT</code>, the value in that base list is
+assumed to be 0 for every compartment</li>
+<li><code>mrgsolve</code> will by default use the values in that base
+list when starting the problem</li>
+<li>When only the base list is available, every individual will get the
+same initial condition</li>
 </ul></li>
-<li>You can <strong>override</strong> this base list by including code in <code>$MAIN</code> to set the initial condition
+<li>You can <strong>override</strong> this base list by including code
+in <code>$MAIN</code> to set the initial condition
 <ul>
-<li>Most often, you do this so that the initial is calculated as a function of a parameter</li>
-<li>For example, <code>$MAIN RESP_0 = KIN/KOUT;</code> when <code>KIN</code> and <code>KOUT</code> have some value in <code>$PARAM</code></li>
-<li>This code in <code>$MAIN</code> overwrites the value in the base list for the current <code>ID</code></li>
+<li>Most often, you do this so that the initial is calculated as a
+function of a parameter</li>
+<li>For example, <code>$MAIN RESP_0 = KIN/KOUT;</code> when
+<code>KIN</code> and <code>KOUT</code> have some value in
+<code>$PARAM</code></li>
+<li>This code in <code>$MAIN</code> overwrites the value in the base
+list for the current <code>ID</code></li>
 </ul></li>
-<li>For typical PK/PD type models, we most frequently initialize in <code>$MAIN</code>
+<li>For typical PK/PD type models, we most frequently initialize in
+<code>$MAIN</code>
 <ul>
 <li>This is equivalent to what you might do in your NONMEM model</li>
 </ul></li>
-<li>For larger systems models, we often just set the initial value via the base list</li>
+<li>For larger systems models, we often just set the initial value via
+the base list</li>
 </ul>
-<div id="make-a-model-only-to-examine-init-behavior" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Make a model only to examine <code>init</code> behavior</h2>
-<p>Note: <code>IFLAG</code> is my invention only for this demo. The demo is always responsible for setting and interpreting the value (it is not reserved in any way and <code>mrgsolve</code> does not control the value).</p>
+<div id="make-a-model-only-to-examine-init-behavior"
+class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Make a model only to
+examine <code>init</code> behavior</h2>
+<p>Note: <code>IFLAG</code> is my invention only for this demo. The demo
+is always responsible for setting and interpreting the value (it is not
+reserved in any way and <code>mrgsolve</code> does not control the
+value).</p>
 <p>For this demo</p>
 <ul>
 <li>Compartment <code>A</code> initial condition defaults to 0</li>
-<li>Compartment <code>A</code> initial condition will get set to <code>BASE</code> <strong>only</strong> if <code>IFLAG  &gt; 0</code></li>
-<li>Compartment <code>A</code> always stays at the initial condition (the system doesn’t advance)</li>
+<li>Compartment <code>A</code> initial condition will get set to
+<code>BASE</code> <strong>only</strong> if
+<code>IFLAG  &gt; 0</code></li>
+<li>Compartment <code>A</code> always stays at the initial condition
+(the system doesn’t advance)</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM BASE=200, IFLAG = 0</span></span>
@@ -497,16 +567,21 @@ $(document).ready(function () {
 .  A (1)   0     | . ...   .</code></pre>
 <p>Note:</p>
 <ul>
-<li>We used <code>$CMT</code> in the model spec; that implies that the base initial condition for <code>A</code> is set to 0</li>
-<li>In this chunk, the code in <code>$MAIN</code> doesn’t get run because <code>IFLAG</code> is 0</li>
-<li>So, if we don’t update something in <code>$MAIN</code> the initial condition is as we set it in the base list</li>
+<li>We used <code>$CMT</code> in the model spec; that implies that the
+base initial condition for <code>A</code> is set to 0</li>
+<li>In this chunk, the code in <code>$MAIN</code> doesn’t get run
+because <code>IFLAG</code> is 0</li>
+<li>So, if we don’t update something in <code>$MAIN</code> the initial
+condition is as we set it in the base list</li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> mrgsim <span class="sc">%&gt;%</span> dplot</span></code></pre></div>
 <p><img src="init_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p><strong>Next, we update the base initial condition for <code>A</code> to 100</strong></p>
+<p><strong>Next, we update the base initial condition for <code>A</code>
+to 100</strong></p>
 <p>Note:</p>
 <ul>
-<li>The code in <code>$MAIN</code> still doesn’t get run because <code>IFLAG</code> is 0</li>
+<li>The code in <code>$MAIN</code> still doesn’t get run because
+<code>IFLAG</code> is 0</li>
 </ul>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">init</span>(<span class="at">A =</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span> mrgsim <span class="sc">%&gt;%</span> dplot</span></code></pre></div>
 <p><img src="init_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
@@ -521,9 +596,12 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">param</span>(<span class="at">IFLAG=</span><span class="dv">1</span>, <span class="at">BASE=</span><span class="dv">300</span>) <span class="sc">%&gt;%</span> mrgsim <span class="sc">%&gt;%</span> dplot</span></code></pre></div>
 <p><img src="init_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 </div>
-<div id="example-pkpd-model-with-initial-condition" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Example PK/PD model with initial condition</h2>
-<p>Just to be clear, there is no need to set any sort of flag to set the initial condition.</p>
+<div id="example-pkpd-model-with-initial-condition"
+class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Example PK/PD model
+with initial condition</h2>
+<p>Just to be clear, there is no need to set any sort of flag to set the
+initial condition.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">$PARAM AUC=0, AUC50 = 75, KIN=200, KOUT=5</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -536,10 +614,12 @@ $(document).ready(function () {
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="st">dxdt_RESP = KIN*(1-AUC/(AUC50+AUC)) - KOUT*RESP;</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;init_long2&quot;</span>, code)</span></code></pre></div>
-<p>The initial condition is set to 40 per the values of <code>KIN</code> and <code>KOUT</code></p>
+<p>The initial condition is set to 40 per the values of <code>KIN</code>
+and <code>KOUT</code></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> mrgsim <span class="sc">%&gt;%</span> plot</span></code></pre></div>
 <p><img src="init_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>Even when we change <code>RESP_0</code> in <code>R</code>, the calculation in <code>$MAIN</code> gets the final say</p>
+<p>Even when we change <code>RESP_0</code> in <code>R</code>, the
+calculation in <code>$MAIN</code> gets the final say</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span> <span class="fu">init</span>(<span class="at">RESP=</span><span class="fl">1E9</span>) <span class="sc">%&gt;%</span> mrgsim</span></code></pre></div>
 <pre><code>. Model:  init_long2 
 . Dim:    25 x 3 
@@ -555,11 +635,16 @@ $(document).ready(function () {
 . 7:   1    6   40
 . 8:   1    7   40</code></pre>
 </div>
-<div id="calling-init-will-let-you-check-to-see-what-is-going-on" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Calling <code>init</code> will let you check to see what is going on</h2>
+<div id="calling-init-will-let-you-check-to-see-what-is-going-on"
+class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Calling
+<code>init</code> will let you check to see what is going on</h2>
 <ul>
-<li>It’s a good idea to get in the habit of doing this when things aren’t clear</li>
-<li><code>init</code> first takes the base initial condition list, then calls <code>$MAIN</code> and does any calculation you have in there; so the result is the calculated initials</li>
+<li>It’s a good idea to get in the habit of doing this when things
+aren’t clear</li>
+<li><code>init</code> first takes the base initial condition list, then
+calls <code>$MAIN</code> and does any calculation you have in there; so
+the result is the calculated initials</li>
 </ul>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span>(mod)</span></code></pre></div>
 <pre><code>. 
@@ -573,8 +658,10 @@ $(document).ready(function () {
 .  RESP (1)   20    | . ...   .</code></pre>
 </div>
 </div>
-<div id="set-initial-conditions-via-idata" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Set initial conditions via <code>idata</code></h1>
+<div id="set-initial-conditions-via-idata" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> Set initial conditions
+via <code>idata</code></h1>
 <p>Go back to house model</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> mrgsolve<span class="sc">:::</span><span class="fu">house</span>()</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span>(mod)</span></code></pre></div>
@@ -585,10 +672,13 @@ $(document).ready(function () {
 .  GUT (1)    0     | . ...      .</code></pre>
 <p>Notes</p>
 <ul>
-<li>In <code>idata</code> (only), include a column with <code>CMT_0</code> (like you’d do in <code>$MAIN</code>).</li>
-<li>When each ID is simulated, the <code>idata</code> value will override the base initial list for that subject.<br />
+<li>In <code>idata</code> (only), include a column with
+<code>CMT_0</code> (like you’d do in <code>$MAIN</code>).</li>
+<li>When each ID is simulated, the <code>idata</code> value will
+override the base initial list for that subject.<br />
 </li>
-<li>But note that if <code>CMT_0</code> is set in <code>$MAIN</code>, that will override the <code>idata</code> update.</li>
+<li>But note that if <code>CMT_0</code> is set in <code>$MAIN</code>,
+that will override the <code>idata</code> update.</li>
 </ul>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">expand.idata</span>(<span class="at">CENT_0 =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">25</span>,<span class="dv">1</span>))</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>

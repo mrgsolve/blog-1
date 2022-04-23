@@ -385,27 +385,44 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#review"><span class="toc-section-number">1</span> Review</a></li>
-<li><a href="#new-in-0.9.0"><span class="toc-section-number">2</span> New in 0.9.0</a>
+<li><a href="#review" id="toc-review"><span
+class="toc-section-number">1</span> Review</a></li>
+<li><a href="#new-in-0.9.0" id="toc-new-in-0.9.0"><span
+class="toc-section-number">2</span> New in 0.9.0</a>
 <ul>
-<li><a href="#bolus-doses"><span class="toc-section-number">2.1</span> Bolus doses</a></li>
-<li><a href="#infusion"><span class="toc-section-number">2.2</span> Infusion</a></li>
-<li><a href="#another-sequence"><span class="toc-section-number">2.3</span> Another sequence</a></li>
+<li><a href="#bolus-doses" id="toc-bolus-doses"><span
+class="toc-section-number">2.1</span> Bolus doses</a></li>
+<li><a href="#infusion" id="toc-infusion"><span
+class="toc-section-number">2.2</span> Infusion</a></li>
+<li><a href="#another-sequence" id="toc-another-sequence"><span
+class="toc-section-number">2.3</span> Another sequence</a></li>
 </ul></li>
-<li><a href="#important-note"><span class="toc-section-number">3</span> Important note</a></li>
+<li><a href="#important-note" id="toc-important-note"><span
+class="toc-section-number">3</span> Important note</a></li>
 </ul>
 </div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mrgsolve.soloc=</span><span class="st">&quot;build&quot;</span>)</span></code></pre></div>
-<p>I got into pharmacometrics after studying and working as a pharmacist, both in a community pharmacy (interning while I was a pharmacy student) and in an inpatient (hospital) pharmacy (practicing as a pharmacist while studying pharmacometrics and clinical pharmacology). So I always thought it would be cool to have mrgsolve take in dosing information like you would see on a Rx or written in a chart</p>
+<p>I got into pharmacometrics after studying and working as a
+pharmacist, both in a community pharmacy (interning while I was a
+pharmacy student) and in an inpatient (hospital) pharmacy (practicing as
+a pharmacist while studying pharmacometrics and clinical pharmacology).
+So I always thought it would be cool to have mrgsolve take in dosing
+information like you would see on a Rx or written in a chart</p>
 <pre class="yamle"><code>sig: 100 mg po daily x 7</code></pre>
-<p>This post introduces something new in mrgsolve 0.9.0 that works along those lines.</p>
+<p>This post introduces something new in mrgsolve 0.9.0 that works along
+those lines.</p>
 <div id="review" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Review</h1>
-<p>First, a review: we have these things called <red>event objects</red> in mrgsolve: they are simple ways to specify a part of a dosing regimen. They are meant to be quick and easy to create and you are able to combine different “elementary” objects together according to certain rules to make more complex dosing regimens.</p>
-<p>For example, say we want a dose every day for one week. Assuming that our model is in hours, we could write</p>
+<p>First, a review: we have these things called <red>event objects</red>
+in mrgsolve: they are simple ways to specify a part of a dosing regimen.
+They are meant to be quick and easy to create and you are able to
+combine different “elementary” objects together according to certain
+rules to make more complex dosing regimens.</p>
+<p>For example, say we want a dose every day for one week. Assuming that
+our model is in hours, we could write</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">24</span>, <span class="at">until =</span> <span class="dv">24</span><span class="sc">*</span><span class="dv">7</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>e1</span></code></pre></div>
@@ -416,7 +433,8 @@ $(document).ready(function () {
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim_e</span>(mod, e1, <span class="at">end =</span> <span class="dv">24</span><span class="sc">*</span><span class="dv">9</span>) <span class="sc">%&gt;%</span> plot</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>And if I wanted to follow that by a week at every 48 hours, first create the q48h event object</p>
+<p>And if I wanted to follow that by a week at every 48 hours, first
+create the q48h event object</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ii =</span> <span class="dv">48</span>, <span class="at">until =</span> <span class="dv">24</span><span class="sc">*</span><span class="dv">7</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>e2</span></code></pre></div>
 <pre><code>. Events:
@@ -440,7 +458,11 @@ $(document).ready(function () {
 </div>
 <div id="new-in-0.9.0" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> New in 0.9.0</h1>
-<p>New in 0.9.0 is a grammar of specifying some of this dose event information. I’ve been wanting to do something like this for a while, but never quite had the right implementation. The current try isn’t perfect, but I thought it was worth it to give a try and see if we can improve.</p>
+<p>New in 0.9.0 is a grammar of specifying some of this dose event
+information. I’ve been wanting to do something like this for a while,
+but never quite had the right implementation. The current try isn’t
+perfect, but I thought it was worth it to give a try and see if we can
+improve.</p>
 <div id="bolus-doses" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Bolus doses</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>e5 <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">&quot;100 q 24 x7 then 100 q48 x 4&quot;</span>)</span>
@@ -462,7 +484,8 @@ $(document).ready(function () {
 </div>
 <div id="infusion" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Infusion</h2>
-<p>To do an infusion, the duration of the infusion comes after <code>over</code></p>
+<p>To do an infusion, the duration of the infusion comes after
+<code>over</code></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>e6 <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">&quot;100 over 10 q 48 x 3&quot;</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>e6</span></code></pre></div>
@@ -471,7 +494,9 @@ $(document).ready(function () {
 . 1    0 100   10 48    2   1    1</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim_e</span>(mod, e6, <span class="at">end =</span> <span class="dv">168</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Hrm … but we wanted the infusion to be IV, not in the depot compartment. To do that, put the compartment number after <code>in</code></p>
+<p>Hrm … but we wanted the infusion to be IV, not in the depot
+compartment. To do that, put the compartment number after
+<code>in</code></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>e7 <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">&quot;100 over 10 in 2 q 48 x 3&quot;</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>e7</span></code></pre></div>
@@ -483,7 +508,8 @@ $(document).ready(function () {
 </div>
 <div id="another-sequence" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Another sequence</h2>
-<p>Rather than <code>then</code> you can separate by <code>comma</code>. Also, see if you can tell what <code>after</code> does here:</p>
+<p>Rather than <code>then</code> you can separate by <code>comma</code>.
+Also, see if you can tell what <code>after</code> does here:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ev_rx</span>(<span class="st">&quot;100 q 24 x 7, 50 q 12 x 14, 200 q48 x 3 after 72&quot;</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>e</span></code></pre></div>
@@ -492,14 +518,20 @@ $(document).ready(function () {
 . 1    0 100 24    6   1    1
 . 2  168  50 12   13   1    1
 . 3  408 200 48    2   1    1</code></pre>
-<p>It still takes a fair amount of text to get all of this out, but hopefully the notation is relatively compact and expressive.</p>
+<p>It still takes a fair amount of text to get all of this out, but
+hopefully the notation is relatively compact and expressive.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mrgsim_e</span>(mod, e, <span class="at">end =</span> <span class="dv">600</span>) <span class="sc">%&gt;%</span> <span class="fu">plot</span>()</span></code></pre></div>
 <p><img src="2019-ev_rx_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="important-note" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Important note</h1>
-<p>I don’t see this ever replacing the regular event object construction. Maybe it is force of habit for me, but I still regularly just use the constructor. That might be easier in the end. For now, this alternate syntax is sort of proof of concept to see how it might work. Definitely you can’t do everything you might want to do with this syntax. In that case, just revert to the usual constructors.</p>
+<p>I don’t see this ever replacing the regular event object
+construction. Maybe it is force of habit for me, but I still regularly
+just use the constructor. That might be easier in the end. For now, this
+alternate syntax is sort of proof of concept to see how it might work.
+Definitely you can’t do everything you might want to do with this
+syntax. In that case, just revert to the usual constructors.</p>
 </div>
 
 <hr>

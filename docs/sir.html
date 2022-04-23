@@ -379,17 +379,23 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Tidy workflow for simulating dynamics in R</h1>
+<h1 class="title toc-ignore">Tidy workflow for simulating dynamics in
+R</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#background"><span class="toc-section-number">1</span> Background</a></li>
-<li><a href="#write-the-model"><span class="toc-section-number">2</span> Write the model</a></li>
-<li><a href="#compile-and-load"><span class="toc-section-number">3</span> Compile and load</a></li>
-<li><a href="#simulate"><span class="toc-section-number">4</span> Simulate</a></li>
-<li><a href="#challenge"><span class="toc-section-number">5</span> Challenge</a></li>
+<li><a href="#background" id="toc-background"><span
+class="toc-section-number">1</span> Background</a></li>
+<li><a href="#write-the-model" id="toc-write-the-model"><span
+class="toc-section-number">2</span> Write the model</a></li>
+<li><a href="#compile-and-load" id="toc-compile-and-load"><span
+class="toc-section-number">3</span> Compile and load</a></li>
+<li><a href="#simulate" id="toc-simulate"><span
+class="toc-section-number">4</span> Simulate</a></li>
+<li><a href="#challenge" id="toc-challenge"><span
+class="toc-section-number">5</span> Challenge</a></li>
 </ul>
 </div>
 
@@ -432,7 +438,10 @@ $(document).ready(function () {
 </div>
 <div id="challenge" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Challenge</h1>
-<p>Explore the dynamics of the system for different values of the beta and b parameters by simulating and plotting trajectories as time series and in phase space (e.g., I vs. S). How the beta, B, and R0 related to the type of trajectories you get?</p>
+<p>Explore the dynamics of the system for different values of the beta
+and b parameters by simulating and plotting trajectories as time series
+and in phase space (e.g., I vs. S). How the beta, B, and R0 related to
+the type of trajectories you get?</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mod <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wf_sweep</span>(Beta, <span class="at">cv =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(R<span class="sc">~</span>time)</span></code></pre></div>

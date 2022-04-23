@@ -385,38 +385,56 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#population-pk-model"><span class="toc-section-number">2</span> Population PK model</a></li>
-<li><a href="#input-data-set"><span class="toc-section-number">3</span> Input data set</a></li>
-<li><a href="#simulation"><span class="toc-section-number">4</span> Simulation</a></li>
-<li><a href="#output-presentation"><span class="toc-section-number">5</span> Output presentation</a></li>
-<li><a href="#summary"><span class="toc-section-number">6</span> Summary</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#population-pk-model" id="toc-population-pk-model"><span
+class="toc-section-number">2</span> Population PK model</a></li>
+<li><a href="#input-data-set" id="toc-input-data-set"><span
+class="toc-section-number">3</span> Input data set</a></li>
+<li><a href="#simulation" id="toc-simulation"><span
+class="toc-section-number">4</span> Simulation</a></li>
+<li><a href="#output-presentation" id="toc-output-presentation"><span
+class="toc-section-number">5</span> Output presentation</a></li>
+<li><a href="#summary" id="toc-summary"><span
+class="toc-section-number">6</span> Summary</a></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>We had a user who was learning <code>mrgsolve</code> ask for a “complete example”. I wasn’t sure what exactly that meant, but I created this example and I’m sharing it today on the blog.</p>
-<p>This is an invented example to illustrate features and workflow for <code>mrgsolve</code>. If you attend one of our training workshops, we work examples using published models to answer real questions you’ll encounter in drug development. So compared to the workshop material, this is a bit contrived. But I wanted to show how you might tackle a problem involving a population model from end to end.</p>
+<p>We had a user who was learning <code>mrgsolve</code> ask for a
+“complete example”. I wasn’t sure what exactly that meant, but I created
+this example and I’m sharing it today on the blog.</p>
+<p>This is an invented example to illustrate features and workflow for
+<code>mrgsolve</code>. If you attend one of our training workshops, we
+work examples using published models to answer real questions you’ll
+encounter in drug development. So compared to the workshop material,
+this is a bit contrived. But I wanted to show how you might tackle a
+problem involving a population model from end to end.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dmutate)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 </div>
 <div id="population-pk-model" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Population PK model</h1>
+<h1><span class="header-section-number">2</span> Population PK
+model</h1>
 <ul>
 <li>One compartment with first order absorption
 <ul>
-<li>There are no ODEs in this model; the system is advanced for each time step through closed-form equations for the amount in each compartment</li>
+<li>There are no ODEs in this model; the system is advanced for each
+time step through closed-form equations for the amount in each
+compartment</li>
 </ul></li>
 <li>Covariates: weight on clearances and volumes, sex on volume</li>
-<li>Log-normally distributed random effects on <code>CL</code>, <code>V</code>, and <code>KA</code></li>
+<li>Log-normally distributed random effects on <code>CL</code>,
+<code>V</code>, and <code>KA</code></li>
 <li>Reduced bioavailability fraction for oral doses</li>
 <li>Lag time for oral doses</li>
 <li>Combined additive and proportional error model
 <ul>
-<li>Note: we resimulate residual error variates using <code>simeps</code> until the simulated concentration is positive</li>
+<li>Note: we resimulate residual error variates using
+<code>simeps</code> until the simulated concentration is positive</li>
 </ul></li>
 </ul>
 <p><strong>Here’s the model specification</strong></p>
@@ -455,16 +473,22 @@ $(document).ready(function () {
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">$CAPTURE WT CL </span></span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
 <p><strong>Compile and load the model</strong></p>
-<p>We use <code>mcode_cache</code> here, which caches the model when you compile. If the cache is not invalidated, <code>mrgsolve</code> loads from the cache next time rather than re-compiling.</p>
+<p>We use <code>mcode_cache</code> here, which caches the model when you
+compile. If the cache is not invalidated, <code>mrgsolve</code> loads
+from the cache next time rather than re-compiling.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode_cache</span>(<span class="st">&quot;demo&quot;</span>, code)</span></code></pre></div>
 </div>
 <div id="input-data-set" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Input data set</h1>
 <ul>
 <li><code>N=2000</code> patients are simulated in this example</li>
-<li>We simulate patient-level weight and sex using the <a href="https://github.com/kylebmetrum/dmutate"><code>dmutate</code></a> package</li>
-<li>We create a flag in the data set for patients with weight greater than 90 kg</li>
-<li>Patients with weight less than 90 kg get a certain dose while patients with weight greater than 90 kg get a higher dose</li>
+<li>We simulate patient-level weight and sex using the <a
+href="https://github.com/kylebmetrum/dmutate"><code>dmutate</code></a>
+package</li>
+<li>We create a flag in the data set for patients with weight greater
+than 90 kg</li>
+<li>Patients with weight less than 90 kg get a certain dose while
+patients with weight greater than 90 kg get a higher dose</li>
 <li>Dosing proceeds Q24H x 10 doses</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">33020</span>)</span>
@@ -489,10 +513,14 @@ $(document).ready(function () {
 .  9     9  56.3     1      0
 . 10    10  69.7     1      0
 . # … with 1,990 more rows</code></pre>
-<p>The dosing elements are implemented through <code>event</code> objects.</p>
+<p>The dosing elements are implemented through <code>event</code>
+objects.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ev1 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">9</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ev2 <span class="ot">&lt;-</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">150</span>, <span class="at">ii=</span><span class="dv">24</span>, <span class="at">addl=</span><span class="dv">9</span>)</span></code></pre></div>
-<p>The <code>assign_ev</code> function looks at the <code>dosegr</code> column in <code>idata</code> and assigns a dosing event sequence (<code>e1</code> or <code>e2</code>) based on the value of <code>dosegr</code>.</p>
+<p>The <code>assign_ev</code> function looks at the <code>dosegr</code>
+column in <code>idata</code> and assigns a dosing event sequence
+(<code>e1</code> or <code>e2</code>) based on the value of
+<code>dosegr</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">assign_ev</span>(<span class="fu">list</span>(ev1,ev2),idata,<span class="st">&quot;dosegr&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
@@ -503,14 +531,21 @@ $(document).ready(function () {
 . 4    0 150 24    9   1    1  4
 . 5    0 150 24    9   1    1  5
 . 6    0 100 24    9   1    1  6</code></pre>
-<p><strong>NOTE</strong>: this is just one way to set up a <code>data_set</code> for <code>mrgsolve</code>. It might not be the best approach for your problem: maybe it’s too complicated, maybe not complicated enough. See other examples in the blog about creating input data sets or using event objects in your simulations.</p>
+<p><strong>NOTE</strong>: this is just one way to set up a
+<code>data_set</code> for <code>mrgsolve</code>. It might not be the
+best approach for your problem: maybe it’s too complicated, maybe not
+complicated enough. See other examples in the blog about creating input
+data sets or using event objects in your simulations.</p>
 </div>
 <div id="simulation" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Simulation</h1>
 <ul>
-<li>We “carry” (copy) the dose group indicator into the simulated output (<code>carry_out</code>)</li>
-<li>Also, we only collect observation records in the output (<code>obsonly</code>)</li>
-<li><code>mrgsolve</code> respects the seed you set in <code>R</code> using <code>set.seed</code> so that results are reproducible</li>
+<li>We “carry” (copy) the dose group indicator into the simulated output
+(<code>carry_out</code>)</li>
+<li>Also, we only collect observation records in the output
+(<code>obsonly</code>)</li>
+<li><code>mrgsolve</code> respects the seed you set in <code>R</code>
+using <code>set.seed</code> so that results are reproducible</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11009</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -537,24 +572,39 @@ $(document).ready(function () {
 . 8:   1    7      0  0.04367 60.52 52.56 0.9589  3822 5287.74</code></pre>
 </div>
 <div id="output-presentation" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Output presentation</h1>
+<h1><span class="header-section-number">5</span> Output
+presentation</h1>
 <ul>
-<li>For some plots, we use a <code>plot</code> method for <code>mrgsims</code> objects (the object that is returned from the <code>mrgsim</code> function</li>
-<li>For the other plots, it’s really just turning the <code>mrgsims</code> object into a <code>data.frame</code> and have at it with <code>ggplot2</code></li>
-<li>Other than the quickie <code>lattice</code>-based plot method that I only use for quick looks at the output, <code>mrgsolve</code> (by design) lets you use packages like <code>dplyr</code> or <code>data.table</code> or <code>ggplot</code> or other great <code>R</code> packages that are already out there for summarizing and plotting data</li>
-<li>But notice that <code>mrgsolve</code> provides methods for sending the <code>mrgsims</code> object directly into a <code>dplyr</code> data summary pipeline</li>
+<li>For some plots, we use a <code>plot</code> method for
+<code>mrgsims</code> objects (the object that is returned from the
+<code>mrgsim</code> function</li>
+<li>For the other plots, it’s really just turning the
+<code>mrgsims</code> object into a <code>data.frame</code> and have at
+it with <code>ggplot2</code></li>
+<li>Other than the quickie <code>lattice</code>-based plot method that I
+only use for quick looks at the output, <code>mrgsolve</code> (by
+design) lets you use packages like <code>dplyr</code> or
+<code>data.table</code> or <code>ggplot</code> or other great
+<code>R</code> packages that are already out there for summarizing and
+plotting data</li>
+<li>But notice that <code>mrgsolve</code> provides methods for sending
+the <code>mrgsims</code> object directly into a <code>dplyr</code> data
+summary pipeline</li>
 </ul>
 <p>This shows the plot method for <code>mrgsims</code> objects</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, IPRED<span class="sc">+</span>DV<span class="sc">~</span>., <span class="at">subset=</span>ID<span class="sc">==</span><span class="dv">10</span>)</span></code></pre></div>
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The <code>mrgsims</code> object can be passed right into <code>dplyr::filter</code></p>
+<p>The <code>mrgsims</code> object can be passed right into
+<code>dplyr::filter</code></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">filter</span>(out, time<span class="sc">==</span><span class="dv">240</span>)</span></code></pre></div>
-<p>Simulated day 10 concentration versus patient weight by dose/weight group</p>
+<p>Simulated day 10 concentration versus patient weight by dose/weight
+group</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tr, <span class="fu">aes</span>(<span class="at">x=</span>WT,<span class="at">y=</span>DV)) <span class="sc">+</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>dosegr) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
 <p><img src="2017-complete-example_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>Density plots of day 10 concentrations in the two dose/weight groups</p>
+<p>Density plots of day 10 concentrations in the two dose/weight
+groups</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tr,<span class="fu">aes</span>(<span class="at">x=</span>DV,<span class="at">fill=</span><span class="fu">factor</span>(dosegr))) <span class="sc">+</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette=</span><span class="st">&quot;Set1&quot;</span>)</span></code></pre></div>
@@ -562,8 +612,21 @@ $(document).ready(function () {
 </div>
 <div id="summary" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Summary</h1>
-<p>This example illustrated how to code a population PK model in <code>mrgsolve</code> format, create input data sets with varied dosing and covariate values, simulate, and plot some results. I also hope this example illustrates the design priorities for the <code>mrgsolve</code> workflow: we always try to leverage existing functionality available in <code>R</code> (such as <code>dmutate</code>, <code>dplyr</code> and <code>ggplot</code>) rather than re-creating our own inside the <code>mrgsolve</code> package. This might require you to write some more code, but ultimately it gives greater flexibility to get the simulation that you need for your project.</p>
-<p>We regularly do work with models that are more complicated and design simulations that have bigger demands than this example here. We’d be happy to discuss more-complicated applications that you might be needing for your project work. For now we hope this example will give you some ideas how you can add complexity to your simulation project today.</p>
+<p>This example illustrated how to code a population PK model in
+<code>mrgsolve</code> format, create input data sets with varied dosing
+and covariate values, simulate, and plot some results. I also hope this
+example illustrates the design priorities for the <code>mrgsolve</code>
+workflow: we always try to leverage existing functionality available in
+<code>R</code> (such as <code>dmutate</code>, <code>dplyr</code> and
+<code>ggplot</code>) rather than re-creating our own inside the
+<code>mrgsolve</code> package. This might require you to write some more
+code, but ultimately it gives greater flexibility to get the simulation
+that you need for your project.</p>
+<p>We regularly do work with models that are more complicated and design
+simulations that have bigger demands than this example here. We’d be
+happy to discuss more-complicated applications that you might be needing
+for your project work. For now we hope this example will give you some
+ideas how you can add complexity to your simulation project today.</p>
 </div>
 
 <hr>

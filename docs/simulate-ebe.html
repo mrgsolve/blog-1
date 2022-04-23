@@ -385,41 +385,72 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#background"><span class="toc-section-number">2</span> Background</a></li>
-<li><a href="#a-solution"><span class="toc-section-number">3</span> A solution</a>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#background" id="toc-background"><span
+class="toc-section-number">2</span> Background</a></li>
+<li><a href="#a-solution" id="toc-a-solution"><span
+class="toc-section-number">3</span> A solution</a>
 <ul>
-<li><a href="#re-name-the-ebe"><span class="toc-section-number">3.1</span> Re-name the EBE</a></li>
-<li><a href="#add-parameters-to-the-model"><span class="toc-section-number">3.2</span> Add parameters to the model</a></li>
-<li><a href="#conditional-update-of-cl-and-v"><span class="toc-section-number">3.3</span> Conditional update of CL and V</a></li>
-<li><a href="#include-cli-and-vi-in-the-data"><span class="toc-section-number">3.4</span> Include CLI and VI in the data</a></li>
+<li><a href="#re-name-the-ebe" id="toc-re-name-the-ebe"><span
+class="toc-section-number">3.1</span> Re-name the EBE</a></li>
+<li><a href="#add-parameters-to-the-model"
+id="toc-add-parameters-to-the-model"><span
+class="toc-section-number">3.2</span> Add parameters to the
+model</a></li>
+<li><a href="#conditional-update-of-cl-and-v"
+id="toc-conditional-update-of-cl-and-v"><span
+class="toc-section-number">3.3</span> Conditional update of CL and
+V</a></li>
+<li><a href="#include-cli-and-vi-in-the-data"
+id="toc-include-cli-and-vi-in-the-data"><span
+class="toc-section-number">3.4</span> Include CLI and VI in the
+data</a></li>
 </ul></li>
-<li><a href="#example"><span class="toc-section-number">4</span> Example</a>
+<li><a href="#example" id="toc-example"><span
+class="toc-section-number">4</span> Example</a>
 <ul>
-<li><a href="#model"><span class="toc-section-number">4.1</span> Model</a></li>
-<li><a href="#simulate"><span class="toc-section-number">4.2</span> Simulate</a></li>
-<li><a href="#check"><span class="toc-section-number">4.3</span> Check</a></li>
-<li><a href="#random-simulation"><span class="toc-section-number">4.4</span> Random simulation</a></li>
+<li><a href="#model" id="toc-model"><span
+class="toc-section-number">4.1</span> Model</a></li>
+<li><a href="#simulate" id="toc-simulate"><span
+class="toc-section-number">4.2</span> Simulate</a></li>
+<li><a href="#check" id="toc-check"><span
+class="toc-section-number">4.3</span> Check</a></li>
+<li><a href="#random-simulation" id="toc-random-simulation"><span
+class="toc-section-number">4.4</span> Random simulation</a></li>
 </ul></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>This blog post will show you how to use a single model to do both<br />
-population simulation (with patient-specific covariates and random <code>ETA</code>s) and simulation from a specific set of empirical Bayes estimates (EBE; a specific, pre-defined set of individual parameters like what you get out of your NONMEM run). The basic implementation for this approach was pioneered by <strong>Tim Waterhouse</strong> at MetrumRG.</p>
+<p>This blog post will show you how to use a single model to do
+both<br />
+population simulation (with patient-specific covariates and random
+<code>ETA</code>s) and simulation from a specific set of empirical Bayes
+estimates (EBE; a specific, pre-defined set of individual parameters
+like what you get out of your NONMEM run). The basic implementation for
+this approach was pioneered by <strong>Tim Waterhouse</strong> at
+MetrumRG.</p>
 </div>
 <div id="background" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Background</h1>
-<p>The situation is this: you’ve coded your population model in terms of <code>THETA</code>, <code>ETA</code>, some covariates and the like:</p>
+<p>The situation is this: you’ve coded your population model in terms of
+<code>THETA</code>, <code>ETA</code>, some covariates and the like:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> WT <span class="op">=</span> <span class="dv">70</span> <span class="op">,</span> BMI <span class="op">=</span> <span class="dv">23</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> CL <span class="op">=</span> THETA1 <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span><span class="fl">0.75</span><span class="op">)</span>    <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> V  <span class="op">=</span> THETA2 <span class="op">*</span> pow<span class="op">(</span>BMI<span class="op">/</span><span class="dv">23</span><span class="op">,</span>THETA3<span class="op">)</span> <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span></code></pre></div>
-<p>For this model, you feed in subject-specific <code>WT</code> and <code>BMI</code>, mrgsolve will simulate <code>ETA(1)</code> and <code>ETA(2)</code> and you will get a subject-specific <code>CL</code> and <code>V</code> that can be used to advance the system.</p>
-<p>But what if you have a specific set of <code>CL</code> and <code>V</code> that came from your NONMEM model output that you want to used here instead? For example, I have this set of EBE that I want to use?</p>
+<p>For this model, you feed in subject-specific <code>WT</code> and
+<code>BMI</code>, mrgsolve will simulate <code>ETA(1)</code> and
+<code>ETA(2)</code> and you will get a subject-specific <code>CL</code>
+and <code>V</code> that can be used to advance the system.</p>
+<p>But what if you have a specific set of <code>CL</code> and
+<code>V</code> that came from your NONMEM model output that you want to
+used here instead? For example, I have this set of EBE that I want to
+use?</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>par</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##      ID    CL     V
@@ -427,13 +458,15 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 ## 1     1 0.788  63.3
 ## 2     2 1.29   65.1
 ## 3     3 0.909  36.5</code></pre>
-<p>How can I work these into these into the simulation with this model?</p>
+<p>How can I work these into these into the simulation with this
+model?</p>
 </div>
 <div id="a-solution" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> A solution</h1>
 <div id="re-name-the-ebe" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Re-name the EBE</h2>
-<p>Instead of using <code>CL</code> and <code>V</code> in your data, rename them to <code>CLI</code> and <code>VI</code></p>
+<p>Instead of using <code>CL</code> and <code>V</code> in your data,
+rename them to <code>CLI</code> and <code>VI</code></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>par <span class="ot">&lt;-</span> <span class="fu">rename</span>(par, <span class="at">CLI =</span> CL, <span class="at">VI =</span> V)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>par</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
@@ -442,19 +475,30 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 ## 1     1 0.788  63.3
 ## 2     2 1.29   65.1
 ## 3     3 0.909  36.5</code></pre>
-<p>The specific names you choose isn’t as important as naming them something other than what you used in the model.</p>
+<p>The specific names you choose isn’t as important as naming them
+something other than what you used in the model.</p>
 </div>
-<div id="add-parameters-to-the-model" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Add parameters to the model</h2>
-<p>Now you need to add these as parameters in the model so mrgsolve will pick them up when you pass them in on the data set</p>
+<div id="add-parameters-to-the-model" class="section level2"
+number="3.2">
+<h2><span class="header-section-number">3.2</span> Add parameters to the
+model</h2>
+<p>Now you need to add these as parameters in the model so mrgsolve will
+pick them up when you pass them in on the data set</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>WT <span class="op">=</span> <span class="dv">70</span> <span class="op">,</span> BMI <span class="op">=</span> <span class="dv">23</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>CLI <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> VI <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span></code></pre></div>
-<p>Note we gave these parameters a special value: <code>-1</code>. This will be important for the next step.</p>
+<p>Note we gave these parameters a special value: <code>-1</code>. This
+will be important for the next step.</p>
 </div>
-<div id="conditional-update-of-cl-and-v" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Conditional update of CL and V</h2>
-<p>Now, after the population parameters are declared and defined, you can put a block of code that updates those variables only if <code>CLI</code> is greater than zero; that is, if the updated parameter is something other than that special / null value, we’ll use that; otherwise use the random simulated value</p>
+<div id="conditional-update-of-cl-and-v" class="section level2"
+number="3.3">
+<h2><span class="header-section-number">3.3</span> Conditional update of
+CL and V</h2>
+<p>Now, after the population parameters are declared and defined, you
+can put a block of code that updates those variables only if
+<code>CLI</code> is greater than zero; that is, if the updated parameter
+is something other than that special / null value, we’ll use that;
+otherwise use the random simulated value</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> main <span class="op">]</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> CL <span class="op">=</span> THETA1 <span class="op">*</span> pow<span class="op">(</span>WT<span class="op">/</span><span class="dv">70</span><span class="op">,</span><span class="fl">0.75</span><span class="op">)</span>    <span class="op">*</span> exp<span class="op">(</span>ETA<span class="op">(</span><span class="dv">1</span><span class="op">));</span></span>
@@ -465,9 +509,13 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  V <span class="op">=</span> VI<span class="op">;</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<div id="include-cli-and-vi-in-the-data" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Include CLI and VI in the data</h2>
-<p>Now, whenever we attach these specially named parameters to the data, we’ll get a simulation from the EBE; otherwise, we’ll get the simulation from the covariates and randomly drawn ETA.</p>
+<div id="include-cli-and-vi-in-the-data" class="section level2"
+number="3.4">
+<h2><span class="header-section-number">3.4</span> Include CLI and VI in
+the data</h2>
+<p>Now, whenever we attach these specially named parameters to the data,
+we’ll get a simulation from the EBE; otherwise, we’ll get the simulation
+from the covariates and randomly drawn ETA.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">expand.ev</span>(<span class="at">amt =</span> <span class="dv">100</span>, <span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(par)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
@@ -516,7 +564,8 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 </div>
 <div id="check" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Check</h2>
-<p>Verify that the <code>CL</code> and <code>V</code> in the output match the <code>CLI</code> and <code>VI</code> in the input</p>
+<p>Verify that the <code>CL</code> and <code>V</code> in the output
+match the <code>CLI</code> and <code>VI</code> in the input</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
 <pre><code>##   ID time amt cmt evid       CLI       VI
 ## 1  1    0 100   1    1 0.7875775 63.25656
@@ -531,8 +580,10 @@ population simulation (with patient-specific covariates and random <code>ETA</co
 ## 3     3 0.909  36.5    74</code></pre>
 </div>
 <div id="random-simulation" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Random simulation</h2>
-<p>Now, if we drop the EBE from the data, we get our random basic random simulation</p>
+<h2><span class="header-section-number">4.4</span> Random
+simulation</h2>
+<p>Now, if we drop the EBE from the data, we get our random basic random
+simulation</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  data, </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CLI =</span> <span class="cn">NULL</span>, </span>

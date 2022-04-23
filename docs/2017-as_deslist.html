@@ -379,24 +379,38 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Flexible, heterogeneous simulation designs in a population</h1>
+<h1 class="title toc-ignore">Flexible, heterogeneous simulation designs
+in a population</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#assign-designs-to-individuals"><span class="toc-section-number">1</span> Assign designs to individuals</a></li>
-<li><a href="#assign-designs-to-treatment-arms-or-groups"><span class="toc-section-number">2</span> Assign designs to treatment arms or groups</a></li>
-<li><a href="#list-cols-and-additional-times"><span class="toc-section-number">3</span> <code>list-cols</code> and <code>additional</code> times</a></li>
+<li><a href="#assign-designs-to-individuals"
+id="toc-assign-designs-to-individuals"><span
+class="toc-section-number">1</span> Assign designs to
+individuals</a></li>
+<li><a href="#assign-designs-to-treatment-arms-or-groups"
+id="toc-assign-designs-to-treatment-arms-or-groups"><span
+class="toc-section-number">2</span> Assign designs to treatment arms or
+groups</a></li>
+<li><a href="#list-cols-and-additional-times"
+id="toc-list-cols-and-additional-times"><span
+class="toc-section-number">3</span> <code>list-cols</code> and
+<code>additional</code> times</a></li>
 </ul>
 </div>
 
-<p>Design lists help you assign different designs to different groups in a population or specific designs to specific individuals.</p>
+<p>Design lists help you assign different designs to different groups in
+a population or specific designs to specific individuals.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mrgsolve)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
-<div id="assign-designs-to-individuals" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Assign designs to individuals</h1>
-<p>To illustrate, let’s make a population of 4 individuals, all with different simulation <strong>end</strong> times.</p>
+<div id="assign-designs-to-individuals" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Assign designs to
+individuals</h1>
+<p>To illustrate, let’s make a population of 4 individuals, all with
+different simulation <strong>end</strong> times.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">end=</span><span class="fu">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</span></code></pre></div>
 <pre><code>. Warning: `data_frame()` was deprecated in tibble 1.1.0.
 . Please use `tibble()` instead.
@@ -410,8 +424,11 @@ $(document).ready(function () {
 . 2     2    48
 . 3     3    72
 . 4     4    96</code></pre>
-<p>For simplicity, we will only vary the simulation end time in this example. See later examples where <code>start</code>, <code>delta</code> and <code>add</code> can varied as well.</p>
-<p>We can turn this in to a list of designs with <code>as_deslist</code>.</p>
+<p>For simplicity, we will only vary the simulation end time in this
+example. See later examples where <code>start</code>, <code>delta</code>
+and <code>add</code> can varied as well.</p>
+<p>We can turn this in to a list of designs with
+<code>as_deslist</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_deslist</span>(des, <span class="at">descol=</span><span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
 <pre><code>. $ID_1
 . start:  0  end:    24  delta:  1  offset: 0  min:    0   max:    24 
@@ -427,8 +444,13 @@ $(document).ready(function () {
 . 
 . attr(,&quot;descol&quot;)
 . [1] &quot;ID&quot;</code></pre>
-<p><code>as_deslist</code> returns one design for each individual, one for each unique level of <code>descol</code>. The deslist is a list of <code>tgrid</code> objects (see <code>?tgrid</code>). Note also that <code>descol</code> is retained as an attribute to be used later.</p>
-<p>Let’s set up a simulation that includes these 4 IDs; we load a model and, importantly, set up an <code>idata_set</code> for the simulation that includes all 4 IDs in the design list.</p>
+<p><code>as_deslist</code> returns one design for each individual, one
+for each unique level of <code>descol</code>. The deslist is a list of
+<code>tgrid</code> objects (see <code>?tgrid</code>). Note also that
+<code>descol</code> is retained as an attribute to be used later.</p>
+<p>Let’s set up a simulation that includes these 4 IDs; we load a model
+and, importantly, set up an <code>idata_set</code> for the simulation
+that includes all 4 IDs in the design list.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> mrgsolve<span class="sc">:::</span><span class="fu">house</span>() <span class="sc">%&gt;%</span> <span class="fu">ev</span>(<span class="at">amt=</span><span class="dv">100</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">select</span>(des,ID)</span>
@@ -441,21 +463,45 @@ $(document).ready(function () {
 . 3     3
 . 4     4</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>des1 <span class="ot">&lt;-</span> <span class="fu">as_deslist</span>(des,<span class="st">&quot;ID&quot;</span>)</span></code></pre></div>
-<p>When we run the simulation, pass in the design list to <code>design</code> in the pipeline</p>
+<p>When we run the simulation, pass in the design list to
+<code>design</code> in the pipeline</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  mod <span class="sc">%&gt;%</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">idata_set</span>(idata) <span class="sc">%&gt;%</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">design</span>(des1) <span class="sc">%&gt;%</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  mrgsim</span></code></pre></div>
-<p>We see that ID 1 has a 24 hour end time, ID 2 has 48 hour simulation time, ID 3 with 72 hour simulation time, and ID 4 96 hour simulation time as reflected in the list of the designs.</p>
+<p>We see that ID 1 has a 24 hour end time, ID 2 has 48 hour simulation
+time, ID 3 with 72 hour simulation time, and ID 4 96 hour simulation
+time as reflected in the list of the designs.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, CP<span class="sc">~</span>time<span class="sc">|</span>ID)</span></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p><strong>Note</strong>: Check the arguments to <code>design</code> (<code>?design</code>). There is a <code>descol</code> argument that is required. <code>descol</code> in this function refers to a column in <code>idata_set</code> to be used as the grouping variable to assign the sampling design. <code>as_deslist</code> also had a <code>descol</code> argument that referred to a column in the input data frame for that function. We don’t need to pass <code>descol</code> to <code>design()</code> because we created the design list with <code>as_deslist</code>: <code>design()</code> reads <code>descol</code> from the attribute. We don’t <strong>have</strong> to use <code>as_deslist</code> to create the design list. It could be just a plan old <code>R</code> list created by you with <code>tgrid</code> objects. In that case, you must state what <code>descol</code> is when you call <code>design()</code>.<br />
-And it can’t be emphasized enough here that you <strong>MUST</strong> use an <code>idata_set</code> for this to work and <code>idata_set</code> must contain a valid <code>descol</code>.</p>
+<p><strong>Note</strong>: Check the arguments to <code>design</code>
+(<code>?design</code>). There is a <code>descol</code> argument that is
+required. <code>descol</code> in this function refers to a column in
+<code>idata_set</code> to be used as the grouping variable to assign the
+sampling design. <code>as_deslist</code> also had a <code>descol</code>
+argument that referred to a column in the input data frame for that
+function. We don’t need to pass <code>descol</code> to
+<code>design()</code> because we created the design list with
+<code>as_deslist</code>: <code>design()</code> reads <code>descol</code>
+from the attribute. We don’t <strong>have</strong> to use
+<code>as_deslist</code> to create the design list. It could be just a
+plan old <code>R</code> list created by you with <code>tgrid</code>
+objects. In that case, you must state what <code>descol</code> is when
+you call <code>design()</code>.<br />
+And it can’t be emphasized enough here that you <strong>MUST</strong>
+use an <code>idata_set</code> for this to work and
+<code>idata_set</code> must contain a valid <code>descol</code>.</p>
 </div>
-<div id="assign-designs-to-treatment-arms-or-groups" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Assign designs to treatment arms or groups</h1>
-<p>Now, let’s simulate a trial with 5 patients in each of 4 treatment arms. In this trial, arm 1 lasts 24 hours, arm 2 last 48 hours … etc. But every patient with the arm 1 indicator will get simulated for 24 hours, every patient with arm 2 indicator will get simulated for 48 hours and so on.</p>
+<div id="assign-designs-to-treatment-arms-or-groups"
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Assign designs to
+treatment arms or groups</h1>
+<p>Now, let’s simulate a trial with 5 patients in each of 4 treatment
+arms. In this trial, arm 1 lasts 24 hours, arm 2 last 48 hours … etc.
+But every patient with the arm 1 indicator will get simulated for 24
+hours, every patient with arm 2 indicator will get simulated for 48
+hours and so on.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">expand.idata</span>(<span class="at">ARM=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(idata)</span></code></pre></div>
@@ -466,7 +512,8 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 . 4  4   4
 . 5  5   1
 . 6  6   2</code></pre>
-<p>Now, let’s setup the designs based on <code>ARM</code> rather than <code>ID</code></p>
+<p>Now, let’s setup the designs based on <code>ARM</code> rather than
+<code>ID</code></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">distinct</span>(idata,ARM) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">end=</span><span class="fu">seq</span>(<span class="dv">24</span>,<span class="dv">96</span>,<span class="dv">24</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>des</span></code></pre></div>
@@ -490,10 +537,19 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(out, CP<span class="sc">~</span>time<span class="sc">|</span><span class="fu">factor</span>(ID))</span></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 </div>
-<div id="list-cols-and-additional-times" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> <code>list-cols</code> and <code>additional</code> times</h1>
-<p>Hopefully it’s clear that columns named <code>start</code>, <code>end</code>, and <code>delta</code> in the the input data frame passed to <code>as_deslist</code> are just numeric values that form the time grid object (see <code>?tgrid</code>).</p>
-<p>What about <code>add</code>, the vector of ad-hoc times for the simulation? These, too, can be accommodated with a <code>list-col</code> column in the input data frame. Note that <code>list-cols</code> are only really supported in specialized <code>tibble</code> type data frames.</p>
+<div id="list-cols-and-additional-times" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> <code>list-cols</code>
+and <code>additional</code> times</h1>
+<p>Hopefully it’s clear that columns named <code>start</code>,
+<code>end</code>, and <code>delta</code> in the the input data frame
+passed to <code>as_deslist</code> are just numeric values that form the
+time grid object (see <code>?tgrid</code>).</p>
+<p>What about <code>add</code>, the vector of ad-hoc times for the
+simulation? These, too, can be accommodated with a <code>list-col</code>
+column in the input data frame. Note that <code>list-cols</code> are
+only really supported in specialized <code>tibble</code> type data
+frames.</p>
 <p>These are random times for IDs 1 and 2</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>,<span class="dv">12</span>))</span>
@@ -503,7 +559,9 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 <pre><code>.  [1]  0  2 16 14  5 21 24  8  6 12 10 15  7</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>t2</span></code></pre></div>
 <pre><code>.  [1]  0 48 13 56 68 24 57 72 43 46 30 37 34</code></pre>
-<p><strong>Note</strong>: When we simulate with <code>end &lt; 0</code>, <code>mrgsolve</code> knows to ignore <code>start/end/delta</code> and only use the times in <code>add</code> for observations.</p>
+<p><strong>Note</strong>: When we simulate with <code>end &lt; 0</code>,
+<code>mrgsolve</code> knows to ignore <code>start/end/delta</code> and
+only use the times in <code>add</code> for observations.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">end=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">add=</span><span class="fu">list</span>(t1,t2))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>des</span></code></pre></div>
 <pre><code>. # A tibble: 2 × 3
@@ -517,7 +575,8 @@ And it can’t be emphasized enough here that you <strong>MUST</strong> use an <
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  mrgsim <span class="sc">%&gt;%</span> </span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(CP<span class="sc">~</span>time<span class="sc">|</span><span class="fu">factor</span>(ID), <span class="at">type=</span><span class="st">&#39;b&#39;</span>)</span></code></pre></div>
 <p><img src="2017-as_deslist_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>Ok … not the most lovely-looking result we’ve seen before, but maybe that’s just what you needed in this simulation.</p>
+<p>Ok … not the most lovely-looking result we’ve seen before, but maybe
+that’s just what you needed in this simulation.</p>
 </div>
 
 <hr>

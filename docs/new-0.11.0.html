@@ -385,33 +385,63 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#resimulate-a-single-eta-or-eps"><span class="toc-section-number">2</span> Resimulate a single ETA or EPS</a></li>
-<li><a href="#dynamic-capture"><span class="toc-section-number">3</span> Dynamic capture</a>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#resimulate-a-single-eta-or-eps"
+id="toc-resimulate-a-single-eta-or-eps"><span
+class="toc-section-number">2</span> Resimulate a single ETA or
+EPS</a></li>
+<li><a href="#dynamic-capture" id="toc-dynamic-capture"><span
+class="toc-section-number">3</span> Dynamic capture</a>
 <ul>
-<li><a href="#see-model-variables"><span class="toc-section-number">3.1</span> See model variables</a></li>
-<li><a href="#why-would-i-use-this"><span class="toc-section-number">3.2</span> Why would I use this???</a></li>
+<li><a href="#see-model-variables" id="toc-see-model-variables"><span
+class="toc-section-number">3.1</span> See model variables</a></li>
+<li><a href="#why-would-i-use-this" id="toc-why-would-i-use-this"><span
+class="toc-section-number">3.2</span> Why would I use this???</a></li>
 </ul></li>
-<li><a href="#simulate-with-negative-times"><span class="toc-section-number">4</span> Simulate with negative times</a></li>
-<li><a href="#path-to-nm-results-using-nmext-and-nmxml"><span class="toc-section-number">5</span> Path to NM results using NMEXT and NMXML</a>
+<li><a href="#simulate-with-negative-times"
+id="toc-simulate-with-negative-times"><span
+class="toc-section-number">4</span> Simulate with negative
+times</a></li>
+<li><a href="#path-to-nm-results-using-nmext-and-nmxml"
+id="toc-path-to-nm-results-using-nmext-and-nmxml"><span
+class="toc-section-number">5</span> Path to NM results using NMEXT and
+NMXML</a>
 <ul>
-<li><a href="#root-path"><span class="toc-section-number">5.1</span> Root path</a></li>
-<li><a href="#select-table-number-in-nmext"><span class="toc-section-number">5.2</span> Select table number in NMEXT</a></li>
-<li><a href="#reveal-results-file"><span class="toc-section-number">5.3</span> Reveal results file</a></li>
+<li><a href="#root-path" id="toc-root-path"><span
+class="toc-section-number">5.1</span> Root path</a></li>
+<li><a href="#select-table-number-in-nmext"
+id="toc-select-table-number-in-nmext"><span
+class="toc-section-number">5.2</span> Select table number in
+NMEXT</a></li>
+<li><a href="#reveal-results-file" id="toc-reveal-results-file"><span
+class="toc-section-number">5.3</span> Reveal results file</a></li>
 </ul></li>
-<li><a href="#programmatic-block-initialization"><span class="toc-section-number">6</span> Programmatic block initialization</a></li>
+<li><a href="#programmatic-block-initialization"
+id="toc-programmatic-block-initialization"><span
+class="toc-section-number">6</span> Programmatic block
+initialization</a></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>This blog post introduces some new features / new behavior with mrgsolve versions <code>0.11.0</code> and <code>0.11.1</code>.</p>
+<p>This blog post introduces some new features / new behavior with
+mrgsolve versions <code>0.11.0</code> and <code>0.11.1</code>.</p>
 </div>
-<div id="resimulate-a-single-eta-or-eps" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Resimulate a single ETA or EPS</h1>
-<p>Up to version <code>0.11.0</code>, calling <code>simeta()</code> or <code>simeps()</code> would resimulate every <code>ETA()</code> or <code>EPS()</code> values. There was no way to just resimulate a single <code>ETA()</code> or <code>EPS()</code>.</p>
-<p>Starting with <code>0.11.0</code>, you can now pass an integer specifying which <code>ETA()</code> or <code>EPS()</code> to resimulate.</p>
-<p>For example, this code will resimulate <code>ETA(1)</code> (only) while leaving the other <code>ETAs</code> alone:</p>
+<div id="resimulate-a-single-eta-or-eps" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Resimulate a single ETA
+or EPS</h1>
+<p>Up to version <code>0.11.0</code>, calling <code>simeta()</code> or
+<code>simeps()</code> would resimulate every <code>ETA()</code> or
+<code>EPS()</code> values. There was no way to just resimulate a single
+<code>ETA()</code> or <code>EPS()</code>.</p>
+<p>Starting with <code>0.11.0</code>, you can now pass an integer
+specifying which <code>ETA()</code> or <code>EPS()</code> to
+resimulate.</p>
+<p>For example, this code will resimulate <code>ETA(1)</code> (only)
+while leaving the other <code>ETAs</code> alone:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> param <span class="op">]</span> tvbase <span class="op">=</span> <span class="dv">70</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> omega <span class="op">]</span> <span class="dv">1</span> <span class="dv">1</span></span>
@@ -425,7 +455,10 @@ $(document).ready(function () {
 </div>
 <div id="dynamic-capture" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Dynamic capture</h1>
-<p>This is one of my favorite new features. I’ve written about it before, but as a review: we added a <code>capture</code> argument to <code>mread()</code> so you can opt in to capture additional model variables in the simulated output.</p>
+<p>This is one of my favorite new features. I’ve written about it
+before, but as a review: we added a <code>capture</code> argument to
+<code>mread()</code> so you can opt in to capture additional model
+variables in the simulated output.</p>
 <p>For example, let’s look at this model:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;irm1&quot;</span>)</span></code></pre></div>
 <pre><code>. Loading model from cache.</code></pre>
@@ -435,10 +468,14 @@ $(document).ready(function () {
 . 
 . $capture
 . [1] &quot;CP&quot;   &quot;CT&quot;   &quot;CLNL&quot; &quot;INH&quot;</code></pre>
-<p>You can see the compartments (<code>cmt</code>) and other model variables that are getting captured (<code>capture</code>).</p>
+<p>You can see the compartments (<code>cmt</code>) and other model
+variables that are getting captured (<code>capture</code>).</p>
 <div id="see-model-variables" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> See model variables</h2>
-<p>We can now look into the model and see which variables are available to capture. First, coerce <code>mod</code> to a <code>list()</code> and then look at the <code>cpp_variables</code> item:</p>
+<h2><span class="header-section-number">3.1</span> See model
+variables</h2>
+<p>We can now look into the model and see which variables are available
+to capture. First, coerce <code>mod</code> to a <code>list()</code> and
+then look at the <code>cpp_variables</code> item:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cpp_variables <span class="ot">&lt;-</span> <span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cpp_variables</span></code></pre></div>
 <pre><code>.     type  var context
@@ -446,7 +483,8 @@ $(document).ready(function () {
 . 2 define   CT  global
 . 3 define CLNL  global
 . 4 define  INH  global</code></pre>
-<p>This tells us what we <strong>could</strong> capture. Now that we have the information, let’s capture everything possible:</p>
+<p>This tells us what we <strong>could</strong> capture. Now that we
+have the information, let’s capture everything possible:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;irm1&quot;</span>, <span class="at">capture =</span> cpp_variables<span class="sc">$</span>var)</span></code></pre></div>
 <pre><code>. Building irm1 ... done.</code></pre>
 <p>Now, everything is getting captured:</p>
@@ -471,7 +509,9 @@ $(document).ready(function () {
 . 6:   1    4   1.8316 64.48 17.119 1.875   0 3.224 1.7119 0.3828 0.6172
 . 7:   1    5   0.6738 58.87 19.596 1.970   0 2.943 1.9596 0.4046 0.5954
 . 8:   1    6   0.2479 53.77 21.135 2.078   0 2.689 2.1135 0.4266 0.5734</code></pre>
-<p>In this example, we could choose from a bunch of pre-processor directives, but the only reason for that is this is the way the model was coded. We can look at another example:</p>
+<p>In this example, we could choose from a bunch of pre-processor
+directives, but the only reason for that is this is the way the model
+was coded. We can look at another example:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;pbpk&quot;</span>)</span></code></pre></div>
 <pre><code>. Loading model from cache.</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>cpp_variables <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
@@ -484,8 +524,10 @@ $(document).ready(function () {
 . 6 double Vki    main</code></pre>
 </div>
 <div id="why-would-i-use-this" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Why would I use this???</h2>
-<p>Here’s an example: I have a covariate model going and I want to get parameter values given some covariates. I can write:</p>
+<h2><span class="header-section-number">3.2</span> Why would I use
+this???</h2>
+<p>Here’s an example: I have a covariate model going and I want to get
+parameter values given some covariates. I can write:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;popex&quot;</span>, <span class="at">capture =</span> <span class="st">&quot;CL,V,KA&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">zero_re</span>()</span></code></pre></div>
 <pre><code>. Building popex ... done.</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>idata <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">WT =</span> <span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">140</span>,<span class="dv">5</span>))</span>
@@ -504,12 +546,18 @@ $(document).ready(function () {
 . 6:   6    0   0    0   0     0  0 0.9459 22.29 0.5
 . 7:   7    0   0    0   0     0  0 1.0000 24.00 0.5
 . 8:   8    0   0    0   0     0  0 1.0531 25.71 0.5</code></pre>
-<p>Now, I have <code>CL</code>, <code>V</code> and <code>KA</code> all calculated as a function of <code>WT</code>.</p>
+<p>Now, I have <code>CL</code>, <code>V</code> and <code>KA</code> all
+calculated as a function of <code>WT</code>.</p>
 </div>
 </div>
-<div id="simulate-with-negative-times" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Simulate with negative times</h1>
-<p>Until <code>0.11.0</code>, it was an error whenever negative times were requested in the simulation. Now, negative times are accepted without error.Keep in mind that the data set still needs to be sorted by time when passing <code>data</code>.</p>
+<div id="simulate-with-negative-times" class="section level1"
+number="4">
+<h1><span class="header-section-number">4</span> Simulate with negative
+times</h1>
+<p>Until <code>0.11.0</code>, it was an error whenever negative times
+were requested in the simulation. Now, negative times are accepted
+without error.Keep in mind that the data set still needs to be sorted by
+time when passing <code>data</code>.</p>
 <p>As an example:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;irm2&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">param</span>(<span class="at">KOUT =</span> <span class="fl">0.05</span>)</span></code></pre></div>
 <pre><code>. Loading model from cache.</code></pre>
@@ -535,44 +583,80 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sims, <span class="st">&quot;EV1 CP RESP&quot;</span>)</span></code></pre></div>
 <p><img src="new-0.11.0_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="path-to-nm-results-using-nmext-and-nmxml" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Path to NM results using NMEXT and NMXML</h1>
-<p>This is pretty subtle issue but I’ve grown very sensitive to it recently and decided we needed to change this.</p>
-<p>When you use the <code>$NMEXT</code> or <code>$NMXML</code> blocks, you are asking <code>mrgsolve</code> to import <code>THETA</code>, <code>OMEGA</code> and / or <code>SIGMA</code> from a completed NONMEM run. And we need to specify the path to those results.</p>
-<p>So far, we have had you typically specify the path relative to the <strong>current working directory</strong>. This was ok, but problems happened if you wanted to use the model from a different working directory (you’d get an error).</p>
-<p>So we added an argument called <code>root</code> to <code>$NMEXT</code> and <code>$NMXML</code> that lets you change how that path is interpreted.</p>
+<div id="path-to-nm-results-using-nmext-and-nmxml"
+class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Path to NM results
+using NMEXT and NMXML</h1>
+<p>This is pretty subtle issue but I’ve grown very sensitive to it
+recently and decided we needed to change this.</p>
+<p>When you use the <code>$NMEXT</code> or <code>$NMXML</code> blocks,
+you are asking <code>mrgsolve</code> to import <code>THETA</code>,
+<code>OMEGA</code> and / or <code>SIGMA</code> from a completed NONMEM
+run. And we need to specify the path to those results.</p>
+<p>So far, we have had you typically specify the path relative to the
+<strong>current working directory</strong>. This was ok, but problems
+happened if you wanted to use the model from a different working
+directory (you’d get an error).</p>
+<p>So we added an argument called <code>root</code> to
+<code>$NMEXT</code> and <code>$NMXML</code> that lets you change how
+that path is interpreted.</p>
 <div id="root-path" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Root path</h2>
-<p>The current default behavior is to interpret the path relative to the current working directory:</p>
+<p>The current default behavior is to interpret the path relative to the
+current working directory:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span></code></pre></div>
-<p>This is equivalent to invoking the new <code>root</code> argument and setting it to <code>"working"</code>:</p>
+<p>This is equivalent to invoking the new <code>root</code> argument and
+setting it to <code>"working"</code>:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;working&quot;</span></span></code></pre></div>
-<p><strong>I am encouraging you</strong> to start setting this <code>root</code> argument to <code>"cppfile"</code> which tells mrgsolve to interpret the path relative to wherever the model code is located:</p>
+<p><strong>I am encouraging you</strong> to start setting this
+<code>root</code> argument to <code>"cppfile"</code> which tells
+mrgsolve to interpret the path relative to wherever the model code is
+located:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">&quot;../model/nonmem&quot;</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> <span class="st">&quot;cppfile&quot;</span></span></code></pre></div>
-<p>When you do this, you can load this model from any working directory as long as the file remains in the same location. I am encouraging you to start using this because I think we will eventually make <code>"cppfile"</code> the default root because it makes so much more sense.</p>
-<p>Note that you can always specify an absolute path here and in that case, it doesn’t matter what you use for the <code>root</code> argument (see the discussion on <code>here()</code> in the following section).</p>
+<p>When you do this, you can load this model from any working directory
+as long as the file remains in the same location. I am encouraging you
+to start using this because I think we will eventually make
+<code>"cppfile"</code> the default root because it makes so much more
+sense.</p>
+<p>Note that you can always specify an absolute path here and in that
+case, it doesn’t matter what you use for the <code>root</code> argument
+(see the discussion on <code>here()</code> in the following
+section).</p>
 <p><strong>With here()</strong></p>
-<p>Some are also using the <code>here::here()</code> function. This is totally independent of any <code>mrgsolve</code> functionality, but <code>here()</code> will return the absolute path relative to your <code>Rstudio</code> project root. So, if all my models were in the <code>model/nonmem</code> directory, I can always get the absolute path using <code>here()</code> regardless of the working directory and regardless of where the <code>cpp</code> file is located.</p>
+<p>Some are also using the <code>here::here()</code> function. This is
+totally independent of any <code>mrgsolve</code> functionality, but
+<code>here()</code> will return the absolute path relative to your
+<code>Rstudio</code> project root. So, if all my models were in the
+<code>model/nonmem</code> directory, I can always get the absolute path
+using <code>here()</code> regardless of the working directory and
+regardless of where the <code>cpp</code> file is located.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>run <span class="op">=</span> <span class="dv">1001</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> here<span class="op">::</span>here<span class="op">(</span><span class="st">&quot;model/nonmem&quot;</span><span class="op">)</span></span></code></pre></div>
-<p>Note here that the argument / options here are evaluated by the R interpreter so that the <code>here()</code> call resolves to the correct project directory.</p>
+<p>Note here that the argument / options here are evaluated by the R
+interpreter so that the <code>here()</code> call resolves to the correct
+project directory.</p>
 </div>
-<div id="select-table-number-in-nmext" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Select table number in NMEXT</h2>
-<p>The <code>[ nmext ]</code> block gains an index argument that will let you select which table in the <code>.ext</code> file to import from when there are multiple.</p>
+<div id="select-table-number-in-nmext" class="section level2"
+number="5.2">
+<h2><span class="header-section-number">5.2</span> Select table number
+in NMEXT</h2>
+<p>The <code>[ nmext ]</code> block gains an index argument that will
+let you select which table in the <code>.ext</code> file to import from
+when there are multiple.</p>
 <ul>
 <li>the default is <code>last</code></li>
 <li>otherwise, pass an integer (e.g. 1 for first, 3 for 3rd)</li>
-<li>see the <code>?nmext</code> help topic for more info on this and other argument / options for the <code>nmxml</code> block</li>
+<li>see the <code>?nmext</code> help topic for more info on this and
+other argument / options for the <code>nmxml</code> block</li>
 </ul>
 <p>To select the 2nd table:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span> nmext <span class="op">]</span> </span>
@@ -588,20 +672,36 @@ $(document).ready(function () {
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="st">&quot;last&quot;</span> <span class="co">// &quot;first&quot;</span></span></code></pre></div>
 </div>
 <div id="reveal-results-file" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Reveal results file</h2>
-<p>When you import nonmem results from an <code>.ext</code> file (via <code>[nmext]</code>) or an <code>.xml</code> file (via <code>[nmxml]</code>), the source file is now saved in the model object so that it can be checked later.</p>
-<p>The internal model library contains an embedded nonmem run numbered <code>1005</code>; this run imports <code>THETA</code>, <code>OMEGA</code> and <code>SIGMA</code> from a finished nonmem run. You can load this model with the <code>modlib()</code> function.</p>
+<h2><span class="header-section-number">5.3</span> Reveal results
+file</h2>
+<p>When you import nonmem results from an <code>.ext</code> file (via
+<code>[nmext]</code>) or an <code>.xml</code> file (via
+<code>[nmxml]</code>), the source file is now saved in the model object
+so that it can be checked later.</p>
+<p>The internal model library contains an embedded nonmem run numbered
+<code>1005</code>; this run imports <code>THETA</code>,
+<code>OMEGA</code> and <code>SIGMA</code> from a finished nonmem run.
+You can load this model with the <code>modlib()</code> function.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modlib</span>(<span class="st">&quot;1005&quot;</span>)</span></code></pre></div>
 <pre><code>. Loading model from cache.</code></pre>
-<p>By coercing the model to list and checking the <code>nm_import</code> item, you’ll get a character vector with the full (absolute) path to either the <code>.ext</code> or <code>.xml</code> file that was imported from</p>
+<p>By coercing the model to list and checking the <code>nm_import</code>
+item, you’ll get a character vector with the full (absolute) path to
+either the <code>.ext</code> or <code>.xml</code> file that was imported
+from</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(mod)<span class="sc">$</span>nm_import</span></code></pre></div>
 <pre><code>. [1] &quot;/Users/kyleb/Rlibs/mrgsolve/nonmem/1005/1005.xml&quot;</code></pre>
 </div>
 </div>
-<div id="programmatic-block-initialization" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Programmatic block initialization</h1>
-<p>I don’t expect you’ll be using this much but when you need it it will come in handy.</p>
-<p>For example, let’s say you wanted to write a model with a 30 x 30 omega matrix. This would be a pain to code given the current syntax for <code>$OMEGA</code>. I recently refactored and standardized the way you can initialize this block programmatically.</p>
+<div id="programmatic-block-initialization" class="section level1"
+number="6">
+<h1><span class="header-section-number">6</span> Programmatic block
+initialization</h1>
+<p>I don’t expect you’ll be using this much but when you need it it will
+come in handy.</p>
+<p>For example, let’s say you wanted to write a model with a 30 x 30
+omega matrix. This would be a pain to code given the current syntax for
+<code>$OMEGA</code>. I recently refactored and standardized the way you
+can initialize this block programmatically.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>code <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="st">$OMEGA @as_object</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="st">matrix(0, nrow = 30, ncol = 30)</span></span>
@@ -609,17 +709,25 @@ $(document).ready(function () {
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">mcode</span>(<span class="st">&quot;omega&quot;</span>, code, <span class="at">compile =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">omat</span>(mod)</span></code></pre></div>
-<p>We didn’t run the code because the screen would fill up, but you can try it. You will see that <code>$OMEGA</code> is a 30 x 30 matrix and it was easy to code. Obviously, you’ll have to update this with all the elements but we have given you the ability to easily initialize this matrix.</p>
-<p>In the example, we used the <code>@as_object</code> directive. The other way to do it would be to create the object in <code>$ENV</code> and then use <code>@object</code>:</p>
+<p>We didn’t run the code because the screen would fill up, but you can
+try it. You will see that <code>$OMEGA</code> is a 30 x 30 matrix and it
+was easy to code. Obviously, you’ll have to update this with all the
+elements but we have given you the ability to easily initialize this
+matrix.</p>
+<p>In the example, we used the <code>@as_object</code> directive. The
+other way to do it would be to create the object in <code>$ENV</code>
+and then use <code>@object</code>:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>$ENV</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>foo <span class="op">&lt;-</span> matrix<span class="op">(</span><span class="dv">0</span><span class="op">,</span> nrow <span class="op">=</span> <span class="dv">30</span><span class="op">,</span> ncol <span class="op">=</span> <span class="dv">30</span><span class="op">)</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>$OMEGA @object foo</span></code></pre></div>
-<p>With this approach, use <code>@object</code> and then name the object that you want to use to populate the block.</p>
+<p>With this approach, use <code>@object</code> and then name the object
+that you want to use to populate the block.</p>
 <p>Other blocks that you can use this programmatic initialization:</p>
 <ul>
 <li><code>$SIGMA</code> - return a matrix</li>
-<li><code>$CMT</code> - return a character vector of compartment names</li>
+<li><code>$CMT</code> - return a character vector of compartment
+names</li>
 <li><code>$INIT</code> - return a named list</li>
 <li><code>$PARAM</code> - return a named list</li>
 <li><code>$THETA</code> - return a numeric vector</li>
